@@ -1,0 +1,19 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Delete Account",
+	"properties": 
+	{
+		"id": 
+		{
+			"title": "Account Id",
+			"type": "integer",
+			"description": "Required for deleting account"
+		}
+	},
+
+	"required": 
+	[
+		"id"
+	]
+}

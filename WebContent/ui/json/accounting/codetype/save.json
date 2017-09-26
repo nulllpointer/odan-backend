@@ -1,0 +1,61 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Save Accounting Code Type",
+	"properties": 
+	{
+		"id": 
+		{
+			"type": "integer",
+			"title": "Id",
+			"description": "Required when updating an accounting code type"
+		},
+
+		"title": 
+		{
+			"type": "string",
+			"title": "Title"
+		},
+
+		"prefix": 
+		{
+			"title": "Prefix"
+		},
+
+		"head": 
+		{
+			"title": "Accounting Head",
+			"enum": 
+			[
+				"revenue",
+				"expense",
+				"asset",
+				"liability",
+				"capital"
+			]
+			
+		},
+
+		"parentId": 
+		{
+			"type": "integer",
+			"title": "Parent Id"
+		},
+
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"title",
+		"prefix"
+	]
+}

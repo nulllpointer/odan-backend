@@ -1,0 +1,28 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Update Accounting Code Status",
+	"properties": 
+	{
+		"id": 
+		{
+			"type": "integer",
+			"title": "Id",
+			"description": "Required"
+		},
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"id"
+	]
+}

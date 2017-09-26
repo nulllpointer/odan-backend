@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+	<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">admin</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/odan_financial</property>
+   
+   	<property name="show_sql">false</property>
+   	<property name="hibernate.hbm2ddl.auto">update</property>
+   	
+   	<mapping class="com.odan.common.model.File" />
+   	
+   	
+   	<mapping class="com.odan.finance.accountingperiod.model.AccountingPeriod" />
+
+
+   	<mapping class="com.odan.billing.user.model.User" />
+
+   	<mapping class="com.odan.billing.invoice.model.Invoice" />
+   	<mapping class="com.odan.billing.invoice.model.InvoiceItem" />
+
+   	<mapping class="com.odan.billing.catalog.product.model.Product" />
+   	<mapping class="com.odan.billing.catalog.product.model.ProductCategoryLink" />
+   	<mapping class="com.odan.billing.catalog.product.model.ProductFeatureLink" />
+   	<mapping class="com.odan.billing.catalog.product.model.ProductRatePlanLink" />
+   	<mapping class="com.odan.billing.catalog.productcategory.model.ProductCategory" />
+
+   	<mapping class="com.odan.billing.sales.model.Sales" />
+   	
+
+
+	<!--Changed one-->
+	<mapping class="com.odan.billing.customer.model.Customer" />
+
+
+</session-factory>
+</hibernate-configuration>

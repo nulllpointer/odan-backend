@@ -1,0 +1,18 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Invoice WriteOff",
+	"properties": 
+	{
+		"invoiceId": 
+		{
+			"title": "Invoice Id",
+			"type": "integer"
+		}
+	},
+
+	"required": 
+	[
+		"invoiceId"
+	]
+}

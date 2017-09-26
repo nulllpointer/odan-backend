@@ -1,0 +1,53 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Transaction PreClosing Entry",
+	"properties": 
+	{
+		"transactionId": 
+		{
+			"type": "string",
+			"title": "Transaction Id"
+		},
+
+		"transactionDate": 
+		{
+			"type": "string",
+			"title": "Transaction Date"
+		},
+
+		"companyId": 
+		{
+			"title": "Company Id",
+			"type": "string"
+		},
+
+		"payeeId": 
+		{
+			"title": "Payee Id",
+			"type": "string"
+		},
+
+		"payerId": 
+		{
+			"title": "Payer Id",
+			"type": "string"
+		},
+
+		"amount": 
+		{
+			"type": "number",
+			"title": "Commission Amount"
+		}
+	},
+
+	"required": 
+	[
+		"transactionId",
+		"transactionDate",
+		"companyId",
+		"payeeId",
+		"payerId",
+		"amount"
+	]
+}

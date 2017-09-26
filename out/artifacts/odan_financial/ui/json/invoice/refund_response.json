@@ -1,0 +1,33 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Refund Response",
+	"properties": 
+	{
+		"invoiceId": 
+		{
+			"title": "Invoice Id",
+			"type": "integer"
+		},
+		"requestId": 
+		{
+			"title": "Request Id",
+			"type": "integer"
+		},
+		"action": 
+		{
+			"title": "Refund Action",
+			"enum": 
+			[
+				"refund_approved",
+				"refund_rejected"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"invoiceId",
+		"action"
+	]
+}

@@ -1,0 +1,2854 @@
+swagger: '2.0'
+info:
+  title: Financial API
+  description: Financial Accouting API Documentation
+  version: "1.0.0"
+# the domain of the service
+host: 108.163.191.178:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /faapi/v1
+produces:
+  - application/json
+paths:  
+  /invoice:
+    post:
+      summary: Create invoice
+      description: Create invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Invoice data
+          schema:
+            type: object
+            properties:
+              isGlobal: 
+                title: "Global"
+                type: "boolean"
+                
+              customerId: 
+                title: "Customers"
+                type: "array"
+                minItems: 1
+                maxItems: 10
+                items: 
+                  type: "string"
+                  title: "Customer Id"
+                  
+              invoiceDate: 
+                type: "string"
+                title: "Invoice Date"
+                
+              dueDate: 
+                type: "string"
+                title: "Due Date"
+                
+              paymentTerm: 
+                title: "Payment Term"
+                type: "string"
+                enum: 
+                  - "duedate"
+                  - "receipt"
+                  
+              taxRateType: 
+                title: "Tax Rate Type"
+                type: "string"
+                enum: 
+                  - "amount"
+                  - "percentage"
+                  
+              taxRate: 
+                type: "number"
+                title: "Tax Amount / Percentage"
+                
+              discountType: 
+                title: "Discount Type"
+                type: "string"
+                enum: 
+                  - "amount"
+                  - "percentage"
+                  
+              discount: 
+                title: "Discount"
+                type: "number"
+                
+              note: 
+                type: "string"
+                title: "Note"
+                
+              data: 
+                type: "string"
+                title: "Custom Data"
+                description: "JSON for custom data fields"
+              
+              vendor:
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                    title: "Vendor Name"
+                    
+                  address: 
+                    type: "string"
+                    title: "Vendor Address"
+                    
+                  email: 
+                    type: "string"
+                    title: "Vendor Email"
+                    
+                  phone: 
+                    type: "string"
+                    title: "Vendor Phone"
+                
+              transactionNumber: 
+                type: "string"
+                title: "Transaction Number"
+                
+              recurringPeriod: 
+                title: "Recurring Period Type"
+                type: "string"
+                enum: 
+                  - "one_time"
+                  - "daily"
+                  - "weekly"
+                  - "monthly"
+                  - "quarterly"
+                  - "half_yearly"
+                  - "yearly"
+                  
+              recurStartDate: 
+                type: "string"
+                title: "Recurring Start Date"
+                
+              recurEndDate: 
+                type: "string"
+                title: "Recurring End Date"
+                
+              invoiceItems: 
+                title: "Invoice Items"
+                type: "array"
+                items: 
+                  type: "object"
+                  properties: 
+                    description: 
+                      title: "Description"
+                      type: "string"
+                      
+                    quantity: 
+                      title: "Quantity"
+                      type: "integer"
+                      
+                    price: 
+                      title: "Price"
+                      type: "number"
+                      
+                    accountingClassId: 
+                      title: "Accounting Class Id"
+                      type: "integer"
+                      
+                    taxable: 
+                      title: "Taxable"
+                      type: "string"
+                      enum: 
+                        - "yes"
+                        - "no"
+                        
+                  required: 
+                    - description
+                    - price
+                    - accountingClassId
+                    - taxable
+                    
+            required:
+              - customerId
+              - invoiceDate
+              - dueDate
+              - invoiceItems
+              - taxRate
+              - taxRateType
+              - paymentTerm
+              - recurringPeriod
+                    
+      tags:
+        - Invoice
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                
+    get:
+      summary: Get Invoices
+      description: Get Invoices
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: invoiceNumber
+          in: parameters 
+          type: "string"
+          description: "Invoice Number"
+          
+        - name: customerId
+          in: parameters 
+          description: "Customers"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "string"
+            title: "Customer Id"
+            
+        - name: userId 
+          description: "Users"
+          in: parameters
+          type: "array"
+          minItems: 1
+          maxItems: 10
+          items: 
+            type: "string"
+            description: "User Id"
+            
+        - name: mode 
+          description: "Invoice Mode"
+          in: parameters
+          type: "string"
+          enum: 
+            - "internal"
+            - "external"
+            
+        - name: type 
+          title: "Invoice Type"
+          in: parameters
+          type: "string"
+          enum: 
+            - "sent"
+            - "received"
+            
+        - name: activeStatus 
+          description: "Invoice Active Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "pending"
+            - "active"
+        
+        - name: dueStatus 
+          description: "Invoice Due Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "undue"
+            - "due"
+            - "overdue"
+            
+        - name: paymentStatus 
+          description: "Invoice Payment Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "unpaid"
+            - "partial_paid"
+            - "paid"
+            
+        - name: refundStatus 
+          description: "Invoice Refund Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "refund_requested"
+            - "refund_approved"
+            - "refund_rejected"
+        
+        - name: writeoffStatus 
+          description: "Invoice Writeoff Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "written_off"
+            - "refund_approved"
+            - "refund_rejected"
+              
+        - name: invoiceDateStart 
+          in: parameters
+          type: "string"
+          description: "Invoice Date Start"
+          
+        - name: invoiceDateEnd 
+          in: parameters
+          type: "string"
+          description: "Invoice Date End"
+          
+        - name: invoiceDateBefore 
+          in: parameters
+          type: "string"
+          description: "Invoice Date Before"
+          
+        - name: invoiceDateAfter 
+          in: parameters
+          type: "string"
+          description: "Invoice Date After"
+          
+        - name: dueDateStart 
+          in: parameters
+          type: "string"
+          title: "Due Date Start"
+          
+        - name: dueDateEnd 
+          in: parameters
+          type: "string"
+          description: "Due Date End"
+          
+        - name: dueDateBefore 
+          in: parameters
+          type: "string"
+          description: "Due Date From"
+          
+        - name: dueDateAfter 
+          in: parameters
+          type: "string"
+          description: "Due Date To"
+          
+        - name: note 
+          in: parameters
+          type: "string"
+          description: "Note"
+          
+        - name: transactionNumber 
+          in: parameters
+          type: "string"
+          description: "Transaction Number"
+          
+        - name: recurringPeriod 
+          description: "Recurring Period Type"
+          in: parameters
+          type: "string"
+          enum: 
+            - "one_time"
+            - "daily"
+            - "weekly"
+            - "monthly"
+            - "quarterly"
+            - "half_yearly"
+            - "yearly"
+        
+        - name: saleId 
+          in: parameters
+          type: "integer"
+          title: "Sales Id"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+              
+         
+
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+            
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              
+              invoices: 
+                title: "Invoices Object List"
+                type: "array"
+                items: 
+                  title: "Invoice"
+         
+
+  /invoice/{id}/accept:
+    post:
+      summary: Expense classification for received internal invoice
+      description: Expense classification for received internal invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+        
+        - name: id
+          in: path
+          description: Id of invoice to accept
+          required: true
+          type: integer
+          
+        - name: body
+          in: body
+          required: true
+          description: Invoice items
+          schema:
+            type: object
+            properties: 
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                description: "Required"
+              invoiceItems: 
+                title: "Invoice Items"
+                type: "array"
+                items: 
+                  type: "object"
+                  properties: 
+                    itemId: 
+                      title: "Item Id"
+                      type: "integer"
+                      
+                    accountingClassId: 
+                      title: "Accounting Class Id"
+                      type: "integer"
+                      
+                  required: 
+                    - itemId
+                    - accountingClassId
+                    
+            required: 
+              - invoiceId
+              - invoiceItems
+              
+      tags:
+        - Invoice
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                
+           
+        
+  /invoice/refund:
+    post:
+      summary: Create Refund Request for Invoice
+      description: Create Refund Request for Invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Refund Attributes
+          schema:
+            type: object
+            properties: 
+              invoiceId: 
+                title: "Invoice"
+                type: "integer"
+                
+              action: 
+                title: "Refund Action"
+                type: "string"
+                enum:
+                  - "full"
+                  - "partial"
+                  
+              amount: 
+                title: "Refund Amount"
+                type: "number"
+                
+              reason: 
+                title: "Refund Reason"
+                type: "string"
+                
+            required: 
+              - "invoiceId"
+              - "action"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              refundId: 
+                title: "Refund Id"
+                type: "integer"
+  
+    get:
+      summary: Get List of Refund Requests
+      description: Get List of Refund Requests
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: refundId
+          in: parameters
+          description: "Refund Id"
+          type: "integer"
+                
+        - name: invoiceId
+          in: parameters
+          description: "Invoice"
+          type: "integer"
+        
+        - name: action 
+          in: parameters
+          description: "Refund Action"
+          type: "string"
+          enum:
+            - "full"
+            - "partial"
+            
+        - name: amount 
+          in: parameters
+          description: "Refund Amount"
+          type: "number"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              
+                  
+              refunds: 
+                title: "Refunds Object List"
+                type: "array"
+                items: 
+                  title: "Refund"
+
+
+  /invoice/refund/{refundid}/response:
+    post:
+      summary: Create Refund Response
+      description: Create Refund Response
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+        
+        - name: refundid
+          in: path
+          description: Refund id
+          required: true
+          type: integer
+          
+        - name: body
+          in: body
+          required: true
+          description: Refund Attributes
+          schema:
+            type: object
+            properties: 
+              refundId:
+                title: "Refund Id"
+                type: "integer"
+              
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                
+              action: 
+                title: "Refund Action"
+                type: "string"
+                enum: 
+                  - "approve"
+                  - "reject"
+                  
+            required: 
+              - "invoiceId"
+              - "action"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                
+              refundId: 
+                title: "Refund Id"
+                type: "integer"
+                
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                
+  /invoice/{id}/writeoff:
+    post:
+      summary: Writeoff Invoice
+      description: Writeoff Invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: path
+          description: Invoice id
+          required: true
+          type: integer
+          
+        - name: body
+          in: body
+          required: true
+          description: Writeoff Attributes
+          schema:
+            type: object
+            properties: 
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+              
+              reason: 
+                title: "Writeoff Reason"
+                type: "string"
+                
+            required: 
+              - "invoiceId"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                
+  
+  /invoice/attachment:
+    get:
+      summary: Get Invoice Attachment
+      description: Get Invoice Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: query
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              attachments: 
+                title: "Attachments"
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    invoice_id:
+                      title: "Invoice Id"
+                      type: "integer"
+                    file_name:
+                      title: "File Name"
+                      type: "string"
+                    owner_id:
+                      title: "Owner User Id"
+                      type: "string"
+                    created_at:
+                      title: "Created Date"
+                      type: "string"
+
+                
+    post:
+      summary: Add Invoice Attachment
+      description: Add Invoice Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+      
+        - name: attachment
+          in: formData
+          required: true
+          description: Attachment File
+          type: "file"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              attachmentId: 
+                title: "Attachment Id"
+                type: "integer"
+                
+    delete:
+      summary: Delete Invoice Attachment
+      description: Delete Invoice Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+  /sales/category:
+    post:
+      summary: Create New Product Category
+      description: |
+        Create New Product Category
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Category data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Category Name"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Category
+      responses:
+        200:
+          description: Category Id
+
+    put:
+      summary: Update Product Category
+      description: |
+        Updates Product Category
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Category data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Category Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Category Name"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Category
+      responses:
+        200:
+          description: "Category Id"
+          
+    get:
+      summary: Get Product Category List
+      description: |
+        Get Product Category List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Category Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Category Title"
+          type: "string"
+        
+        - name: status
+          in: parameters
+          description: "Category Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: parameters
+          description: "Category Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Category
+      responses:
+        200:
+          description: Category JSON Data
+          
+          
+          
+  /sales/feature:
+    post:
+      summary: Create New Product Feature
+      description: |
+        Create New Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Feature data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Feature Title"
+                type: "string"
+                
+              description: 
+                title: "Feature Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Feature
+      responses:
+        200:
+          description: Feature Id
+
+    put:
+      summary: Update Product Feature
+      description: |
+        Updates Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Feature data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Feature Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Feature Title"
+                type: "string"
+                
+              description: 
+                title: "Feature Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Feature
+      responses:
+        200:
+          description: "Feature Id"
+          
+    get:
+      summary: Get Product Feature List
+      description: |
+        Get Product Feature List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Feature Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Feature Title"
+          type: "string"
+        
+        - name: status
+          in: parameters
+          description: "Feature Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: parameters
+          description: "Feature Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Feature
+      responses:
+        200:
+          description: "Feature JSON Data"
+          
+  
+  /sales/rateplan:
+    post:
+      summary: Create New RatePlan
+      description: |
+        Create New RatePlan
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Rateplan data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Title"
+                type: "string"
+                
+              description: 
+                title: "Description"
+                type: "string"
+                
+              charges: 
+                title: "Charges"
+                type: "array"
+                items: 
+                  type: "object"
+                  properties: 
+                    title: 
+                      title: "Title"
+                      type: "string"
+                      
+                    description: 
+                      title: "Description"
+                      type: "string"
+                      
+                    amount: 
+                      title: "Amount"
+                      type: "number"
+                      
+                    billingPeriod: 
+                      title: "Billing Period"
+                      type: "string"
+                      enum: 
+                        - "one_time"
+                        - "daily"
+                        - "weekly"
+                        - "monthly"
+                        - "quarterly"
+                        - "half_yearly"
+                        - "yearly"
+                      
+                    discountType: 
+                      title: "Discount Type"
+                      type: "string"
+                      enum: 
+                        - "amount"
+                        - "percentage"
+                        
+                    discount: 
+                      title: "Discount"
+                      type: "number"
+                      
+                    uom: 
+                      title: "Unit of Measure"
+                      type: "string"
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: Rateplan Id
+
+    put:
+      summary: Update Product Rateplan
+      description: |
+        Updates Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Rateplan data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Rateplan Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Title"
+                type: "string"
+                
+              description: 
+                title: "Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+              
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan Id"
+          
+    get:
+      summary: Get Product Rateplan List
+      description: |
+        Get Product Rateplan List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Rateplan Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Rateplan Title"
+          type: "string"
+          
+        - name: status
+          in: parameters
+          description: "Rateplan Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+            
+        - name: ownerId
+          in: parameters
+          description: "Rateplan Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+                
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan JSON Data"
+          
+  
+  /sales/product:
+    post:
+      summary: Create New Product
+      description: |
+        Create New Product
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Product data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Product Title"
+                type: "string"
+              
+              categoryId: 
+                title: "Product Categories"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "integer"
+                  title: "Category Id"
+                  
+              featureId: 
+                title: "Product Categories"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "integer"
+                  title: "Category Id"
+                  
+              ratePlanId: 
+                title: "Product Rate Plans"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "integer"
+                  title: "Rate Plan Id"
+              status: 
+                title: "Status"
+                type: "string"
+                    
+      tags:
+        - Product
+      responses:
+        200:
+          description: Product Id
+
+    put:
+      summary: Update Product Rateplan
+      description: |
+        Updates Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Rateplan data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Rateplan Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Title"
+                type: "string"
+                
+              description: 
+                title: "Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+              
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan Id"
+          
+    get:
+      summary: Get Product Rateplan List
+      description: |
+        Get Product Rateplan List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Rateplan Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Rateplan Title"
+          type: "string"
+          
+        - name: status
+          in: parameters
+          description: "Rateplan Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+            
+        - name: ownerId
+          in: parameters
+          description: "Rateplan Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+                
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan JSON Data"
+          
+  
+  /sales:
+    post:
+      summary: Create Sales
+      description: |
+        Create Sales
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+
+        - name: body
+          in: body
+          required: true
+          description: Get feature list by filters.
+          schema:
+            type: object
+            properties: 
+              productId: 
+                title: "Product Id"
+                type: "integer"
+                
+              ratePlanId: 
+                title: "Rate Plan Id"
+                type: "integer"
+                
+              customerId: 
+                title: "Customer Id"
+                type: "string"
+                
+              startDate: 
+                type: "string"
+                title: "Start Date"
+                format: "date"
+                
+              endDate: 
+                type: "string"
+                title: "End Date"
+                format: "date"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum: 
+                  - "active"
+                  - "inactive"
+                  
+            required: 
+              - "productId"
+              - "ratePlanId"
+              - "customerId"
+              - "startDate"
+              - "endDate"
+      tags:
+        - Sales
+      responses:
+        200:
+          description: "Sales Id"
+          
+    get:
+      summary: Get Sales List
+      description: |
+        Get Sales List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: productId
+          in: parameters
+          title: "Products"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "integer"
+            title: "Product Id"
+                      
+        - name: ratePlanId 
+          in: parameters
+          title: "Rate Plans"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "integer"
+            title: "Rate Plan Id"
+          
+        - name: customerId
+          in: parameters
+          title: "Customers"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "string"
+            title: "Customer Id"
+                
+        - name: startDateStart
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date Start"
+
+        - name: startDateEnd
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date End"
+           
+        - name: startDateBefore 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date From"
+           
+        - name: startDateAfter
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date To"
+           
+        - name: endDateStart 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date Start"
+           
+        - name: endDateEnd 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date End"
+           
+        - name: endDateBefore 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date From"
+           
+        - name: endDateAfter 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date To"
+           
+        - name: status
+          in: parameters
+          title: "Status"
+          type: "string"
+          enum: 
+            - "active"
+            - "inactive"
+           
+      tags:
+        - Sales
+      responses:
+        200:
+          description: Sales JSON Data
+          
+  /payment/account:
+    post:
+      summary: Create Billing Account
+      description: Create Billing Account
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              accountName: 
+                title: "Account Name"
+                type: "string"
+                description: "Required"
+              email: 
+                title: "Email"
+                type: "string"
+                description: "Required"
+              phone: 
+                title: "Phone"
+                type: "string"
+                description: "Required"
+              category: 
+                title: "Category"
+                enum: 
+                  - "primary"
+                  - "secondary"
+                description: "Required"
+              type: 
+                title: "Account Type"
+                enum: 
+                  - "bank"
+                  - "paypal"
+                  - "skrill"
+                description: "Required"
+              accountNumber: 
+                title: "Account Number"
+                type: "string"
+              bankName: 
+                title: "Bank Number"
+                type: "string"
+              bankCode: 
+                title: "Account Number"
+                type: "string"
+              branchCode: 
+                title: "Account Number"
+                type: "string"
+              swiftCode: 
+                title: "Swift Code"
+                type: "string"
+              country: 
+                title: "Country"
+                type: "string"
+              status: 
+                title: "Status"
+                enum: 
+                  - "active"
+                  - "inactive"
+                description: "Required"
+            
+            required: 
+              - accountName
+              - email
+              - category
+              - type
+              - status
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              accountId: 
+                title: "Payment Account Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+
+    put:
+      summary: Update Billing Account
+      description: Update Billing Account
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              accountId: 
+                title: "Account Id"
+                type: "string"
+                description: "Required"
+              accountName: 
+                title: "Account Name"
+                type: "string"
+                description: "Required"
+              email: 
+                title: "Email"
+                type: "string"
+                description: "Required"
+              phone: 
+                title: "Phone"
+                type: "string"
+                description: "Required"
+              category: 
+                title: "Category"
+                enum: 
+                  - "primary"
+                  - "secondary"
+                description: "Required"
+              type: 
+                title: "Account Type"
+                enum: 
+                  - "bank"
+                  - "paypal"
+                  - "skrill"
+                description: "Required"
+              accountNumber: 
+                title: "Account Number"
+                type: "string"
+              bankName: 
+                title: "Bank Number"
+                type: "string"
+              bankCode: 
+                title: "Account Number"
+                type: "string"
+              branchCode: 
+                title: "Account Number"
+                type: "string"
+              swiftCode: 
+                title: "Swift Code"
+                type: "string"
+              country: 
+                title: "Country"
+                type: "string"
+              status: 
+                title: "Status"
+                enum: 
+                  - "active"
+                  - "inactive"
+                description: "Required"
+            
+            required: 
+              - accountId
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              accountId: 
+                title: "Payment Account Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+    
+    get:
+      summary: Get Billing Account
+      description: Get Billing Account
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: accountId
+          in: query
+          description: "Account Id"
+          type: "string"
+          description: "Required"
+          
+        - name: accountName
+          in: query
+          description: "Account Name"
+          type: "string"
+          
+        - name: email
+          in: query
+          description: "Email"
+          type: "string"
+                
+        - name: phone
+          in: query
+          description: "Phone"
+          type: "string"
+                
+        - name: category
+          in: query
+          description: "Category"
+          type: "string"
+          enum: 
+            - "primary"
+            - "secondary"
+                  
+        - name: type
+          in: query
+          description: "Account Type"
+          type: "string"
+          enum: 
+            - "bank"
+            - "paypal"
+            - "skrill"
+                
+        - name: accountNumber
+          in: query
+          description: "Account Number"
+          type: "string"
+                
+        - name: bankName
+          in: query
+          description: "Bank Number"
+          type: "string"
+                
+        - name: bankCode
+          in: query
+          description: "Account Number"
+          type: "string"
+                
+        - name: branchCode
+          in: query
+          description: "Account Number"
+          type: "string"
+                
+        - name: swiftCode
+          in: query
+          description: "Swift Code"
+          type: "string"
+                
+        - name: country
+          in: query
+          description: "Country"
+          type: "string"
+                
+        - name: status
+          in: query
+          description: "Status"
+          type: "string"
+          enum: 
+            - "active"
+            - "inactive"
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              accountId: 
+                title: "Payment Account Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+
+  /payment/receipt:
+    get:
+      summary: Get Receipt
+      description: Get Receipt
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId 
+          in: query
+          description: "Entity Id"
+          type: "string"
+                  
+        - name: billingAccountId 
+          in: query
+          type: "integer"
+          description: "Billing Account Id"
+                
+        - name: entityType
+          in: query
+          description: "Entity Type"
+          type: "string"
+          enum: 
+            - "invoice"
+            - "transaction"
+                  
+        - name: date
+          in: query
+          type: "string"
+          description: "Payment Date"
+                
+        - name: amount
+          in: query
+          type: "number"
+          description: "Amount"
+                
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              receipt:
+                title: "Receipt Object"
+                type: "object"
+                  
+  /payment/receipt/send:
+    post:
+      summary: Create Sent Receipt
+      description: Create Sent Receipt
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              entityId: 
+                title: "Entity Id"
+                type: "array"
+                minItems: 1
+                maxItems: 10
+                items: 
+                  type: "string"
+                  title: "Entity Id"
+                  
+              billingAccountId: 
+                type: "integer"
+                title: "Billing Account Id"
+                
+              entityType: 
+                title: "Entity Type"
+                type: "string"
+                enum: 
+                  - "invoice"
+                  - "transaction"
+                  
+              date: 
+                type: "string"
+                title: "Payment Date"
+                
+              amount: 
+                type: "number"
+                title: "Amount"
+                
+            required: 
+              - "entityId"
+              - "entityType"
+              - "amount"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              receiptId: 
+                title: "Receipt Id"
+                type: "integer"
+  
+  /payment/receipt/receive:
+    post:
+      summary: Create Received Receipt
+      description: Create Received Receipt
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              entityId: 
+                title: "Entity Id"
+                type: "array"
+                minItems: 1
+                maxItems: 10
+                items: 
+                  type: "string"
+                  title: "Entity Id"
+                  
+              billingAccountId: 
+                type: "integer"
+                title: "Billing Account Id"
+                
+              entityType: 
+                title: "Entity Type"
+                type: "string"
+                enum: 
+                  - "invoice"
+                  - "transaction"
+                  
+              date: 
+                type: "string"
+                title: "Payment Date"
+                
+              amount: 
+                type: "number"
+                title: "Amount"
+                
+            required: 
+              - "entityId"
+              - "entityType"
+              - "amount"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              receiptId: 
+                title: "Receipt Id"
+                type: "integer"
+                
+              message:
+                title: "Message"
+                type: "string"
+  
+  /payment/receipt/attachment:
+    get:
+      summary: Get Receipt Attachment
+      description: Get Receipt Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: query
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              attachments: 
+                title: "Attachments"
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    receipt_id:
+                      title: "Receipt Id"
+                      type: "integer"
+                    file_name:
+                      title: "File Name"
+                      type: "string"
+                    owner_id:
+                      title: "Owner User Id"
+                      type: "string"
+                    created_at:
+                      title: "Created Date"
+                      type: "string"
+
+                
+    post:
+      summary: Add Receipt Attachment
+      description: Add Receipt Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+      
+        - name: attachment
+          in: formData
+          required: true
+          description: Attachment File
+          type: "file"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              attachmentId: 
+                title: "Attachment Id"
+                type: "integer"
+                
+    delete:
+      summary: Delete Receipt Attachment
+      description: Delete Receipt Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+  /accounting/code:
+    post:
+      summary: Create New Accounting Code
+      description: |
+        Create New Accounting Code
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Code data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Code Name"
+                type: "string"
+                
+              head: 
+                title: "Accounting Head"
+                type: "integer"
+                  
+              segment: 
+                title: "Segment"
+                type: "string"
+                enum:
+                  - "transaction"
+                  - "invoice"
+                  - "both"
+                  
+              note: 
+                title: "Note"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Code
+      responses:
+        200:
+          description: Code Id
+
+    put:
+      summary: Update Accounting Code
+      description: |
+        Updates Accounting Code
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Code data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Code Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Code Name"
+                type: "string"
+                
+              head: 
+                title: "Accounting Head"
+                type: "integer"
+                  
+              segment: 
+                title: "Segment"
+                type: "string"
+                enum:
+                  - "transaction"
+                  - "invoice"
+                  - "both"
+                  
+              note: 
+                title: "Note"
+                type: "string"
+                  
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Code
+      responses:
+        200:
+          description: "Code Id"
+          
+    get:
+      summary: Get Accounting Code List
+      description: |
+        Get Accounting Code List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Code Id"
+          type: "integer"
+          
+        - name: title
+          in: query
+          description: "Code Title"
+          type: "string"
+          
+          
+        - name: head 
+          in: query
+          description: "Accounting Head"
+          type: "integer"
+            
+        - name: segment 
+          in: query
+          description: "Segment"
+          type: "string"
+          enum:
+            - "transaction"
+            - "invoice"
+            - "both"
+        
+        - name: status
+          in: query
+          description: "Code Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Code Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting Code
+      responses:
+        200:
+          description: Code JSON Data
+          
+  /accounting/class:
+    post:
+      summary: Create New Accounting Class
+      description: |
+        Create New Accounting Class
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Class data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Class Title"
+                type: "string"
+                required: true
+              
+              category: 
+                title: "Category"
+                type: "string"
+                required: true
+                enum:
+                  - "income"
+                  - "expense"
+              
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Class
+      responses:
+        200:
+          description: Class Id
+          
+    put:
+      summary: Update Accounting Class
+      description: |
+        Updates Accounting Class
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Class data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Class Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Class Title"
+                type: "string"
+                
+              category: 
+                title: "Category"
+                type: "string"
+                required: true
+                enum:
+                  - "income"
+                  - "expense"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Class
+      responses:
+        200:
+          description: "Class Id"
+          
+    get:
+      summary: Get Accounting Class List
+      description: "Get Accounting Class List"
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Class Id"
+          type: "integer"
+          
+        - name: title
+          in: query
+          description: "Class Title"
+          type: "string"
+          
+        - name: category 
+          in: query
+          description: "Category"
+          type: "string"
+          enum:
+            - "income"
+            - "expense"
+        
+        - name: status
+          in: query
+          description: "Class Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Class Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting Class
+      responses:
+        200:
+          description: Class JSON Data
+          
+          
+  /trialbalance:
+    get:
+      summary: Get Accounting Trial Balance
+      description: |
+        Get Accounting Trial Balance
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Entry Id"
+          type: "integer"
+        
+        - name: status
+          in: query
+          description: "Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting
+      responses:
+        200:
+          description: Trial Balance JSON Data
+
+  /journal:
+    get:
+      summary: Get Accounting Journal Entries
+      description: |
+        Get Accounting Journal Entries
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Entry Id"
+          type: "integer"
+          
+        - name: entryNumber
+          in: query
+          description: "Entry Number"
+          type: "integer"
+        
+        - name: status
+          in: query
+          description: "Entry Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting
+      responses:
+        200:
+          description: Journal Entry JSON Data
+          
+          
+  /heads:
+    get:
+      summary: Get Accounting Heads
+      description: |
+        Get Accounting Heads
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Head Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting
+      responses:
+        200:
+          description: Accounting Heads JSON Data
+          
+  /tansaction/close:
+    post:
+      summary: Transaction closing request
+      description: Transaction closing request
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Transaction Data
+          schema:
+            type: object
+            properties: 
+              transactionId: 
+                type: "string"
+                title: "Transaction Id"
+            
+              closingDate: 
+                type: "string"
+                title: "Transaction Closing Date"
+              
+              grossDeduction: 
+                title: "Gross Deductions"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    deductionId: 
+                      title: "Deduction Id"
+                      type: "string"
+                    amount: 
+                      title: "Deduction Amount"
+                      type: "number"
+                  required: 
+                    - "companyId"
+                    - "payeeId"
+                    - "payerId"
+                    - "deductionId"
+                    - "amount"
+                  
+              sideDeduction: 
+                title: "Side Deductions"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    deductionId: 
+                      title: "Deduction Id"
+                      type: "string"
+                    amount: 
+                      title: "Deduction Amount"
+                      type: "number"
+                  required: 
+                    - "companyId"
+                    - "payeeId"
+                    - "payerId"
+                    - "deductionId"
+                    - "amount"
+                  
+              agentCommission: 
+                title: "Agent Commission"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    amount: 
+                      title: "Commission Amount"
+                      type: "number"
+                  required: 
+                    - "companyId"
+                    - "payeeId"
+                    - "payerId"
+                    - "amount"
+                  
+              agentDeduction: 
+                title: "Agent Deductions"
+                type: array
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    deductionId: 
+                      title: "Deduction Id"
+                      type: "string"
+                    amount: 
+                      title: "Deduction Amount"
+                      type: "number"
+                      
+                  required: 
+                    - companyId
+                    - payeeId
+                    - payerId
+                    - deductionId
+                    - amount
+                  
+            required: 
+              - transactionId
+              - closingDate
+
+              
+                
+              
+      tags:
+        - Transaction
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              transactionLogId: 
+                title: "Transaction Log Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                
+  /tansaction/preclose:
+    post:
+      summary: Transaction closing request
+      description: Transaction closing request
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Transaction Data
+          schema:
+            type: object
+            properties: 
+              transactionId: 
+                type: "string"
+                title: "Transaction Id"
+              transactionDate: 
+                type: "string"
+                title: "Transaction Date"
+              companyId: 
+                title: "Company Id"
+                type: "string"
+              payeeId: 
+                title: "Payee Id"
+                type: "string"
+              payerId: 
+                title: "Payer Id"
+                type: "string"
+              amount: 
+                type: "number"
+                title: "Commission Amount"
+                
+            required:
+              - transactionId
+              - transactionDate
+              - companyId
+              - payeeId
+              - payerId
+              - amount
+              
+      tags:
+        - Transaction
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              transactionLogId: 
+                title: "Transaction Log Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                

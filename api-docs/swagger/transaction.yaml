@@ -1,0 +1,248 @@
+swagger: '2.0'
+info:
+  title: Financial API
+  description: Financial Accouting API Documentation
+  version: "1.0.0"
+# the domain of the service
+host: 108.163.191.178:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /faapi/v1
+produces:
+  - application/json
+paths:  
+  /tansaction/close:
+    post:
+      summary: Transaction closing request
+      description: Transaction closing request
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Transaction Data
+          schema:
+            type: object
+            properties: 
+              transactionId: 
+                type: "string"
+                title: "Transaction Id"
+            
+              closingDate: 
+                type: "string"
+                title: "Transaction Closing Date"
+              
+              grossDeduction: 
+                title: "Gross Deductions"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    deductionId: 
+                      title: "Deduction Id"
+                      type: "string"
+                    amount: 
+                      title: "Deduction Amount"
+                      type: "number"
+                  required: 
+                    - "companyId"
+                    - "payeeId"
+                    - "payerId"
+                    - "deductionId"
+                    - "amount"
+                  
+              sideDeduction: 
+                title: "Side Deductions"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    deductionId: 
+                      title: "Deduction Id"
+                      type: "string"
+                    amount: 
+                      title: "Deduction Amount"
+                      type: "number"
+                  required: 
+                    - "companyId"
+                    - "payeeId"
+                    - "payerId"
+                    - "deductionId"
+                    - "amount"
+                  
+              agentCommission: 
+                title: "Agent Commission"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    amount: 
+                      title: "Commission Amount"
+                      type: "number"
+                  required: 
+                    - "companyId"
+                    - "payeeId"
+                    - "payerId"
+                    - "amount"
+                  
+              agentDeduction: 
+                title: "Agent Deductions"
+                type: array
+                minItems: 1
+                items: 
+                  type: "object"
+                  properties: 
+                    companyId: 
+                      title: "Company Id"
+                      type: "string"
+                    payeeId: 
+                      title: "Payee Id"
+                      type: "string"
+                    payerId: 
+                      title: "Payer Id"
+                      type: "string"
+                    deductionId: 
+                      title: "Deduction Id"
+                      type: "string"
+                    amount: 
+                      title: "Deduction Amount"
+                      type: "number"
+                      
+                  required: 
+                    - companyId
+                    - payeeId
+                    - payerId
+                    - deductionId
+                    - amount
+                  
+            required: 
+              - transactionId
+              - closingDate
+
+              
+                
+              
+      tags:
+        - Transaction
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              transactionLogId: 
+                title: "Transaction Log Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                
+  /tansaction/preclose:
+    post:
+      summary: Transaction closing request
+      description: Transaction closing request
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Transaction Data
+          schema:
+            type: object
+            properties: 
+              transactionId: 
+                type: "string"
+                title: "Transaction Id"
+              transactionDate: 
+                type: "string"
+                title: "Transaction Date"
+              companyId: 
+                title: "Company Id"
+                type: "string"
+              payeeId: 
+                title: "Payee Id"
+                type: "string"
+              payerId: 
+                title: "Payer Id"
+                type: "string"
+              amount: 
+                type: "number"
+                title: "Commission Amount"
+                
+            required:
+              - transactionId
+              - transactionDate
+              - companyId
+              - payeeId
+              - payerId
+              - amount
+              
+      tags:
+        - Transaction
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              transactionLogId: 
+                title: "Transaction Log Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                

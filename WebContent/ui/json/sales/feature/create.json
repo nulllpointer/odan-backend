@@ -1,0 +1,35 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Feature",
+	"properties": 
+	{		
+		"title": 
+		{
+			"title": "Title",
+			"type": "string",
+			"description": "Required"
+		},
+
+		"description": 
+		{
+			"title": "Description",
+			"type": "string"
+		},
+
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"title"
+	]
+}

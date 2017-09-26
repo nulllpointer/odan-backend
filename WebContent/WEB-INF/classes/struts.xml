@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.enable.SlashesInActionNames" value="true"/>
+    <constant name="struts.mapper.alwaysSelectFullNamespace"
+              value="false"/>
+    <constant name="struts.patternMatcher" value="namedVariable"/>
+
+    <constant name="struts.action.excludePattern" value="public/.*"/>
+    <constant name="struts.multipart.maxSize" value="104857600"/>
+
+    <package name="default" extends="struts-default" namespace="/">
+    </package>
+
+    <package name="jsonPackage" extends="struts-default, json-default"
+             namespace="/">
+        <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult">
+                <param name="noCache">true</param>
+                <param name="root">data</param>
+                <param name="excludeNullProperties">false</param>
+            </result-type>
+        </result-types>
+
+        <interceptors>
+            <interceptor-stack name="defaultStack">
+                <interceptor-ref name="fileUpload">
+                    <param name="allowedTypes">
+                        image/jpeg,image/gif,image/jpg,image/png,video/x-ms-rmvb,video/x-ms-wmv,video/x-ms-avi,video/avi,
+                        video/fli,video/x-fli,video/gl,video/x-gl,video/x-isvideo,video/mpeg,video/x-motion-jpeg,video/quicktime,
+                        video/x-mpeg,video/mp4
+                    </param>
+                    <!-- Allow max 100 Mbs -->
+                    <param name="maximumSize">104857600</param>
+                </interceptor-ref>
+
+            </interceptor-stack>
+
+            <interceptor name="httpPost"
+                         class="com.odan.common.interceptor.HTTPPostRequestInterceptor"/>
+            <interceptor name="httpGet"
+                         class="com.odan.common.interceptor.HTTPGetRequestInterceptor"/>
+            <interceptor name="httpPut"
+                         class="com.odan.common.interceptor.HTTPPutRequestInterceptor"/>
+        </interceptors>
+        <global-results>
+            <result name="PostOnlyMethod" type="json">
+                <param name="errorCode">411</param>
+                  
+                <param name="errorMessage">HTTP Post Request Allowed Only</param>
+            </result>
+            <result name="PutOnlyMethod" type="json">
+                <param name="errorCode">412</param>
+                  
+                <param name="errorMessage">HTTP Put Request Allowed Only</param>
+            </result>
+            <result name="GetOnlyMethod" type="json">
+                <param name="errorCode">413</param>
+                  
+                <param name="errorMessage">HTTP Get Request Allowed Only</param>
+            </result>
+            <result name="HttpMethodNotAccepted" type="json">
+                <param name="errorCode">410</param>
+                  
+                <param name="errorMessage">HTTP Method Not Accepted</param>
+            </result>
+            <result name="InvalidUser" type="json">
+                <param name="errorCode">420</param>
+                  
+                <param name="errorMessage">Invalid REW3-UserId Header</param>
+            </result>
+            <result name="success" type="json">
+                <param name="statusCode">200</param>
+            </result>
+            <result name="error" type="json">
+                <param name="statusCode">400</param>
+            </result>
+        </global-results>
+    </package>
+
+    <package name="jsonPackageSecure" extends="jsonPackage">
+        <interceptors>
+            <interceptor-stack name="defaultStack">
+                <interceptor-ref name="apiSecurity"/>
+            </interceptor-stack>
+
+            <interceptor name="apiSecurity"
+                         class="com.odan.common.interceptor.APISecurityInterceptor"/>
+        </interceptors>
+    </package>
+
+
+    <package name="module-billing" extends="jsonPackageSecure"
+             namespace="/v1/billing">
+        <action name="invoice" method="actionInvoice"
+                class="com.odan.billing.invoice.api.InvoiceResource"/>
+
+
+        <action name="invoice/refund" method="actionRefundRequest"
+                class="com.odan.billing.invoice.api.InvoiceResource"/>
+
+
+        <action name="customer" method="actionCustomer"
+                class="com.odan.billing.customer.api.CustomerResource"/>
+
+        <action name="user" method="actionUser"
+                class="com.odan.billing.user.api.UserResource"/>
+    </package>
+
+    <package name="module-catalog" extends="jsonPackageSecure"
+             namespace="/v1/billing/catalog">
+        <action name="category" method="actionCategory"
+                class="com.odan.billing.catalog.productcategory.api.ProductCategoryResource"/>
+
+    </package>
+
+    <package name="module-sales" extends="jsonPackageSecure"
+             namespace="/v1/billing">
+        <action name="sales" method="actionSales"
+                class="com.odan.billing.sales.api.SalesResource"/>
+    </package>
+
+    <package name="module-payment" extends="jsonPackageSecure"
+             namespace="/v1">
+
+    </package>
+
+    <package name="module-notification" extends="jsonPackage"
+             namespace="/v1/notification">
+        <action name="testevent" method="actionEvent"
+                class="com.odan.common.api.NotificationResource"/>
+    </package>
+
+    <package name="module-finance" extends="jsonPackageSecure"
+             namespace="/v1/finance">
+
+        <action name="accounting/period" method="actionAccountingPeriod"
+                class="com.odan.finance.accountingperiod.api.AccountingPeriodResource"/>
+    </package>
+</struts>

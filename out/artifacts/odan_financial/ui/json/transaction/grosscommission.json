@@ -1,0 +1,46 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Gross Commission Entry",
+	"properties": 
+	{
+		"transactionId": 
+		{
+			"type": "string",
+			"title": "Transaction Id"
+		},
+
+		"transactionDate": 
+		{
+			"type": "string",
+			"title": "Transaction Date"
+		},
+
+		"payeeId": 
+		{
+			"title": "Payee Id",
+			"type": "string"
+		},
+
+		"payerId": 
+		{
+			"title": "Payer Id",
+			"type": "string"
+		},
+
+		"amount": 
+		{
+			"type": "number",
+			"title": "Commission Amount"
+		}
+	},
+
+	"required": 
+	[
+		"transactionId",
+		"transactionDate",
+		"payeeId",
+		"payerId",
+		"amount"
+	]
+}

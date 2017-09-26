@@ -1,0 +1,637 @@
+swagger: '2.0'
+info:
+  title: Financial API
+  description: Financial Accouting API Documentation
+  version: "1.0.0"
+# the domain of the service
+host: 108.163.191.178:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /faapi/v1
+produces:
+  - application/json
+paths:  
+  /payment/account:
+    post:
+      summary: Create Billing Account
+      description: Create Billing Account
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              accountName: 
+                title: "Account Name"
+                type: "string"
+                description: "Required"
+              email: 
+                title: "Email"
+                type: "string"
+                description: "Required"
+              phone: 
+                title: "Phone"
+                type: "string"
+                description: "Required"
+              category: 
+                title: "Category"
+                enum: 
+                  - "primary"
+                  - "secondary"
+                description: "Required"
+              type: 
+                title: "Account Type"
+                enum: 
+                  - "bank"
+                  - "paypal"
+                  - "skrill"
+                description: "Required"
+              accountNumber: 
+                title: "Account Number"
+                type: "string"
+              bankName: 
+                title: "Bank Number"
+                type: "string"
+              bankCode: 
+                title: "Account Number"
+                type: "string"
+              branchCode: 
+                title: "Account Number"
+                type: "string"
+              swiftCode: 
+                title: "Swift Code"
+                type: "string"
+              country: 
+                title: "Country"
+                type: "string"
+              status: 
+                title: "Status"
+                enum: 
+                  - "active"
+                  - "inactive"
+                description: "Required"
+            
+            required: 
+              - accountName
+              - email
+              - category
+              - type
+              - status
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              accountId: 
+                title: "Payment Account Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+
+    put:
+      summary: Update Billing Account
+      description: Update Billing Account
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              accountId: 
+                title: "Account Id"
+                type: "string"
+                description: "Required"
+              accountName: 
+                title: "Account Name"
+                type: "string"
+                description: "Required"
+              email: 
+                title: "Email"
+                type: "string"
+                description: "Required"
+              phone: 
+                title: "Phone"
+                type: "string"
+                description: "Required"
+              category: 
+                title: "Category"
+                enum: 
+                  - "primary"
+                  - "secondary"
+                description: "Required"
+              type: 
+                title: "Account Type"
+                enum: 
+                  - "bank"
+                  - "paypal"
+                  - "skrill"
+                description: "Required"
+              accountNumber: 
+                title: "Account Number"
+                type: "string"
+              bankName: 
+                title: "Bank Number"
+                type: "string"
+              bankCode: 
+                title: "Account Number"
+                type: "string"
+              branchCode: 
+                title: "Account Number"
+                type: "string"
+              swiftCode: 
+                title: "Swift Code"
+                type: "string"
+              country: 
+                title: "Country"
+                type: "string"
+              status: 
+                title: "Status"
+                enum: 
+                  - "active"
+                  - "inactive"
+                description: "Required"
+            
+            required: 
+              - accountId
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              accountId: 
+                title: "Payment Account Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+    
+    get:
+      summary: Get Billing Account
+      description: Get Billing Account
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: accountId
+          in: query
+          description: "Account Id"
+          type: "string"
+          description: "Required"
+          
+        - name: accountName
+          in: query
+          description: "Account Name"
+          type: "string"
+          
+        - name: email
+          in: query
+          description: "Email"
+          type: "string"
+                
+        - name: phone
+          in: query
+          description: "Phone"
+          type: "string"
+                
+        - name: category
+          in: query
+          description: "Category"
+          type: "string"
+          enum: 
+            - "primary"
+            - "secondary"
+                  
+        - name: type
+          in: query
+          description: "Account Type"
+          type: "string"
+          enum: 
+            - "bank"
+            - "paypal"
+            - "skrill"
+                
+        - name: accountNumber
+          in: query
+          description: "Account Number"
+          type: "string"
+                
+        - name: bankName
+          in: query
+          description: "Bank Number"
+          type: "string"
+                
+        - name: bankCode
+          in: query
+          description: "Account Number"
+          type: "string"
+                
+        - name: branchCode
+          in: query
+          description: "Account Number"
+          type: "string"
+                
+        - name: swiftCode
+          in: query
+          description: "Swift Code"
+          type: "string"
+                
+        - name: country
+          in: query
+          description: "Country"
+          type: "string"
+                
+        - name: status
+          in: query
+          description: "Status"
+          type: "string"
+          enum: 
+            - "active"
+            - "inactive"
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              accountId: 
+                title: "Payment Account Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+
+  /payment/receipt:
+    get:
+      summary: Get Receipt
+      description: Get Receipt
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId 
+          in: query
+          description: "Entity Id"
+          type: "string"
+                  
+        - name: billingAccountId 
+          in: query
+          type: "integer"
+          description: "Billing Account Id"
+                
+        - name: entityType
+          in: query
+          description: "Entity Type"
+          type: "string"
+          enum: 
+            - "invoice"
+            - "transaction"
+                  
+        - name: date
+          in: query
+          type: "string"
+          description: "Payment Date"
+                
+        - name: amount
+          in: query
+          type: "number"
+          description: "Amount"
+                
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              receipt:
+                title: "Receipt Object"
+                type: "object"
+                  
+  /payment/receipt/send:
+    post:
+      summary: Create Sent Receipt
+      description: Create Sent Receipt
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              entityId: 
+                title: "Entity Id"
+                type: "array"
+                minItems: 1
+                maxItems: 10
+                items: 
+                  type: "string"
+                  title: "Entity Id"
+                  
+              billingAccountId: 
+                type: "integer"
+                title: "Billing Account Id"
+                
+              entityType: 
+                title: "Entity Type"
+                type: "string"
+                enum: 
+                  - "invoice"
+                  - "transaction"
+                  
+              date: 
+                type: "string"
+                title: "Payment Date"
+                
+              amount: 
+                type: "number"
+                title: "Amount"
+                
+            required: 
+              - "entityId"
+              - "entityType"
+              - "amount"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              receiptId: 
+                title: "Receipt Id"
+                type: "integer"
+  
+  /payment/receipt/receive:
+    post:
+      summary: Create Received Receipt
+      description: Create Received Receipt
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Account Data
+          schema:
+            type: object
+            properties: 
+              entityId: 
+                title: "Entity Id"
+                type: "array"
+                minItems: 1
+                maxItems: 10
+                items: 
+                  type: "string"
+                  title: "Entity Id"
+                  
+              billingAccountId: 
+                type: "integer"
+                title: "Billing Account Id"
+                
+              entityType: 
+                title: "Entity Type"
+                type: "string"
+                enum: 
+                  - "invoice"
+                  - "transaction"
+                  
+              date: 
+                type: "string"
+                title: "Payment Date"
+                
+              amount: 
+                type: "number"
+                title: "Amount"
+                
+            required: 
+              - "entityId"
+              - "entityType"
+              - "amount"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              receiptId: 
+                title: "Receipt Id"
+                type: "integer"
+                
+              message:
+                title: "Message"
+                type: "string"
+  
+  /payment/receipt/attachment:
+    get:
+      summary: Get Receipt Attachment
+      description: Get Receipt Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: query
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              attachments: 
+                title: "Attachments"
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    receipt_id:
+                      title: "Receipt Id"
+                      type: "integer"
+                    file_name:
+                      title: "File Name"
+                      type: "string"
+                    owner_id:
+                      title: "Owner User Id"
+                      type: "string"
+                    created_at:
+                      title: "Created Date"
+                      type: "string"
+
+                
+    post:
+      summary: Add Receipt Attachment
+      description: Add Receipt Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+      
+        - name: attachment
+          in: formData
+          required: true
+          description: Attachment File
+          type: "file"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              attachmentId: 
+                title: "Attachment Id"
+                type: "integer"
+                
+    delete:
+      summary: Delete Receipt Attachment
+      description: Delete Receipt Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"

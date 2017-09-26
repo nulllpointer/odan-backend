@@ -1,0 +1,41 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Accounting Class",
+	"properties": 
+	{
+		"title": 
+		{
+			"type": "string",
+			"title": "Title",
+			"description": "Required"
+		},
+		"category": 
+		{
+			"title": "Category",
+			"type" : "string",
+			"enum": 
+			[
+				"income",
+				"expense"
+			],
+			"description": "Required"
+		},
+		"status": 
+		{
+			"title": "Status",
+			"type" : "string",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"title",
+		"category"
+	]
+}

@@ -1,0 +1,51 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Receive Internal Invoice",
+	"properties": 
+	{
+		"invoiceId": 
+		{
+			"title": "Invoice Id",
+			"type": "integer",
+			"description": "Required"
+		},
+		"invoiceItems": 
+		{
+			"title": "Invoice Items",
+			"type": "array",
+			"items": 
+			{
+				"type": "object",
+				"properties": 
+				{
+					"itemId": 
+					{
+						"title": "Item Id",
+						"type": "integer",
+						"description": "Required"
+					},
+					
+					"accountingClassId": 
+					{
+						"title": "Accounting Class Id",
+						"type": "integer",
+						"description": "Required"
+					}
+				},
+
+				"required": 
+				[
+					"itemId",
+					"accountingClassId"
+				]
+			}
+		}
+	},
+
+	"required": 
+	[
+		"invoiceId",
+		"invoiceItems"
+	]
+}

@@ -1,0 +1,71 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Invoice Remove File",
+	"properties": 
+	{
+		"invoiceId": 
+		{
+			"title": "Invoice Id",
+			"type": "integer",
+			"description": "Required"
+		},
+
+		"attachmentId": 
+		{
+			"title": "Attachments",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"title": "Attachment Id",
+				"type": "integer"
+			},
+            "uniqueItems": true,
+			"description": "Required"
+		},
+
+		"featureId": 
+		{
+			"title": "Product Features",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "integer",
+				"title": "Feature"
+			},
+            "uniqueItems": true,
+			"description": "Required"
+		},
+		
+		"ratePlanId": 
+		{
+			"title": "Product Rate Plans",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "integer",
+				"title": "Rate Plan"
+			},
+            "uniqueItems": true,
+			"description": "Required"
+		},
+
+		"status": 
+		{
+			"title": "Product Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"title",
+		"categoryId",
+		"featureId",
+		"ratePlanId"
+	]
+}

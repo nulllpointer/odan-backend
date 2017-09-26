@@ -1,0 +1,7 @@
+notification:
+
+userId
+actorId
+objectId
+type
+status (unread=0, read=1, deleted=10)

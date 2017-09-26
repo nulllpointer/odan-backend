@@ -1,0 +1,59 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Accounting Code",
+	"properties": 
+	{
+		"id": 
+		{
+			"type": "integer",
+			"title": "Id"
+		},
+		
+		"title": 
+		{
+			"type": "string",
+			"title": "Title"
+		},
+		
+		"head": 
+		{
+			"type": "integer",
+			"title": "Accounting Head"
+		},
+		
+		"segment": 
+		{
+			"title": "Segment",
+			"enum": 
+			[
+				"transaction",
+				"invoice",
+				"both"
+			]
+		},
+		
+		"note": 
+		{
+			"type": "string",
+			"title": "Note"
+		},
+		
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"title",
+		"head",
+		"segment"
+	]
+}

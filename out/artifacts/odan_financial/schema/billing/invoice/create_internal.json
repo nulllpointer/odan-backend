@@ -1,0 +1,186 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Send Invoice",
+	"properties": 
+	{
+		"customerId": 
+		{
+			"title": "Customers",
+			"type": "array",
+			"minItems": 1,
+			"maxItems": 10,
+			"items": 
+			{
+				"type": "integer",
+				"title": "Customer Id"
+			}
+		},
+
+		"invoiceDate": 
+		{
+			"type": "string",
+			"title": "Invoice Date"
+		},
+
+		"dueDate": 
+		{
+			"type": "string",
+			"title": "Due Date"
+		},
+
+		"paymentTerm": 
+		{
+			"title": "Payment Term",
+			"enum": 
+			[
+				"duedate",
+				"receipt"
+			]
+		},
+
+		"taxRateType": 
+		{
+			"title": "Tax Rate Type",
+			"enum": 
+			[
+				"amount",
+				"percentage"
+			]
+		},
+
+		"taxRate": 
+		{
+			"type": "number",
+			"title": "Tax Rate"
+		},
+
+		"discountType": 
+		{
+			"title": "Discount Type",
+			"enum": 
+			[
+				"amount",
+				"percentage"
+			]
+		},
+		
+		"discount": 
+		{
+			"title": "Discount",
+			"type": "number"
+		},
+
+		"note": 
+		{
+			"type": "string",
+			"title": "Note"
+		},
+
+		"data": 
+		{
+			"type": "string",
+			"title": "Custom Data",
+			"description": "JSON for custom data fields"
+		},
+		
+		"transactionNumber": 
+		{
+			"type": "string",
+			"title": "Transaction Number"
+		},
+		
+		"recurringPeriod": 
+		{
+			"title": "Recurring Period Type",
+			"enum": 
+			[
+				"one_time",
+				"daily",
+				"weekly",
+				"monthly",
+				"quarterly",
+				"half_yearly",
+				"yearly"
+			]
+		},
+		
+		"recurStartDate": 
+		{
+			"type": "string",
+			"title": "Recurring Start Date"
+		},
+		
+		"recurEndDate": 
+		{
+			"type": "string",
+			"title": "Recurring End Date"
+		},
+		
+		"invoiceItems": 
+		{
+			"title": "Invoice Items",
+			"type": "array",
+			"items": 
+			{
+				"type": "object",
+				"properties": 
+				{
+					"description": 
+					{
+						"title": "Description",
+						"type": "string"
+					},
+
+					"quantity": 
+					{
+						"title": "Quantity",
+						"type": "integer"
+					},
+
+					"price": 
+					{
+						"title": "Price",
+						"type": "number"
+					},
+
+					"accountingClassId": 
+					{
+						"title": "Accounting Class Id",
+						"type": "integer"
+					},
+
+					"taxable": 
+					{
+						"title": "Taxable",
+						"enum": 
+						[
+							"yes",
+							"no"
+						]
+					}
+				},
+
+				"required": 
+				[
+					"description",
+					"price",
+					"accountingClassId",
+					"taxable"
+				]
+			}
+		}
+	},
+
+	"required": 
+	[
+		"customerId",
+		"invoiceDate",
+		"dueDate",
+		"invoiceItems",
+		"taxRate",
+		"taxRateType",
+		"paymentTerm",
+		"recurringPeriod"
+	]
+}

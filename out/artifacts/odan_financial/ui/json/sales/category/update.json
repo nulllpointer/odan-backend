@@ -1,0 +1,26 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Update Product Category",
+	"properties": 
+	{
+		"id": 
+		{
+			"title": "Category Id",
+			"type": "integer",
+			"description": "Required"
+		},
+		
+		"title": 
+		{
+			"title": "Category Name",
+			"type": "string",
+			"description": "Required"
+		}
+	},
+	"required": 
+	[
+		"id",
+		"title"
+	]
+}

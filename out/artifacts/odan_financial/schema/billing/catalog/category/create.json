@@ -1,0 +1,17 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create New Product Category",
+	"properties": 
+	{		
+		"title": 
+		{
+			"title": "Category Name",
+			"type": "string"
+		}
+	},
+	"required": 
+	[
+		"title"
+	]
+}

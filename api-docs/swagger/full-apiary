@@ -1,0 +1,2013 @@
+FORMAT: 1A
+HOST: http://108.163.191.178:8080/faapi/v1
+
+# Financial API
+Financial Accouting API Documentation
+
+# Invoice [/invoice{?invoiceNumber,customerId,userId,mode,type,activeStatus,dueStatus,paymentStatus,refundStatus,writeoffStatus,invoiceDateStart,invoiceDateEnd,invoiceDateBefore,invoiceDateAfter,dueDateStart,dueDateEnd,dueDateBefore,dueDateAfter,note,transactionNumber,recurringPeriod,saleId,page,limit}]
+
+## Invoice [GET]
+Get Invoices
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + invoiceNumber (string, required)
+
+        Invoice Number
+
+    + customerId (string, required)
+
+        Customers
+
+    + userId (string, required)
+
+        Users
+
+    + mode (string, required)
+
+        Invoice Mode
+
+    + type (enum[string], required)
+
+        + Members
+            + `sent` 
+            + `received` 
+
+    + activeStatus (enum[string], required)
+
+        Invoice Active Status
+
+        + Members
+            + `pending` 
+            + `active` 
+
+    + dueStatus (enum[string], required)
+
+        Invoice Due Status
+
+        + Members
+            + `undue` 
+            + `due` 
+            + `overdue` 
+
+    + paymentStatus (enum[string], required)
+
+        Invoice Payment Status
+
+        + Members
+            + `unpaid` 
+            + `partial_paid` 
+            + `paid` 
+
+    + refundStatus (enum[string], required)
+
+        Invoice Refund Status
+
+        + Members
+            + `refund_requested` 
+            + `refund_approved` 
+            + `refund_rejected` 
+
+    + writeoffStatus (enum[string], required)
+
+        Invoice Writeoff Status
+
+        + Members
+            + `written_off` 
+            + `refund_approved` 
+            + `refund_rejected` 
+
+    + invoiceDateStart (string, required)
+
+        Invoice Date Start
+
+    + invoiceDateEnd (string, required)
+
+        Invoice Date End
+
+    + invoiceDateBefore (string, required)
+
+        Invoice Date Before
+
+    + invoiceDateAfter (string, required)
+
+        Invoice Date After
+
+    + dueDateStart (string, required)
+
+    + dueDateEnd (string, required)
+
+        Due Date End
+
+    + dueDateBefore (string, required)
+
+        Due Date From
+
+    + dueDateAfter (string, required)
+
+        Due Date To
+
+    + note (string, required)
+
+        Note
+
+    + transactionNumber (string, required)
+
+        Transaction Number
+
+    + recurringPeriod (enum[string], required)
+
+        Recurring Period Type
+
+        + Members
+            + `one_time` 
+            + `daily` 
+            + `weekly` 
+            + `monthly` 
+            + `quarterly` 
+            + `half_yearly` 
+            + `yearly` 
+
+    + saleId (number, required)
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceResponse)
+
+
+# Group Invoice
+
+## Invoice [/invoice]
+
+### Invoice [POST]
+Create invoice
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceResponse17)
+
+
+## Invoice Accept By Id [/invoice/{id}/accept]
+
++ Parameters
+    + id (number, required)
+
+        Id of invoice to accept
+
+
+### InvoiceAcceptById [POST]
+Expense classification for received internal invoice
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body19)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceAcceptByIdResponse)
+
+
+
+# Invoice Refund [/invoice/refund{?refundId,invoiceId,action,amount}]
+
+## InvoiceRefund [GET]
+Get List of Refund Requests
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + refundId (number, required)
+
+        Refund Id
+
+    + invoiceId (number, required)
+
+        Invoice
+
+    + action (string, required)
+
+        Refund Action
+
+    + amount (number, required)
+
+        Refund Amount
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceRefundResponse)
+
+
+# Invoice Refund [/invoice/refund]
+
+## InvoiceRefund [POST]
+Create Refund Request for Invoice
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body25)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceRefundResponse26)
+
+
+# Invoice Refund Response By Refundid [/invoice/refund/{refundid}/response]
+
++ Parameters
+    + refundid (number, required)
+
+        Refund id
+
+
+## InvoiceRefundResponseByRefundid [POST]
+Create Refund Response
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body28)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceRefundResponseByRefundidResponse)
+
+
+# Invoice Writeoff By Id [/invoice/{id}/writeoff]
+
++ Parameters
+    + id (number, required)
+
+        Invoice id
+
+
+## InvoiceWriteoffById [POST]
+Writeoff Invoice
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body32)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceWriteoffByIdResponse)
+
+
+# Group Payment
+
+## Invoice Attachment [/invoice/attachment{?entityId}]
+
+### InvoiceAttachment [GET]
+Get Invoice Attachment
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + entityId (number, required)
+
+        Entity Id
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceAttachmentResponse)
+
+
+## Invoice Attachment [/invoice/attachment]
+
+### InvoiceAttachment [POST]
+Add Invoice Attachment
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + entityId (number, required)
+
+        Entity Id
+
+    + attachment (file, required)
+
+        Attachment File
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceAttachmentResponse37)
+
+### InvoiceAttachment [DELETE]
+Delete Invoice Attachment
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + entityId (number, required)
+
+        Entity Id
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (InvoiceAttachmentResponse39)
+
+
+## Payment Account [/payment/account{?accountId,accountName,email,phone,category,type,accountNumber,bankName,bankCode,branchCode,swiftCode,country,status}]
+
+### PaymentAccount [GET]
+Get Billing Account
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + accountId (string, required)
+
+        Required
+
+    + accountName (string, required)
+
+        Account Name
+
+    + email (string, required)
+
+        Email
+
+    + phone (string, required)
+
+        Phone
+
+    + category (enum[string], required)
+
+        Category
+
+        + Members
+            + `primary` 
+            + `secondary` 
+
+    + type (enum[string], required)
+
+        Account Type
+
+        + Members
+            + `bank` 
+            + `paypal` 
+            + `skrill` 
+
+    + accountNumber (string, required)
+
+        Account Number
+
+    + bankName (string, required)
+
+        Bank Number
+
+    + bankCode (string, required)
+
+        Account Number
+
+    + branchCode (string, required)
+
+        Account Number
+
+    + swiftCode (string, required)
+
+        Swift Code
+
+    + country (string, required)
+
+        Country
+
+    + status (enum[string], required)
+
+        Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentAccountResponse)
+
+
+## Payment Account [/payment/account]
+
+### PaymentAccount [PUT]
+Update Billing Account
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body68)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentAccountResponse)
+
+### PaymentAccount [POST]
+Create Billing Account
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body74)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentAccountResponse)
+
+
+## Payment Receipt [/payment/receipt{?entityId,billingAccountId,entityType,date,amount}]
+
+### PaymentReceipt [GET]
+Get Receipt
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + entityId (string, required)
+
+        Entity Id
+
+    + billingAccountId (number, required)
+
+        Billing Account Id
+
+    + entityType (enum[string], required)
+
+        Entity Type
+
+        + Members
+            + `invoice` 
+            + `transaction` 
+
+    + date (string, required)
+
+        Payment Date
+
+    + amount (number, required)
+
+        Amount
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentReceiptResponse)
+
+
+## Payment Receipt Send [/payment/receipt/send]
+
+### PaymentReceiptSend [POST]
+Create Sent Receipt
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body83)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentReceiptSendResponse)
+
+
+## Payment Receipt Receive [/payment/receipt/receive]
+
+### PaymentReceiptReceive [POST]
+Create Received Receipt
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body83)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentReceiptReceiveResponse)
+
+
+## Payment Receipt Attachment [/payment/receipt/attachment{?entityId}]
+
+### PaymentReceiptAttachment [GET]
+Get Receipt Attachment
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + entityId (number, required)
+
+        Entity Id
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentReceiptAttachmentResponse)
+
+
+## Payment Receipt Attachment [/payment/receipt/attachment]
+
+### PaymentReceiptAttachment [POST]
+Add Receipt Attachment
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + entityId (number, required)
+
+        Entity Id
+
+    + attachment (file, required)
+
+        Attachment File
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentReceiptAttachmentResponse93)
+
+### PaymentReceiptAttachment [DELETE]
+Delete Receipt Attachment
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + entityId (number, required)
+
+        Entity Id
+
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (PaymentReceiptAttachmentResponse95)
+
+
+
+# Group Category
+
+## Sales Category [/sales/category{?id,title,status,ownerId,page,limit}]
+
+### SalesCategory [GET]
+Get Product Category List
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Category Id
+
+    + title (string, required)
+
+        Category Title
+
+    + status (enum[string], required)
+
+        Category Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Category Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Category JSON Data
+
+    + Attributes (object)
+
+
+## Sales Category [/sales/category]
+
+### SalesCategory [PUT]
+Update Product Category
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body42)
+
++ Response 200 
+
+Category Id
+
+    + Attributes (object)
+
+### SalesCategory [POST]
+Create New Product Category
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body44)
+
++ Response 200 
+
+Category Id
+
+    + Attributes (object)
+
+
+
+# Group Feature
+
+## Sales Feature [/sales/feature{?id,title,status,ownerId,page,limit}]
+
+### SalesFeature [GET]
+Get Product Feature List
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Feature Id
+
+    + title (string, required)
+
+        Feature Title
+
+    + status (enum[string], required)
+
+        Feature Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Feature Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Feature JSON Data
+
+    + Attributes (object)
+
+
+## Sales Feature [/sales/feature]
+
+### SalesFeature [PUT]
+Update Product Feature
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body47)
+
++ Response 200 
+
+Feature Id
+
+    + Attributes (object)
+
+### SalesFeature [POST]
+Create New Product Feature
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body49)
+
++ Response 200 
+
+Feature Id
+
+    + Attributes (object)
+
+
+
+# Group Rateplan
+
+## Sales Rateplan [/sales/rateplan{?id,title,status,ownerId,page,limit}]
+
+### SalesRateplan [GET]
+Get Product Rateplan List
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Rateplan Id
+
+    + title (string, required)
+
+        Rateplan Title
+
+    + status (enum[string], required)
+
+        Rateplan Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Rateplan Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Rateplan JSON Data
+
+    + Attributes (object)
+
+
+## Sales Rateplan [/sales/rateplan]
+
+### SalesRateplan [PUT]
+Update Product Rateplan
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body52)
+
++ Response 200 
+
+Rateplan Id
+
+    + Attributes (object)
+
+### SalesRateplan [POST]
+Create New RatePlan
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body53)
+
++ Response 200 
+
+Rateplan Id
+
+    + Attributes (object)
+
+
+## Sales Product [/sales/product{?id,title,status,ownerId,page,limit}]
+
+### SalesProduct [GET]
+Get Product Rateplan List
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Rateplan Id
+
+    + title (string, required)
+
+        Rateplan Title
+
+    + status (enum[string], required)
+
+        Rateplan Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Rateplan Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Rateplan JSON Data
+
+    + Attributes (object)
+
+
+## Sales Product [/sales/product]
+
+### SalesProduct [PUT]
+Update Product Rateplan
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body52)
+
++ Response 200 
+
+Rateplan Id
+
+    + Attributes (object)
+
+
+
+# Group Product
+
+## Sales Product [/sales/product]
+
+### SalesProduct [POST]
+Create New Product
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body59)
+
++ Response 200 
+
+Product Id
+
+    + Attributes (object)
+
+
+
+# Group Sales
+
+## Sales [/sales{?productId,ratePlanId,customerId,startDateStart,startDateEnd,startDateBefore,startDateAfter,endDateStart,endDateEnd,endDateBefore,endDateAfter,status}]
+
+### Sales [GET]
+Get Sales List
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + productId (number, required)
+
+    + ratePlanId (number, required)
+
+    + customerId (string, required)
+
+    + startDateStart (string, required)
+
+    + startDateEnd (string, required)
+
+    + startDateBefore (string, required)
+
+    + startDateAfter (string, required)
+
+    + endDateStart (string, required)
+
+    + endDateEnd (string, required)
+
+    + endDateBefore (string, required)
+
+    + endDateAfter (string, required)
+
+    + status (enum[string], required)
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+
++ Response 200 
+
+Sales JSON Data
+
+    + Attributes (object)
+
+
+## Sales [/sales]
+
+### Sales [POST]
+Create Sales
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body61)
+
++ Response 200 
+
+Sales Id
+
+    + Attributes (object)
+
+
+
+# Group Accounting Code
+
+## Accounting Code [/accounting/code{?id,title,head,segment,status,ownerId,page,limit}]
+
+### AccountingCode [GET]
+Get Accounting Code List
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Code Id
+
+    + title (string, required)
+
+        Code Title
+
+    + head (number, required)
+
+        Accounting Head
+
+    + segment (enum[string], required)
+
+        Segment
+
+        + Members
+            + `both` 
+            + `invoice` 
+            + `transaction` 
+
+    + status (enum[string], required)
+
+        Code Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Code Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Code JSON Data
+
+    + Attributes (object)
+
+
+## Accounting Code [/accounting/code]
+
+### AccountingCode [PUT]
+Update Accounting Code
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body99)
+
++ Response 200 
+
+Code Id
+
+    + Attributes (object)
+
+### AccountingCode [POST]
+Create New Accounting Code
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body102)
+
++ Response 200 
+
+Code Id
+
+    + Attributes (object)
+
+
+
+# Group Accounting Class
+
+## Accounting Class [/accounting/class{?id,title,category,status,ownerId,page,limit}]
+
+### AccountingClass [GET]
+Get Accounting Class List
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Class Id
+
+    + title (string, required)
+
+        Class Title
+
+    + category (enum[string], required)
+
+        Category
+
+        + Members
+            + `expense` 
+            + `income` 
+
+    + status (enum[string], required)
+
+        Class Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Class Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Class JSON Data
+
+    + Attributes (object)
+
+
+## Accounting Class [/accounting/class]
+
+### AccountingClass [PUT]
+Update Accounting Class
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body107)
+
++ Response 200 
+
+Class Id
+
+    + Attributes (object)
+
+### AccountingClass [POST]
+Create New Accounting Class
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body110)
+
++ Response 200 
+
+Class Id
+
+    + Attributes (object)
+
+
+
+# Group Accounting
+
+## Trialbalance [/trialbalance{?id,status,ownerId,page,limit}]
+
+### Trialbalance [GET]
+Get Accounting Trial Balance
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Entry Id
+
+    + status (enum[string], required)
+
+        Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Trial Balance JSON Data
+
+    + Attributes (object)
+
+
+## Journal [/journal{?id,entryNumber,status,ownerId,page,limit}]
+
+### Journal [GET]
+Get Accounting Journal Entries
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Entry Id
+
+    + entryNumber (number, required)
+
+        Entry Number
+
+    + status (enum[string], required)
+
+        Entry Status
+
+        + Members
+            + `active` 
+            + `inactive` 
+
+    + ownerId (number, required)
+
+        Owner Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Journal Entry JSON Data
+
+    + Attributes (object)
+
+
+## Heads [/heads{?id,page,limit}]
+
+### Heads [GET]
+Get Accounting Heads
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+    + id (number, required)
+
+        Head Id
+
+    + page (number, required)
+
+        Pagination: Page number
+
+    + limit (number, required)
+
+        Pagination: Records count
+
+
++ Response 200 
+
+Accounting Heads JSON Data
+
+    + Attributes (object)
+
+
+
+# Group Transaction
+
+## Tansaction Close [/tansaction/close]
+
+### TansactionClose [POST]
+Transaction closing request
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body115)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (TansactionCloseResponse)
+
+
+## Tansaction Preclose [/tansaction/preclose]
+
+### TansactionPreclose [POST]
+Transaction closing request
++ Parameters
+    + REW3-UserId (string, required)
+
+        REW3 UserId
+
+
++ Request (application/json)
+    + Attributes (body122)
+
++ Response 200 (application/json)
+
+Success Response
+
+    + Attributes (TansactionPrecloseResponse)
+
+
+
+# Data Structures
+
+## InvoiceResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `invoices` (array[object], optional) 
+
+
+## body (object)
+
+
+### Properties
++ `isGlobal` (boolean, optional) 
++ `customerId` (array[string], required) 
++ `invoiceDate` (string, required) 
++ `dueDate` (string, required) 
++ `paymentTerm` (enum, required) 
+    + `duedate`
+    + `receipt`
++ `taxRateType` (enum, required) 
+    + `amount`
+    + `percentage`
++ `taxRate` (number, required) 
++ `discountType` (enum, optional) 
+    + `amount`
+    + `percentage`
++ `discount` (number, optional) 
++ `note` (string, optional) 
++ `data` (string, optional) - JSON for custom data fields
++ `vendor` (Vendor, optional) 
++ `transactionNumber` (string, optional) 
++ `recurringPeriod` (enum, required) 
+    + `one_time`
+    + `daily`
+    + `weekly`
+    + `monthly`
+    + `quarterly`
+    + `half_yearly`
+    + `yearly`
++ `recurStartDate` (string, optional) 
++ `recurEndDate` (string, optional) 
++ `invoiceItems` (array[InvoiceItem], required) 
+
+
+## Vendor (object)
+
+
+### Properties
++ `name` (string, optional) 
++ `address` (string, optional) 
++ `email` (string, optional) 
++ `phone` (string, optional) 
+
+
+## InvoiceItem (object)
+
+
+### Properties
++ `description` (string, required) 
++ `quantity` (number, optional) 
++ `price` (number, required) 
++ `accountingClassId` (number, required) 
++ `taxable` (enum, required) 
+    + `yes`
+    + `no`
+
+
+## InvoiceResponse17 (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `invoiceId` (number, optional) 
++ `message` (string, optional) 
+
+
+## body19 (object)
+
+
+### Properties
++ `invoiceId` (number, required) - Required
++ `invoiceItems` (array[InvoiceItem20], required) 
+
+
+## InvoiceItem20 (object)
+
+
+### Properties
++ `itemId` (number, required) 
++ `accountingClassId` (number, required) 
+
+
+## InvoiceAcceptByIdResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `invoiceId` (number, optional) 
++ `message` (string, optional) 
+
+
+## InvoiceRefundResponse (object)
+
+
+### Properties
++ `refunds` (array[object], optional) 
++ `result` (enum, optional) 
+    + `error`
+    + `success`
+
+
+## body25 (object)
+
+
+### Properties
++ `action` (object, required) 
++ `amount` (number, optional) 
++ `invoiceId` (number, required) 
++ `reason` (string, optional) 
+
+
+## InvoiceRefundResponse26 (object)
+
+
+### Properties
++ `refundId` (number, optional) 
++ `result` (enum, optional) 
+    + `error`
+    + `success`
+
+
+## body28 (object)
+
+
+### Properties
++ `action` (enum, required) 
+    + `approve`
+    + `reject`
++ `invoiceId` (number, required) 
++ `refundId` (number, optional) 
+
+
+## InvoiceRefundResponseByRefundidResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `refundId` (number, optional) 
++ `invoiceId` (number, optional) 
+
+
+## body32 (object)
+
+
+### Properties
++ `invoiceId` (number, required) 
++ `reason` (string, optional) 
+
+
+## InvoiceWriteoffByIdResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `invoiceId` (number, optional) 
+
+
+## InvoiceAttachmentResponse (object)
+
+
+### Properties
++ `attachments` (array[Attachment], optional) 
+
+
+## Attachment (object)
+
+
+### Properties
++ `created_at` (string, optional) 
++ `file_name` (string, optional) 
++ `invoice_id` (number, optional) 
++ `owner_id` (string, optional) 
+
+
+## InvoiceAttachmentResponse37 (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `attachmentId` (number, optional) 
+
+
+## InvoiceAttachmentResponse39 (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
+
+
+## body42 (object)
+
+
+### Properties
++ `id` (number, required) 
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, optional) 
+
+
+## body44 (object)
+
+
+### Properties
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, optional) 
+
+
+## body47 (object)
+
+
+### Properties
++ `description` (string, optional) 
++ `id` (number, required) 
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, optional) 
+
+
+## body49 (object)
+
+
+### Properties
++ `description` (string, optional) 
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, optional) 
+
+
+## body52 (object)
+
+
+### Properties
++ `description` (string, optional) 
++ `id` (number, required) 
++ `status` (string, optional) 
++ `title` (string, optional) 
+
+
+## body53 (object)
+
+
+### Properties
++ `charges` (array[Charge], optional) 
++ `description` (string, optional) 
++ `title` (string, optional) 
+
+
+## Charge (object)
+
+
+### Properties
++ `title` (string, optional) 
++ `description` (string, optional) 
++ `amount` (number, optional) 
++ `billingPeriod` (enum, optional) 
+    + `one_time`
+    + `daily`
+    + `weekly`
+    + `monthly`
+    + `quarterly`
+    + `half_yearly`
+    + `yearly`
++ `discountType` (enum, optional) 
+    + `amount`
+    + `percentage`
++ `discount` (number, optional) 
++ `uom` (string, optional) 
+
+
+## body59 (object)
+
+
+### Properties
++ `categoryId` (array[number], optional) 
++ `featureId` (array[number], optional) 
++ `ratePlanId` (array[number], optional) 
++ `status` (string, optional) 
++ `title` (string, optional) 
+
+
+## body61 (object)
+
+
+### Properties
++ `customerId` (string, required) 
++ `endDate` (string, required) 
++ `productId` (number, required) 
++ `ratePlanId` (number, required) 
++ `startDate` (string, required) 
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
+
+
+## PaymentAccountResponse (object)
+
+
+### Properties
++ `accountId` (number, optional) 
++ `message` (string, optional) 
++ `result` (enum, optional) 
+    + `error`
+    + `success`
+
+
+## body68 (object)
+
+
+### Properties
++ `accountId` (string, required) - Required
++ `accountName` (string, optional) - Required
++ `email` (string, optional) - Required
++ `phone` (string, optional) - Required
++ `category` (enum, optional) - Required
+    + `primary`
+    + `secondary`
++ `type` (enum, optional) - Required
+    + `bank`
+    + `paypal`
+    + `skrill`
++ `accountNumber` (string, optional) 
++ `bankName` (string, optional) 
++ `bankCode` (string, optional) 
++ `branchCode` (string, optional) 
++ `swiftCode` (string, optional) 
++ `country` (string, optional) 
++ `status` (enum, optional) - Required
+    + `active`
+    + `inactive`
+
+
+## body74 (object)
+
+
+### Properties
++ `accountName` (string, required) - Required
++ `email` (string, required) - Required
++ `phone` (string, optional) - Required
++ `category` (enum, required) - Required
+    + `primary`
+    + `secondary`
++ `type` (enum, required) - Required
+    + `bank`
+    + `paypal`
+    + `skrill`
++ `accountNumber` (string, optional) 
++ `bankName` (string, optional) 
++ `bankCode` (string, optional) 
++ `branchCode` (string, optional) 
++ `swiftCode` (string, optional) 
++ `country` (string, optional) 
++ `status` (enum, required) - Required
+    + `active`
+    + `inactive`
+
+
+## PaymentReceiptResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `receipt` (object, optional) 
+
+
+## body83 (object)
+
+
+### Properties
++ `amount` (number, required) 
++ `billingAccountId` (number, optional) 
++ `date` (string, optional) 
++ `entityId` (array[string], required) 
++ `entityType` (enum, required) 
+    + `invoice`
+    + `transaction`
+
+
+## PaymentReceiptSendResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `receiptId` (number, optional) 
+
+
+## PaymentReceiptReceiveResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `receiptId` (number, optional) 
++ `message` (string, optional) 
+
+
+## PaymentReceiptAttachmentResponse (object)
+
+
+### Properties
++ `attachments` (array[Attachment92], optional) 
+
+
+## Attachment92 (object)
+
+
+### Properties
++ `created_at` (string, optional) 
++ `file_name` (string, optional) 
++ `owner_id` (string, optional) 
++ `receipt_id` (number, optional) 
+
+
+## PaymentReceiptAttachmentResponse93 (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `attachmentId` (number, optional) 
+
+
+## PaymentReceiptAttachmentResponse95 (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
+
+
+## body99 (object)
+
+
+### Properties
++ `head` (number, optional) 
++ `id` (number, required) 
++ `note` (string, optional) 
++ `segment` (enum, optional) 
+    + `both`
+    + `invoice`
+    + `transaction`
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, optional) 
+
+
+## body102 (object)
+
+
+### Properties
++ `head` (number, optional) 
++ `note` (string, optional) 
++ `segment` (enum, optional) 
+    + `both`
+    + `invoice`
+    + `transaction`
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, optional) 
+
+
+## body107 (object)
+
+
+### Properties
++ `category` (enum, required) 
+    + `expense`
+    + `income`
++ `id` (number, required) 
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, optional) 
+
+
+## body110 (object)
+
+
+### Properties
++ `category` (enum, required) 
+    + `expense`
+    + `income`
++ `status` (enum, optional) 
+    + `active`
+    + `inactive`
++ `title` (string, required) 
+
+
+## body115 (object)
+
+
+### Properties
++ `agentCommission` (array[AgentCommission], optional) 
++ `agentDeduction` (array[AgentDeduction], optional) 
++ `closingDate` (string, required) 
++ `grossDeduction` (array[GrossDeduction], optional) 
++ `sideDeduction` (array[SideDeduction], optional) 
++ `transactionId` (string, required) 
+
+
+## GrossDeduction (object)
+
+
+### Properties
++ `companyId` (string, required) 
++ `payeeId` (string, required) 
++ `payerId` (string, required) 
++ `deductionId` (string, required) 
++ `amount` (number, required) 
+
+
+## SideDeduction (object)
+
+
+### Properties
++ `companyId` (string, required) 
++ `payeeId` (string, required) 
++ `payerId` (string, required) 
++ `deductionId` (string, required) 
++ `amount` (number, required) 
+
+
+## AgentCommission (object)
+
+
+### Properties
++ `companyId` (string, required) 
++ `payeeId` (string, required) 
++ `payerId` (string, required) 
++ `amount` (number, required) 
+
+
+## AgentDeduction (object)
+
+
+### Properties
++ `companyId` (string, required) 
++ `payeeId` (string, required) 
++ `payerId` (string, required) 
++ `deductionId` (string, required) 
++ `amount` (number, required) 
+
+
+## TansactionCloseResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `transactionLogId` (number, optional) 
++ `message` (string, optional) 
+
+
+## body122 (object)
+
+
+### Properties
++ `amount` (number, required) 
++ `companyId` (string, required) 
++ `payeeId` (string, required) 
++ `payerId` (string, required) 
++ `transactionDate` (string, required) 
++ `transactionId` (string, required) 
+
+
+## TansactionPrecloseResponse (object)
+
+
+### Properties
++ `result` (enum, optional) 
+    + `error`
+    + `success`
++ `transactionLogId` (number, optional) 
++ `message` (string, optional) 
+

@@ -1,0 +1,810 @@
+swagger: '2.0'
+info:
+  title: Financial API
+  description: Financial Accouting API Documentation
+  version: "1.0.0"
+# the domain of the service
+host: 108.163.191.178:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /faapi/v1
+produces:
+  - application/json
+paths:  
+  /invoice:
+    post:
+      summary: Create invoice
+      description: Create invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Invoice data
+          schema:
+            type: object
+            properties:
+              isGlobal: 
+                title: "Global"
+                type: "boolean"
+                
+              customerId: 
+                title: "Customers"
+                type: "array"
+                minItems: 1
+                maxItems: 10
+                items: 
+                  type: "string"
+                  title: "Customer Id"
+                  
+              invoiceDate: 
+                type: "string"
+                title: "Invoice Date"
+                
+              dueDate: 
+                type: "string"
+                title: "Due Date"
+                
+              paymentTerm: 
+                title: "Payment Term"
+                type: "string"
+                enum: 
+                  - "duedate"
+                  - "receipt"
+                  
+              taxRateType: 
+                title: "Tax Rate Type"
+                type: "string"
+                enum: 
+                  - "amount"
+                  - "percentage"
+                  
+              taxRate: 
+                type: "number"
+                title: "Tax Amount / Percentage"
+                
+              discountType: 
+                title: "Discount Type"
+                type: "string"
+                enum: 
+                  - "amount"
+                  - "percentage"
+                  
+              discount: 
+                title: "Discount"
+                type: "number"
+                
+              note: 
+                type: "string"
+                title: "Note"
+                
+              data: 
+                type: "string"
+                title: "Custom Data"
+                description: "JSON for custom data fields"
+              
+              vendor:
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                    title: "Vendor Name"
+                    
+                  address: 
+                    type: "string"
+                    title: "Vendor Address"
+                    
+                  email: 
+                    type: "string"
+                    title: "Vendor Email"
+                    
+                  phone: 
+                    type: "string"
+                    title: "Vendor Phone"
+                
+              transactionNumber: 
+                type: "string"
+                title: "Transaction Number"
+                
+              recurringPeriod: 
+                title: "Recurring Period Type"
+                type: "string"
+                enum: 
+                  - "one_time"
+                  - "daily"
+                  - "weekly"
+                  - "monthly"
+                  - "quarterly"
+                  - "half_yearly"
+                  - "yearly"
+                  
+              recurStartDate: 
+                type: "string"
+                title: "Recurring Start Date"
+                
+              recurEndDate: 
+                type: "string"
+                title: "Recurring End Date"
+                
+              invoiceItems: 
+                title: "Invoice Items"
+                type: "array"
+                items: 
+                  type: "object"
+                  properties: 
+                    description: 
+                      title: "Description"
+                      type: "string"
+                      
+                    quantity: 
+                      title: "Quantity"
+                      type: "integer"
+                      
+                    price: 
+                      title: "Price"
+                      type: "number"
+                      
+                    accountingClassId: 
+                      title: "Accounting Class Id"
+                      type: "integer"
+                      
+                    taxable: 
+                      title: "Taxable"
+                      type: "string"
+                      enum: 
+                        - "yes"
+                        - "no"
+                        
+                  required: 
+                    - description
+                    - price
+                    - accountingClassId
+                    - taxable
+                    
+            required:
+              - customerId
+              - invoiceDate
+              - dueDate
+              - invoiceItems
+              - taxRate
+              - taxRateType
+              - paymentTerm
+              - recurringPeriod
+                    
+      tags:
+        - Invoice
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                
+    get:
+      summary: Get Invoices
+      description: Get Invoices
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: invoiceNumber
+          in: parameters 
+          type: "string"
+          description: "Invoice Number"
+          
+        - name: customerId
+          in: parameters 
+          description: "Customers"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "string"
+            title: "Customer Id"
+            
+        - name: userId 
+          description: "Users"
+          in: parameters
+          type: "array"
+          minItems: 1
+          maxItems: 10
+          items: 
+            type: "string"
+            description: "User Id"
+            
+        - name: mode 
+          description: "Invoice Mode"
+          in: parameters
+          type: "string"
+          enum: 
+            - "internal"
+            - "external"
+            
+        - name: type 
+          title: "Invoice Type"
+          in: parameters
+          type: "string"
+          enum: 
+            - "sent"
+            - "received"
+            
+        - name: activeStatus 
+          description: "Invoice Active Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "pending"
+            - "active"
+        
+        - name: dueStatus 
+          description: "Invoice Due Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "undue"
+            - "due"
+            - "overdue"
+            
+        - name: paymentStatus 
+          description: "Invoice Payment Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "unpaid"
+            - "partial_paid"
+            - "paid"
+            
+        - name: refundStatus 
+          description: "Invoice Refund Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "refund_requested"
+            - "refund_approved"
+            - "refund_rejected"
+        
+        - name: writeoffStatus 
+          description: "Invoice Writeoff Status"
+          in: parameters
+          type: "string"
+          enum: 
+            - "written_off"
+            - "refund_approved"
+            - "refund_rejected"
+              
+        - name: invoiceDateStart 
+          in: parameters
+          type: "string"
+          description: "Invoice Date Start"
+          
+        - name: invoiceDateEnd 
+          in: parameters
+          type: "string"
+          description: "Invoice Date End"
+          
+        - name: invoiceDateBefore 
+          in: parameters
+          type: "string"
+          description: "Invoice Date Before"
+          
+        - name: invoiceDateAfter 
+          in: parameters
+          type: "string"
+          description: "Invoice Date After"
+          
+        - name: dueDateStart 
+          in: parameters
+          type: "string"
+          title: "Due Date Start"
+          
+        - name: dueDateEnd 
+          in: parameters
+          type: "string"
+          description: "Due Date End"
+          
+        - name: dueDateBefore 
+          in: parameters
+          type: "string"
+          description: "Due Date From"
+          
+        - name: dueDateAfter 
+          in: parameters
+          type: "string"
+          description: "Due Date To"
+          
+        - name: note 
+          in: parameters
+          type: "string"
+          description: "Note"
+          
+        - name: transactionNumber 
+          in: parameters
+          type: "string"
+          description: "Transaction Number"
+          
+        - name: recurringPeriod 
+          description: "Recurring Period Type"
+          in: parameters
+          type: "string"
+          enum: 
+            - "one_time"
+            - "daily"
+            - "weekly"
+            - "monthly"
+            - "quarterly"
+            - "half_yearly"
+            - "yearly"
+        
+        - name: saleId 
+          in: parameters
+          type: "integer"
+          title: "Sales Id"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+              
+         
+
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+            
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              
+              invoices: 
+                title: "Invoices Object List"
+                type: "array"
+                items: 
+                  title: "Invoice"
+         
+
+  /invoice/{id}/accept:
+    post:
+      summary: Expense classification for received internal invoice
+      description: Expense classification for received internal invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+        
+        - name: id
+          in: path
+          description: Id of invoice to accept
+          required: true
+          type: integer
+          
+        - name: body
+          in: body
+          required: true
+          description: Invoice items
+          schema:
+            type: object
+            properties: 
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                description: "Required"
+              invoiceItems: 
+                title: "Invoice Items"
+                type: "array"
+                items: 
+                  type: "object"
+                  properties: 
+                    itemId: 
+                      title: "Item Id"
+                      type: "integer"
+                      
+                    accountingClassId: 
+                      title: "Accounting Class Id"
+                      type: "integer"
+                      
+                  required: 
+                    - itemId
+                    - accountingClassId
+                    
+            required: 
+              - invoiceId
+              - invoiceItems
+              
+      tags:
+        - Invoice
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+              message:
+                title: "Message"
+                type: "string"
+                
+           
+        
+  /invoice/refund:
+    post:
+      summary: Create Refund Request for Invoice
+      description: Create Refund Request for Invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Refund Attributes
+          schema:
+            type: object
+            properties: 
+              invoiceId: 
+                title: "Invoice"
+                type: "integer"
+                
+              action: 
+                title: "Refund Action"
+                type: "string"
+                enum:
+                  - "full"
+                  - "partial"
+                  
+              amount: 
+                title: "Refund Amount"
+                type: "number"
+                
+              reason: 
+                title: "Refund Reason"
+                type: "string"
+                
+            required: 
+              - "invoiceId"
+              - "action"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              refundId: 
+                title: "Refund Id"
+                type: "integer"
+  
+    get:
+      summary: Get List of Refund Requests
+      description: Get List of Refund Requests
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: refundId
+          in: parameters
+          description: "Refund Id"
+          type: "integer"
+                
+        - name: invoiceId
+          in: parameters
+          description: "Invoice"
+          type: "integer"
+        
+        - name: action 
+          in: parameters
+          description: "Refund Action"
+          type: "string"
+          enum:
+            - "full"
+            - "partial"
+            
+        - name: amount 
+          in: parameters
+          description: "Refund Amount"
+          type: "number"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              
+                  
+              refunds: 
+                title: "Refunds Object List"
+                type: "array"
+                items: 
+                  title: "Refund"
+
+
+  /invoice/refund/{refundid}/response:
+    post:
+      summary: Create Refund Response
+      description: Create Refund Response
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+        
+        - name: refundid
+          in: path
+          description: Refund id
+          required: true
+          type: integer
+          
+        - name: body
+          in: body
+          required: true
+          description: Refund Attributes
+          schema:
+            type: object
+            properties: 
+              refundId:
+                title: "Refund Id"
+                type: "integer"
+              
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                
+              action: 
+                title: "Refund Action"
+                type: "string"
+                enum: 
+                  - "approve"
+                  - "reject"
+                  
+            required: 
+              - "invoiceId"
+              - "action"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                
+              refundId: 
+                title: "Refund Id"
+                type: "integer"
+                
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                
+  /invoice/{id}/writeoff:
+    post:
+      summary: Writeoff Invoice
+      description: Writeoff Invoice
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: path
+          description: Invoice id
+          required: true
+          type: integer
+          
+        - name: body
+          in: body
+          required: true
+          description: Writeoff Attributes
+          schema:
+            type: object
+            properties: 
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+              
+              reason: 
+                title: "Writeoff Reason"
+                type: "string"
+                
+            required: 
+              - "invoiceId"
+            
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+              invoiceId: 
+                title: "Invoice Id"
+                type: "integer"
+                
+  
+  /invoice/attachment:
+    get:
+      summary: Get Invoice Attachment
+      description: Get Invoice Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: query
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              attachments: 
+                title: "Attachments"
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    invoice_id:
+                      title: "Invoice Id"
+                      type: "integer"
+                    file_name:
+                      title: "File Name"
+                      type: "string"
+                    owner_id:
+                      title: "Owner User Id"
+                      type: "string"
+                    created_at:
+                      title: "Created Date"
+                      type: "string"
+
+                
+    post:
+      summary: Add Invoice Attachment
+      description: Add Invoice Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+      
+        - name: attachment
+          in: formData
+          required: true
+          description: Attachment File
+          type: "file"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"
+                  
+              attachmentId: 
+                title: "Attachment Id"
+                type: "integer"
+                
+    delete:
+      summary: Delete Invoice Attachment
+      description: Delete Invoice Attachment
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: entityId
+          in: formData
+          required: true
+          description: Entity Id
+          type: "integer"
+
+              
+      tags:
+        - Payment
+          
+      responses:
+        200:
+          description: "Success Response"
+          schema:
+            properties: 
+              result: 
+                title: "Result Status"
+                type: "string"
+                enum:
+                  - "success"
+                  - "error"

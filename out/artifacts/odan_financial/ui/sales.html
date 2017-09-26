@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>API Testing Form</title>
+<link rel="stylesheet" style="text/css"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/2.2.1/css/bootstrap.min.css" />
+<link rel="stylesheet" style="text/css"
+	href="jsonform/deps/opt/bootstrap-wysihtml5.css" />
+<link rel="stylesheet" style="text/css"
+	href="jsonform/deps/opt/spectrum.css" />
+
+<link rel="stylesheet" style="text/css"
+	href="jsonview/jquery.jsonview.css" />
+
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+
+<script type="text/javascript" src="jsonform/deps/jquery.min.js"></script>
+<script type="text/javascript" src="jsonform/deps/underscore.js"></script>
+
+<script type="text/javascript"
+	src="jsonform/deps/opt/bootstrap-dropdown.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/bootstrap-wysihtml5.js"></script>
+
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.transloadit2.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/jquery.ui.core.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.widget.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.mouse.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.sortable.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/spectrum.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/jsv.js"></script>
+<script type="text/javascript" src="jsonform/lib/jsonform.js"></script>
+
+<script type="text/javascript" src="jsonview/jquery.jsonview.js"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="http://cdn.datatables.net/1.9.0/css/jquery.dataTables.css" />
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.datatables.net/1.9.0/js/jquery.dataTables.js"></script>
+
+<!-- 
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.datatables.net/plug-ins/1.9.0/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	
+<link rel="stylesheet" type="text/css"
+	href="http://cdn.datatables.net/plug-ins/1.9.0/integration/bootstrap/3/dataTables.bootstrap.css" />
+	 -->
+<script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>API Testing Form</h1>
+		<div>
+			<span>Active User</span>
+			<input id="activeapiuserid" type="text"/>
+		</div>
+		<div class="nav-section">
+			<span>Category</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/category/create" data-method="POST" data-api="v1/sales/category">Create</a>
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/category/update" data-method="PUT" data-api="v1/sales/category">Update</a>
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-method="GET" data-filter="OwnerActive" data-api="v1/sales/category" data-root="categories">List</a>
+					<a class="btn api-form btn-warning" href="javascript:void(0)"
+					data-ui="sales/category/status" data-method="PUT" data-api="v1/sales/category">Change Status</a> 
+			</div>
+		</div>
+
+		<div class="nav-section">
+			<span>Features</span>
+			<div class="btn-group" role="group">
+
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/feature/create" data-method="POST" data-api="v1/sales/feature">Create</a>
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/feature/update" data-method="PUT" data-api="v1/sales/feature">Update</a>
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-method="GET" data-filter="OwnerActive" data-api="v1/sales/feature" data-root="features">List</a>
+				<a class="btn api-form btn-warning" href="javascript:void(0)"
+					data-ui="sales/feature/status" data-method="PUT" data-api="v1/sales/feature">Change Status</a> 
+
+			</div>
+		</div>
+
+		<div class="nav-section">
+
+			<span>Rate Plan</span>
+			<div class="btn-group" role="group">
+
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/rateplan/create" data-method="POST" data-api="v1/sales/rateplan">Create</a>
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/rateplan/update" data-method="PUT" data-api="v1/sales/rateplan">Update</a>
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-method="GET" data-filter="OwnerActive" data-api="v1/sales/rateplan" data-root="ratePlans">List</a>
+					<a class="btn api-form btn-warning" href="javascript:void(0)"
+					data-ui="sales/rateplan/status" data-method="PUT" data-api="v1/sales/rateplan">Change Status</a> 
+
+			</div>
+		</div>
+
+		<div class="nav-section">
+			<span>Products</span>
+
+			<div class="btn-group" role="group">
+
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/product/create" data-method="POST" data-api="v1/sales/product">Create</a>
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/product/update" data-method="PUT" data-api="v1/sales/product">Update</a>
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-api="v1/sales/product" data-filter="OwnerActive" data-method="GET" data-root="products">List</a> <a
+					class="btn api-form btn-warning" href="javascript:void(0)"
+					data-ui="sales/product/status" data-method="PUT" data-api="v1/sales/product">Change Status</a> 
+					<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/product/clone" data-method="POST" data-api="v1/sales/product/clone">Clone</a>
+					<a class="btn api-form btn-danger" href="javascript:void(0)"
+					data-ui="sales/product/delete" data-method="DELETE" data-api="v1/sales/product">Delete</a>
+
+			</div>
+		</div>
+
+		<div class="nav-section">
+			<span>Sales</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/create" data-method="POST" data-api="v1/sales">Create</a><a
+					class="btn api-table btn-info" href="javascript:void(0)"
+					data-api="v1/sales" data-filter="Owner" data-method="GET" data-root="sales">List</a>
+			</div>
+		</div>
+		<div id="container"></div>
+	</div>
+</body>
+</html>

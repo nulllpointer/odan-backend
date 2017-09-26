@@ -1,0 +1,32 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Sync Deduction",
+	"properties": 
+	{
+		"id": 
+		{
+			"type": "string",
+			"title": "Id"
+		},
+
+		"title": 
+		{
+			"type": "string",
+			"title": "Deduction Title"
+		},
+
+		"userId": 
+		{
+			"title": "User Id",
+			"type": "string"
+		}
+	},
+
+	"required": 
+	[
+		"id",
+		"title",
+		"userId"
+	]
+}

@@ -1,0 +1,44 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Update Accounting Class",
+	"properties": 
+	{
+		"id": 
+		{
+			"type": "integer",
+			"title": "Id"
+		},
+		
+		"title": 
+		{
+			"type": "string",
+			"title": "Title"
+		},
+		
+		"category": 
+		{
+			"title": "Category",
+			"enum": 
+			[
+				"income",
+				"expense"
+			]
+		},
+		
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"id"
+	]
+}

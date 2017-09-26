@@ -1,0 +1,209 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Receive External Invoice",
+	"properties": 
+	{
+		"invoiceNumber": 
+		{
+			"type": "string",
+			"title": "Invoice Number",
+			"description": "Required - External Invoice"
+		},
+
+		"transactionNumber": 
+		{
+			"type": "string",
+			"title": "Transaction Number",
+			"description": "Optional"
+		},
+
+		
+		"vendor":
+		{
+			"type": "object",
+			"title": "Vendor",
+			"properties": 
+			{
+				"name": 
+				{
+					"type": "string",
+					"title": "Vendor Name",
+					"description": "Required"
+				},
+		
+				"address": 
+				{
+					"type": "string",
+					"title": "Vendor Address",
+					"description": "Required"
+				},
+		
+				"email": 
+				{
+					"type": "string",
+					"title": "Vendor Email",
+					"description": "Required"
+				},
+		
+				"phone": 
+				{
+					"type": "string",
+					"title": "Vendor Phone",
+					"description": "Required"
+				}
+			}
+		},
+
+		"invoiceDate": 
+		{
+			"type": "string",
+			"title": "Invoice Date",
+			"description": "Required"
+		},
+
+		"dueDate": 
+		{
+			"type": "string",
+			"title": "Due Date",
+			"description": "Required"
+		},
+
+		"paymentTerm": 
+		{
+			"title": "Payment Term",
+			"enum": 
+			[
+				"duedate",
+				"receipt"
+			],
+
+			"description": "Required"
+		},
+
+		"taxRateType": 
+		{
+			"title": "Tax Rate Type",
+			"enum": 
+			[
+				"amount",
+				"percentage"
+			],
+
+			"description": "Required"
+		},
+
+		"taxRate": 
+		{
+			"type": "number",
+			"title": "Tax Rate",
+			"description": "Required"
+		},
+
+		
+		"discountType": 
+		{
+			"title": "Discount Type",
+			"enum": 
+			[
+				"amount",
+				"percentage"
+			],
+			"description": "Required"
+		},
+		
+		"discount": 
+		{
+			"title": "Discount",
+			"type": "number",
+			"description": "Required"
+		},
+
+		"note": 
+		{
+			"type": "string",
+			"title": "Note"
+		},
+
+		"data": 
+		{
+			"type": "string",
+			"title": "Custom Data"
+		},
+
+		"invoiceItems": 
+		{
+			"title": "Invoice Items",
+			"type": "array",
+			"items": 
+			{
+				"type": "object",
+				"properties": 
+				{
+					"description": 
+					{
+						"title": "Description",
+						"type": "string",
+						"description": "Required"
+					},
+
+					"quantity": 
+					{
+						"title": "Quantity",
+						"type": "integer",
+						"description": "Required"
+					},
+
+					"price": 
+					{
+						"title": "Price",
+						"type": "number",
+						"description": "Required"
+					},
+
+					"accountingClassId": 
+					{
+						"title": "Accounting Class Id",
+						"type": "integer",
+						"description": "Required"
+					},
+
+					"taxable": 
+					{
+						"title": "Taxable",
+						"enum": 
+						[
+							"yes",
+							"no"
+						],
+
+						"description": "Required"
+					}
+				},
+
+				"required": 
+				[
+					"description",
+					"quantity",
+					"price",
+					"accountingClassId",
+					"taxable"
+				]
+			}
+		}
+	},
+
+	"required": 
+	[
+		"invoiceNumber",
+		"vendorName",
+		"invoiceDate",
+		"dueDate",
+		"invoiceItems",
+		"taxRate",
+		"taxRateType",
+		"discountType",
+		"discount",
+		"paymentTerm"
+	]
+}

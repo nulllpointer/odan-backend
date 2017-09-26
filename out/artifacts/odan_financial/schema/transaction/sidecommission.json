@@ -1,0 +1,73 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Side Commission Entry",
+	"properties": 
+	{
+		"transactionId": 
+		{
+			"type": "string",
+			"title": "Transaction Id"
+		},
+		
+		"closingDate": 
+		{
+			"type": "string",
+			"title": "Transaction Closing Date"
+		},
+
+		"commision": 
+		{
+			"title": "Agent Commission",
+			"type": "array",
+			"minItems": 1,
+			"items": 
+			{
+				"type": "object",
+				"properties": 
+				{
+					"payeeId": 
+					{
+						"title": "Payee Id",
+						"type": "string"
+					},
+
+					"payeeName": 
+					{
+						"title": "Payee Name",
+						"type": "string"
+					},
+
+					"amount": 
+					{
+						"title": "Commission Amount",
+						"type": "number"
+					},
+
+					"role": 
+					{
+						"title": "Role",
+						"enum": 
+						[
+							"selling",
+							"listing"
+						]
+					}
+				},
+
+				"required": 
+				[
+					"amount",
+					"role"
+				]
+			}
+		}
+	},
+
+	"required": 
+	[
+		"transactionId",
+		"closingDate",
+		"commision"
+	]
+}

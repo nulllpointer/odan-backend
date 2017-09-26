@@ -1,0 +1,40 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Invoice Refund Request",
+	"properties": 
+	{
+		"invoiceId": 
+		{
+			"title": "Invoice",
+			"type": "integer",
+			"description": "Required"
+		},
+		"type": 
+		{
+			"title": "Refund Type",
+			"enum": 
+			[
+				"full",
+				"partial"
+			],
+			"description": "Required"
+		},
+		"amount": 
+		{
+			"title": "Refund Amount",
+			"type": "number"
+		},
+		"description": 
+		{
+			"title": "Refund Reason",
+			"type": "string"
+		}
+	},
+
+	"required": 
+	[
+		"invoiceId",
+		"type"
+	]
+}

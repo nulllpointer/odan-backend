@@ -1,0 +1,19 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Delete Product",
+	"properties": 
+	{
+		"id": 
+		{
+			"title": "Product Id",
+			"type": "integer",
+			"description": "Required for deleting product"
+		}
+	},
+
+	"required": 
+	[
+		"id"
+	]
+}

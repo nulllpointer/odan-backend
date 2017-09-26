@@ -1,0 +1,40 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Update Feature",
+	"properties": 
+	{
+		"id": 
+		{
+			"title": "Id",
+			"type": "integer"
+		},
+		
+		"title": 
+		{
+			"title": "Title",
+			"type": "string"
+		},
+
+		"description": 
+		{
+			"title": "Description",
+			"type": "string"
+		},
+
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"id"
+	]
+}

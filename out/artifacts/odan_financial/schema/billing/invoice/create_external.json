@@ -1,0 +1,171 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Receive External Invoice",
+	"properties": 
+	{
+		"invoiceNumber": 
+		{
+			"type": "string",
+			"title": "Invoice Number"
+		},
+
+		"transactionNumber": 
+		{
+			"type": "string",
+			"title": "Transaction Number"
+		},
+		
+		"vendorId":
+		{
+			"type": "integer",
+			"title": "Vendor Id"
+		},
+
+		"invoiceDate": 
+		{
+			"type": "string",
+			"title": "Invoice Date"
+		},
+
+		"dueDate": 
+		{
+			"type": "string",
+			"title": "Due Date"
+		},
+
+		"paymentTerm": 
+		{
+			"title": "Payment Term",
+			"enum": 
+			[
+				"duedate",
+				"receipt"
+			]
+		},
+
+		"taxRateType": 
+		{
+			"title": "Tax Rate Type",
+			"enum": 
+			[
+				"amount",
+				"percentage"
+			]
+		},
+
+		"taxRate": 
+		{
+			"type": "number",
+			"title": "Tax Rate"
+		},
+
+		
+		"discountType": 
+		{
+			"title": "Discount Type",
+			"enum": 
+			[
+				"amount",
+				"percentage"
+			]
+		},
+		
+		"discount": 
+		{
+			"title": "Discount",
+			"type": "number"
+		},
+
+		"note": 
+		{
+			"type": "string",
+			"title": "Note"
+		},
+
+		"data": 
+		{
+			"type": "string",
+			"title": "Custom Data"
+		},
+
+		"type": 
+		{
+			"title": "Type",
+			"enum": 
+			[
+				"sent",
+				"received"
+			]
+		},
+
+		"invoiceItems": 
+		{
+			"title": "Invoice Items",
+			"type": "array",
+			"items": 
+			{
+				"type": "object",
+				"properties": 
+				{
+					"description": 
+					{
+						"title": "Description",
+						"type": "string"
+					},
+
+					"quantity": 
+					{
+						"title": "Quantity",
+						"type": "integer"
+					},
+
+					"price": 
+					{
+						"title": "Price",
+						"type": "number"
+					},
+
+					"accountingClassId": 
+					{
+						"title": "Accounting Class Id",
+						"type": "integer"
+					},
+
+					"taxable": 
+					{
+						"title": "Taxable",
+						"enum": 
+						[
+							"yes",
+							"no"
+						]
+					}
+				},
+
+				"required": 
+				[
+					"description",
+					"quantity",
+					"price",
+					"accountingClassId",
+					"taxable"
+				]
+			}
+		}
+	},
+
+	"required": 
+	[
+		"invoiceNumber",
+		"vendorName",
+		"invoiceDate",
+		"dueDate",
+		"invoiceItems",
+		"taxRate",
+		"taxRateType",
+		"discountType",
+		"discount",
+		"paymentTerm"
+	]
+}

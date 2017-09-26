@@ -1,0 +1,74 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Agent Deduction",
+	"properties": 
+	{
+		"transactionId": 
+		{
+			"type": "string",
+			"title": "Transaction Id"
+		},
+
+
+		"closingDate": 
+		{
+			"type": "string",
+			"title": "Transaction Closing Date"
+		},
+
+		
+		"deduction": 
+		{
+			"title": "Deductions",
+			"type": "array",
+			"minItems": 1,
+			"items": 
+			{
+				"type": "object",
+				"properties": 
+				{
+					"payeeId": 
+					{
+						"title": "Payee Id",
+						"type": "string"
+					},
+					
+					"payerId": 
+					{
+						"title": "Payer Id",
+						"type": "string"
+					},
+					
+					"deductionId": 
+					{
+						"title": "Deduction Id",
+						"type": "string"
+					},
+
+					"amount": 
+					{
+						"title": "Deduction Amount",
+						"type": "number"
+					}
+					
+				},
+
+				"required": 
+				[
+					"payeeId",
+					"payerId",
+					"deductionId",
+					"amount"
+				]
+			}
+		}
+	},
+
+	"required": 
+	[
+		"transactionId",
+		"closingDate",
+		"deduction"
+	]
+}

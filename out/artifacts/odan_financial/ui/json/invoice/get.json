@@ -1,0 +1,8 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Get Invoice",
+	"properties": 
+	{
+	}
+}

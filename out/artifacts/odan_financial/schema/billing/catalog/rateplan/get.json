@@ -1,0 +1,9 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Get Rate Plan",
+	"properties": 
+	{
+		
+	}
+}

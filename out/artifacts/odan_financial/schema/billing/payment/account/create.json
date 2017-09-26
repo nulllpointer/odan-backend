@@ -1,0 +1,110 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Account",
+	"properties": 
+	{		
+		"accountName": 
+		{
+			"title": "Account Name",
+			"type": "string",
+			"description": "Required"
+		},
+
+		"email": 
+		{
+			"title": "Email",
+			"type": "string",
+			"description": "Required"
+		},
+
+		"phone": 
+		{
+			"title": "Phone",
+			"type": "string",
+			"description": "Required"
+		},
+
+		"category": 
+		{
+			"title": "Category",
+			"type": "string",
+			"enum": 
+			[
+				"primary",
+				"secondary"
+			],
+			"description": "Required"
+		},
+		
+		"type": 
+		{
+			"title": "Account Type",
+			"type": "string",
+			"enum": 
+			[
+				"bank",
+				"paypal",
+				"skrill"
+			],
+			"description": "Required"
+		},
+
+		"accountNumber": 
+		{
+			"title": "Account Number",
+			"type": "string"
+		},
+
+		"bankName": 
+		{
+			"title": "Bank Number",
+			"type": "string"
+		},
+
+		"bankCode": 
+		{
+			"title": "Account Number",
+			"type": "string"
+		},
+
+		"branchCode": 
+		{
+			"title": "Account Number",
+			"type": "string"
+		},
+
+		"swiftCode": 
+		{
+			"title": "Swift Code",
+			"type": "string"
+		},
+
+		"country": 
+		{
+			"title": "Country",
+			"type": "string"
+		},
+
+		"status": 
+		{
+			"title": "Status",
+			"type": "string",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			],
+			"description": "Required"
+		}
+	},
+
+	"required": 
+	[
+		"accountName",
+		"email",
+		"category",
+		"type",
+		"status"
+	]
+}

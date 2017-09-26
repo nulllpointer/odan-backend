@@ -1,0 +1,465 @@
+swagger: '2.0'
+info:
+  title: Financial API
+  description: Financial Accouting API Documentation
+  version: "1.0.0"
+# the domain of the service
+host: 108.163.191.178:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /faapi/v1
+produces:
+  - application/json
+paths:  
+  /accounting/code:
+    post:
+      summary: Create New Accounting Code
+      description: |
+        Create New Accounting Code
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Code data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Code Name"
+                type: "string"
+                
+              head: 
+                title: "Accounting Head"
+                type: "integer"
+                  
+              segment: 
+                title: "Segment"
+                type: "string"
+                enum:
+                  - "transaction"
+                  - "invoice"
+                  - "both"
+                  
+              note: 
+                title: "Note"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Code
+      responses:
+        200:
+          description: Code Id
+
+    put:
+      summary: Update Accounting Code
+      description: |
+        Updates Accounting Code
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Code data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Code Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Code Name"
+                type: "string"
+                
+              head: 
+                title: "Accounting Head"
+                type: "integer"
+                  
+              segment: 
+                title: "Segment"
+                type: "string"
+                enum:
+                  - "transaction"
+                  - "invoice"
+                  - "both"
+                  
+              note: 
+                title: "Note"
+                type: "string"
+                  
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Code
+      responses:
+        200:
+          description: "Code Id"
+          
+    get:
+      summary: Get Accounting Code List
+      description: |
+        Get Accounting Code List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Code Id"
+          type: "integer"
+          
+        - name: title
+          in: query
+          description: "Code Title"
+          type: "string"
+          
+          
+        - name: head 
+          in: query
+          description: "Accounting Head"
+          type: "integer"
+            
+        - name: segment 
+          in: query
+          description: "Segment"
+          type: "string"
+          enum:
+            - "transaction"
+            - "invoice"
+            - "both"
+        
+        - name: status
+          in: query
+          description: "Code Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Code Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting Code
+      responses:
+        200:
+          description: Code JSON Data
+          
+  /accounting/class:
+    post:
+      summary: Create New Accounting Class
+      description: |
+        Create New Accounting Class
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Class data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Class Title"
+                type: "string"
+                required: true
+              
+              category: 
+                title: "Category"
+                type: "string"
+                required: true
+                enum:
+                  - "income"
+                  - "expense"
+              
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Class
+      responses:
+        200:
+          description: Class Id
+          
+    put:
+      summary: Update Accounting Class
+      description: |
+        Updates Accounting Class
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Class data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Class Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Class Title"
+                type: "string"
+                
+              category: 
+                title: "Category"
+                type: "string"
+                required: true
+                enum:
+                  - "income"
+                  - "expense"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Accounting Class
+      responses:
+        200:
+          description: "Class Id"
+          
+    get:
+      summary: Get Accounting Class List
+      description: "Get Accounting Class List"
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Class Id"
+          type: "integer"
+          
+        - name: title
+          in: query
+          description: "Class Title"
+          type: "string"
+          
+        - name: category 
+          in: query
+          description: "Category"
+          type: "string"
+          enum:
+            - "income"
+            - "expense"
+        
+        - name: status
+          in: query
+          description: "Class Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Class Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting Class
+      responses:
+        200:
+          description: Class JSON Data
+          
+          
+  /trialbalance:
+    get:
+      summary: Get Accounting Trial Balance
+      description: |
+        Get Accounting Trial Balance
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Entry Id"
+          type: "integer"
+        
+        - name: status
+          in: query
+          description: "Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting
+      responses:
+        200:
+          description: Trial Balance JSON Data
+
+  /journal:
+    get:
+      summary: Get Accounting Journal Entries
+      description: |
+        Get Accounting Journal Entries
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Entry Id"
+          type: "integer"
+          
+        - name: entryNumber
+          in: query
+          description: "Entry Number"
+          type: "integer"
+        
+        - name: status
+          in: query
+          description: "Entry Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: query
+          description: "Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting
+      responses:
+        200:
+          description: Journal Entry JSON Data
+          
+          
+  /heads:
+    get:
+      summary: Get Accounting Heads
+      description: |
+        Get Accounting Heads
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: query
+          description: "Head Id"
+          type: "integer"
+          
+        - name: page 
+          in: query
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: query
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Accounting
+      responses:
+        200:
+          description: Accounting Heads JSON Data

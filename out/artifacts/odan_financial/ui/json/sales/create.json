@@ -1,0 +1,64 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Sales",
+	"properties": 
+	{
+		"productId": 
+		{
+			"title": "Product Id",
+			"type": "integer",
+			"description": "Required"
+		},
+
+		"ratePlanId": 
+		{
+			"title": "Rate Plan Id",
+			"type": "integer",
+			"description": "Required"
+		},
+		
+		"customerId": 
+		{
+			"title": "Customer Id",
+			"type": "string",
+			"description": "Required"
+		},
+
+		
+		"startDate": 
+		{
+			"type": "string",
+			"title": "Start Date",
+			"format": "date",
+			"description": "Required"
+		},
+		
+		"endDate": 
+		{
+			"type": "string",
+			"title": "End Date",
+			"format": "date",
+			"description": "Required"
+		},
+
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"productId",
+		"ratePlanId",
+		"customerId",
+		"startDate",
+		"endDate"
+	]
+}

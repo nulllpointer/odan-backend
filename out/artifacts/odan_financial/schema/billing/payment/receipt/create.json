@@ -1,0 +1,57 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Payment",
+	"properties": 
+	{
+		"entityId": 
+		{
+			"title": "Entity Id",
+			"type": "array",
+			"minItems": 1,
+			"maxItems": 10,
+			"items": 
+			{
+				"type": "integer",
+				"title": "Entity Id"
+			}
+		},
+
+		"billingAccountId": 
+		{
+			"type": "integer",
+			"title": "Billing Account Id"
+		},
+		
+		"entityType": 
+		{
+			"title": "Entity Type",
+			"enum": 
+			[
+				"invoice",
+				"transaction"
+			]
+		},
+		
+
+		"date": 
+		{
+			"type": "string",
+			"title": "Payment Date"
+		},
+
+		"amount": 
+		{
+			"type": "number",
+			"title": "Amount"
+		}
+	},
+
+	"required": 
+	[
+		"entityId",
+		"billingAccountId",
+		"entityType",
+		"amount"
+	]
+}

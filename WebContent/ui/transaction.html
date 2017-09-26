@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>API Testing Form</title>
+<link rel="stylesheet" style="text/css"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/2.2.1/css/bootstrap.min.css" />
+<link rel="stylesheet" style="text/css"
+	href="jsonform/deps/opt/bootstrap-wysihtml5.css" />
+<link rel="stylesheet" style="text/css"
+	href="jsonform/deps/opt/spectrum.css" />
+
+<link rel="stylesheet" style="text/css"
+	href="jsonview/jquery.jsonview.css" />
+
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+
+<script type="text/javascript" src="jsonform/deps/jquery.min.js"></script>
+<script type="text/javascript" src="jsonform/deps/underscore.js"></script>
+
+<script type="text/javascript"
+	src="jsonform/deps/opt/bootstrap-dropdown.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/bootstrap-wysihtml5.js"></script>
+
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.transloadit2.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/jquery.ui.core.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.widget.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.mouse.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.sortable.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/spectrum.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/jsv.js"></script>
+<script type="text/javascript" src="jsonform/lib/jsonform.js"></script>
+
+<script type="text/javascript" src="jsonview/jquery.jsonview.js"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="http://cdn.datatables.net/1.9.0/css/jquery.dataTables.css" />
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.datatables.net/1.9.0/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>API Testing Form</h1>
+		<div>
+			<span>Active User</span>
+			<input id="activeapiuserid" type="text"/>
+		</div>
+		<div class="nav-section">
+			<span>Category</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/category/create" data-api="sales/category/create">Create</a>
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="sales/category/update" data-api="sales/category/update">Update</a>
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-api="sales/category/get" data-root="categories">List</a>
+					<a class="btn api-form btn-warning" href="javascript:void(0)"
+					data-ui="sales/category/status" data-api="sales/category/update">Change Status</a> 
+			</div>
+		</div>
+		
+		<div class="nav-section">
+			<span>Transaction</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="transaction/grosscommission" data-api="transaction/grosscommission">Gross Commission</a>
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-api="transaction/logs" data-root="logs">List</a>
+			</div>
+		</div>
+
+		<div class="nav-section">
+			<span>Commission</span>
+			<div class="btn-group" role="group">
+				<a class="btn btn-success api-form" href="javascript:void(0)"
+					data-ui="transaction/grosscommission"
+					data-api="transaction/grosscommission">Gross Commission</a> 
+					<!-- 
+					<a
+					class="btn btn-success api-form" href="javascript:void(0)"
+					data-ui="transaction/sidecommission"
+					data-api="transaction/sidecommission">Side Commission</a> 
+					 -->
+					<a
+					class="btn btn-success api-form" href="javascript:void(0)"
+					data-ui="transaction/agentcommission"
+					data-api="transaction/agentcommission">Agent Commission</a>
+			</div>
+		</div>
+
+		<div class="nav-section">
+			<span>Deduction</span>
+			<div class="btn-group" role="group">
+				<a class="btn btn-success api-form" href="javascript:void(0)"
+					data-ui="transaction/grossdeduction"
+					data-api="transaction/grossdeduction">Gross Deduction</a> 
+					
+					<a
+					class="btn btn-success api-form" href="javascript:void(0)"
+					data-ui="transaction/sidededuction"
+					data-api="transaction/sidededuction">Side Deduction</a> 
+					
+					<a
+					class="btn btn-success api-form" href="javascript:void(0)"
+					data-ui="transaction/agentdeduction"
+					data-api="transaction/agentdeduction">Agent Deduction</a>
+			</div>
+		</div>
+		<div id="container"></div>
+	</div>
+</body>
+</html>

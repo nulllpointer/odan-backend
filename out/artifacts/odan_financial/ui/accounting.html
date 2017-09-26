@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>API Testing Form</title>
+<link rel="stylesheet" style="text/css"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/2.2.1/css/bootstrap.min.css" />
+<link rel="stylesheet" style="text/css"
+	href="jsonform/deps/opt/bootstrap-wysihtml5.css" />
+<link rel="stylesheet" style="text/css"
+	href="jsonform/deps/opt/spectrum.css" />
+
+<link rel="stylesheet" style="text/css"
+	href="jsonview/jquery.jsonview.css" />
+
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+
+<script type="text/javascript" src="jsonform/deps/jquery.min.js"></script>
+<script type="text/javascript" src="jsonform/deps/underscore.js"></script>
+
+<script type="text/javascript"
+	src="jsonform/deps/opt/bootstrap-dropdown.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/bootstrap-wysihtml5.js"></script>
+
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.transloadit2.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/jquery.ui.core.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.widget.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.mouse.js"></script>
+<script type="text/javascript"
+	src="jsonform/deps/opt/jquery.ui.sortable.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/spectrum.js"></script>
+
+<script type="text/javascript" src="jsonform/deps/opt/jsv.js"></script>
+<script type="text/javascript" src="jsonform/lib/jsonform.js"></script>
+
+<script type="text/javascript" src="jsonview/jquery.jsonview.js"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="http://cdn.datatables.net/1.9.0/css/jquery.dataTables.css" />
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.datatables.net/1.9.0/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>API Testing Form</h1>
+		<div>
+			<span>Active User</span>
+			<input id="activeapiuserid" type="text"/>
+		</div>
+		<div class="nav-section">
+			<span>Accounting Codes</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="accounting/code/create" data-method="POST" data-api="v1/accounting/code">Create</a>
+					<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="accounting/code/update" data-method="PUT" data-api="v1/accounting/code">Update</a>
+					<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-method="GET" data-api="v1/accounting/code" data-root="accountingCodes">List</a>
+					<a class="btn api-form btn-warning" href="javascript:void(0)"
+					data-ui="accounting/code/status" data-method="PUT" data-api="v1/accounting/code">Change Status</a> 
+			</div>
+		</div>
+		
+		<div class="nav-section">
+			<span>Accounting Class</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="accounting/class/create" data-method="POST" data-api="v1/accounting/class">Create</a>
+					<a class="btn api-form btn-success" href="javascript:void(0)"
+					data-ui="accounting/class/update" data-method="PUT" data-api="v1/accounting/class">Update</a>
+					<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-method="GET" data-api="v1/accounting/class" data-root="accountingClass">List</a>
+					<a class="btn api-form btn-warning" href="javascript:void(0)"
+					data-ui="accounting/class/status" data-method="PUT" data-api="v1/accounting/class">Change Status</a> 
+			</div>
+		</div>
+		<!-- 
+		<div class="nav-section" style="display: none;">
+			<span>Accounting Code Types</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-form btn-success" href="javascript:void(0)" style="display: none;"
+					data-ui="accounting/codetype/create" data-api="v1/accounting/codetype/create">Create</a>
+				<a class="btn api-form btn-success" href="javascript:void(0)" style="display: none;"
+					data-ui="accounting/codetype/update" data-api="v1/accounting/codetype/update">Update</a>
+				<a class="btn api-table btn-info" href="javascript:void(0)" style="display: none;"
+					data-api="v1/accounting/codetype/get" data-root="codes">List</a>
+				<a class="btn api-form btn-warning" href="javascript:void(0)" style="display: none;"
+					data-ui="accounting/codetype/status" data-api="v1/accounting/codetype/update">Change Status</a> 
+			</div>
+		</div>
+		 -->
+		<div class="nav-section">
+			<span>Accounting Heads</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-method="GET" data-api="v1/accounting/heads" data-root="heads">List</a>
+			</div>
+		</div>
+		
+		<div class="nav-section">
+			<span>Journal</span>
+			<div class="btn-group" role="group">
+				<a class="btn api-table btn-info" href="javascript:void(0)"
+					data-method="GET" data-api="v1/accounting/journal" data-root="journalEntries">List</a>
+			</div>
+		</div>
+		
+		<div id="container"></div>
+	</div>
+</body>
+</html>

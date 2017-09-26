@@ -1,0 +1,750 @@
+swagger: '2.0'
+info:
+  title: Financial API
+  description: Financial Accouting API Documentation
+  version: "1.0.0"
+# the domain of the service
+host: 108.163.191.178:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /faapi/v1
+produces:
+  - application/json
+paths:  
+  /sales/category:
+    post:
+      summary: Create New Product Category
+      description: |
+        Create New Product Category
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Category data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Category Name"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Category
+      responses:
+        200:
+          description: Category Id
+
+    put:
+      summary: Update Product Category
+      description: |
+        Updates Product Category
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Category data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Category Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Category Name"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Category
+      responses:
+        200:
+          description: "Category Id"
+          
+    get:
+      summary: Get Product Category List
+      description: |
+        Get Product Category List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Category Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Category Title"
+          type: "string"
+        
+        - name: status
+          in: parameters
+          description: "Category Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: parameters
+          description: "Category Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Category
+      responses:
+        200:
+          description: Category JSON Data
+          
+          
+          
+  /sales/feature:
+    post:
+      summary: Create New Product Feature
+      description: |
+        Create New Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Feature data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Feature Title"
+                type: "string"
+                
+              description: 
+                title: "Feature Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Feature
+      responses:
+        200:
+          description: Feature Id
+
+    put:
+      summary: Update Product Feature
+      description: |
+        Updates Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Feature data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Feature Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Feature Title"
+                type: "string"
+                
+              description: 
+                title: "Feature Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum:
+                  - "active"
+                  - "inactive"
+      tags:
+        - Feature
+      responses:
+        200:
+          description: "Feature Id"
+          
+    get:
+      summary: Get Product Feature List
+      description: |
+        Get Product Feature List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Feature Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Feature Title"
+          type: "string"
+        
+        - name: status
+          in: parameters
+          description: "Feature Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+          
+        - name: ownerId
+          in: parameters
+          description: "Feature Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+          
+      tags:
+        - Feature
+      responses:
+        200:
+          description: "Feature JSON Data"
+          
+  
+  /sales/rateplan:
+    post:
+      summary: Create New RatePlan
+      description: |
+        Create New RatePlan
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Rateplan data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Title"
+                type: "string"
+                
+              description: 
+                title: "Description"
+                type: "string"
+                
+              charges: 
+                title: "Charges"
+                type: "array"
+                items: 
+                  type: "object"
+                  properties: 
+                    title: 
+                      title: "Title"
+                      type: "string"
+                      
+                    description: 
+                      title: "Description"
+                      type: "string"
+                      
+                    amount: 
+                      title: "Amount"
+                      type: "number"
+                      
+                    billingPeriod: 
+                      title: "Billing Period"
+                      type: "string"
+                      enum: 
+                        - "one_time"
+                        - "daily"
+                        - "weekly"
+                        - "monthly"
+                        - "quarterly"
+                        - "half_yearly"
+                        - "yearly"
+                      
+                    discountType: 
+                      title: "Discount Type"
+                      type: "string"
+                      enum: 
+                        - "amount"
+                        - "percentage"
+                        
+                    discount: 
+                      title: "Discount"
+                      type: "number"
+                      
+                    uom: 
+                      title: "Unit of Measure"
+                      type: "string"
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: Rateplan Id
+
+    put:
+      summary: Update Product Rateplan
+      description: |
+        Updates Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Rateplan data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Rateplan Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Title"
+                type: "string"
+                
+              description: 
+                title: "Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+              
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan Id"
+          
+    get:
+      summary: Get Product Rateplan List
+      description: |
+        Get Product Rateplan List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Rateplan Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Rateplan Title"
+          type: "string"
+          
+        - name: status
+          in: parameters
+          description: "Rateplan Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+            
+        - name: ownerId
+          in: parameters
+          description: "Rateplan Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+                
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan JSON Data"
+          
+  
+  /sales/product:
+    post:
+      summary: Create New Product
+      description: |
+        Create New Product
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Product data that needs to be created.
+          schema:
+            type: object
+            properties: 
+              title: 
+                title: "Product Title"
+                type: "string"
+              
+              categoryId: 
+                title: "Product Categories"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "integer"
+                  title: "Category Id"
+                  
+              featureId: 
+                title: "Product Categories"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "integer"
+                  title: "Category Id"
+                  
+              ratePlanId: 
+                title: "Product Rate Plans"
+                type: "array"
+                minItems: 1
+                items: 
+                  type: "integer"
+                  title: "Rate Plan Id"
+              status: 
+                title: "Status"
+                type: "string"
+                    
+      tags:
+        - Product
+      responses:
+        200:
+          description: Product Id
+
+    put:
+      summary: Update Product Rateplan
+      description: |
+        Updates Product Feature
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: body
+          in: body
+          required: true
+          description: Rateplan data that needs to be updated.
+          schema:
+            type: object
+            properties: 
+              id: 
+                title: "Rateplan Id"
+                type: "integer"
+                required: true
+                
+              title: 
+                title: "Title"
+                type: "string"
+                
+              description: 
+                title: "Description"
+                type: "string"
+                
+              status: 
+                title: "Status"
+                type: "string"
+              
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan Id"
+          
+    get:
+      summary: Get Product Rateplan List
+      description: |
+        Get Product Rateplan List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: id
+          in: parameters
+          description: "Rateplan Id"
+          type: "integer"
+          
+        - name: title
+          in: parameters
+          description: "Rateplan Title"
+          type: "string"
+          
+        - name: status
+          in: parameters
+          description: "Rateplan Status"
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+            
+        - name: ownerId
+          in: parameters
+          description: "Rateplan Owner Id"
+          type: "integer"
+          
+        - name: page 
+          in: parameters
+          type: "integer"
+          description: "Pagination: Page number"
+          
+        - name: limit
+          in: parameters
+          type: "integer"
+          description: "Pagination: Records count"
+                
+      tags:
+        - Rateplan
+      responses:
+        200:
+          description: "Rateplan JSON Data"
+          
+  
+  /sales:
+    post:
+      summary: Create Sales
+      description: |
+        Create Sales
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+
+        - name: body
+          in: body
+          required: true
+          description: Get feature list by filters.
+          schema:
+            type: object
+            properties: 
+              productId: 
+                title: "Product Id"
+                type: "integer"
+                
+              ratePlanId: 
+                title: "Rate Plan Id"
+                type: "integer"
+                
+              customerId: 
+                title: "Customer Id"
+                type: "string"
+                
+              startDate: 
+                type: "string"
+                title: "Start Date"
+                format: "date"
+                
+              endDate: 
+                type: "string"
+                title: "End Date"
+                format: "date"
+                
+              status: 
+                title: "Status"
+                type: "string"
+                enum: 
+                  - "active"
+                  - "inactive"
+                  
+            required: 
+              - "productId"
+              - "ratePlanId"
+              - "customerId"
+              - "startDate"
+              - "endDate"
+      tags:
+        - Sales
+      responses:
+        200:
+          description: "Sales Id"
+          
+    get:
+      summary: Get Sales List
+      description: |
+        Get Sales List
+      parameters:
+        - name: REW3-UserId
+          in: header
+          required: true
+          description: REW3 UserId
+          type: "string"
+          
+        - name: productId
+          in: parameters
+          title: "Products"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "integer"
+            title: "Product Id"
+                      
+        - name: ratePlanId 
+          in: parameters
+          title: "Rate Plans"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "integer"
+            title: "Rate Plan Id"
+          
+        - name: customerId
+          in: parameters
+          title: "Customers"
+          type: "array"
+          maxItems: 10
+          items: 
+            type: "string"
+            title: "Customer Id"
+                
+        - name: startDateStart
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date Start"
+
+        - name: startDateEnd
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date End"
+           
+        - name: startDateBefore 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date From"
+           
+        - name: startDateAfter
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date To"
+           
+        - name: endDateStart 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date Start"
+           
+        - name: endDateEnd 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date End"
+           
+        - name: endDateBefore 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date From"
+           
+        - name: endDateAfter 
+          in: parameters
+          type: "string"
+          format: "date"
+          title: "Start Date To"
+           
+        - name: status
+          in: parameters
+          title: "Status"
+          type: "string"
+          enum: 
+            - "active"
+            - "inactive"
+           
+      tags:
+        - Sales
+      responses:
+        200:
+          description: Sales JSON Data

@@ -1,0 +1,71 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Create Product",
+	"properties": 
+	{
+		"title": 
+		{
+			"title": "Product Title",
+			"type": "string",
+			"description": "Required"
+		},
+
+		"categoryId": 
+		{
+			"title": "Product Categories",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "integer",
+				"title": "Category Id"
+			},
+            "uniqueItems": true,
+			"description": "Required"
+		},
+
+		"featureId": 
+		{
+			"title": "Product Features",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "integer",
+				"title": "Feature"
+			},
+            "uniqueItems": true,
+			"description": "Required"
+		},
+		
+		"ratePlanId": 
+		{
+			"title": "Product Rate Plans",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "integer",
+				"title": "Rate Plan"
+			},
+            "uniqueItems": true,
+			"description": "Required"
+		},
+
+		"status": 
+		{
+			"title": "Product Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"title",
+		"categoryId",
+		"featureId",
+		"ratePlanId"
+	]
+}

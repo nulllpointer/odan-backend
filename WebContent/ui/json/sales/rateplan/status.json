@@ -1,0 +1,30 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Change Rate Plan Status",
+	"properties": 
+	{
+		"id": 
+		{
+			"title": "Rate Plan Id",
+			"type": "integer",
+			"description": "Required"
+		},
+
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	},
+
+	"required": 
+	[
+		"id",
+		"status"
+	]
+}

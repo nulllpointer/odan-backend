@@ -1,0 +1,39 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Sync User",
+	"properties": 
+	{
+		"id": 
+		{
+			"type": "string",
+			"title": "Id"
+		},
+
+		"title": 
+		{
+			"type": "string",
+			"title": "Title"
+		},
+
+		"email": 
+		{
+			"type": "string",
+			"title": "Email"
+		},
+
+		"role": 
+		{
+			"type": "string",
+			"title": "Role"
+		}
+	},
+
+	"required": 
+	[
+		"id",
+		"title",
+		"email",
+		"role"
+	]
+}
