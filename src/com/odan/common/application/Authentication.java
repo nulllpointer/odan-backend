@@ -1,6 +1,6 @@
 package com.odan.common.application;
 
-import com.odan.billing.user.model.User;
+import com.odan.security.user.model.User;
 import org.apache.struts2.ServletActionContext;
 
 import javax.servlet.http.HttpServletRequest;

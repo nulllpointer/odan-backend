@@ -1,14 +1,12 @@
 package com.odan.common.application;
 
-import com.odan.billing.catalog.product.ProductCommandHandler;
-import com.odan.billing.catalog.productcategory.ProductCategoryCommandHandler;
-import com.odan.billing.customer.CustomerCommandHandler;
-import com.odan.billing.invoice.InvoiceCommandHandler;
-import com.odan.billing.invoice.InvoiceEventHandler;
-import com.odan.billing.sales.SalesCommandHandler;
-import com.odan.billing.sales.SalesEventHandler;
-import com.odan.billing.user.UserCommandHandler;
-import com.odan.finance.accountingperiod.AccountingPeriodCommandHandler;
+import com.odan.billing.contact.ContactCommandHandler;
+import com.odan.billing.menu.category.CategoryCommandHandler;
+import com.odan.billing.menu.product.ProductCommandHandler;
+import com.odan.inventory.sales.SalesCommandHandler;
+import com.odan.inventory.sales.SalesEventHandler;
+import com.odan.security.accountingperiod.AccountingPeriodCommandHandler;
+import com.odan.security.user.UserCommandHandler;
 
 import javax.servlet.ServletContext;
 
@@ -21,10 +19,10 @@ public class Application {
 		System.out.println("CONTEXT INIT");
 		
 		//Command Handler
-		InvoiceCommandHandler.registerCommands();
+//		InvoiceCommandHandler.registerCommands();
 
 		
-		ProductCategoryCommandHandler.registerCommands();
+		CategoryCommandHandler.registerCommands();
 		ProductCommandHandler.registerCommands();
 		SalesCommandHandler.registerCommands();
 		
@@ -32,13 +30,13 @@ public class Application {
 
 
 		//I am the change
-		CustomerCommandHandler.registerCommands();
+		ContactCommandHandler.registerCommands();
 
 		UserCommandHandler.registerCommands();
 		
 		
 		//Event Handler
-		InvoiceEventHandler.registerEvents();
+//		InvoiceEventHandler.registerEvents();
 		SalesEventHandler.registerEvents();
 
 	}

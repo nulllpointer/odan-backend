@@ -1,7 +1,7 @@
 package com.odan.inventory.sales.model;
 
 
-import com.odan.billing.catalog.product.model.Product;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.common.application.CommandException;
 import com.odan.common.database.HibernateUtils;
 

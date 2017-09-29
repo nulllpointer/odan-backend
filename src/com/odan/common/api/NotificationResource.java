@@ -1,25 +1,22 @@
 package com.odan.common.api;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.Namespace;
-import org.apache.struts2.convention.annotation.ParentPackage;
-import org.apache.struts2.convention.annotation.Result;
-
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.odan.billing.invoice.event.InvoiceCreated;
 import com.odan.common.cqrs.EventBus;
 import com.odan.common.cqrs.IEvent;
 import com.odan.common.json.JSONValidatorEngine;
 import com.odan.common.json.JSONValidatorLog;
 import com.odan.common.json.JSONValidatorReport;
 import com.odan.common.utils.Mailer;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @ParentPackage("jsonPackage")
 @Namespace(value = "/v1")
@@ -43,9 +40,9 @@ public class NotificationResource extends RestAction {
 	}
 
 	public String actionEvent() {
-		IEvent e = new InvoiceCreated();
+		/*IEvent e = new InvoiceCreated();
 		EventBus.getInstance().enqueue(e);
-		getData().put("TEST", "SOMETHING");
+		getData().put("TEST", "SOMETHING");*/
 		return SUCCESS;
 	}
 

@@ -1,11 +1,11 @@
 package com.odan.common.utils;
 
+import com.odan.common.model.Flags.SpecificDateType;
+import com.odan.common.model.Flags.TimePeriod;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.odan.common.model.Flags.SpecificDateType;
-import com.odan.common.model.Flags.TimePeriod;
 
 public class DateTime {
 
@@ -75,14 +75,14 @@ public class DateTime {
      * @param tsEnd Recurr end date
      * @return
      */
-    public static Timestamp getNextRecurDate(Byte type, Timestamp tsCur, Timestamp tsEnd) {
+    public static Timestamp getNextRecurDate(TimePeriod type, Timestamp tsCur, Timestamp tsEnd) {
         long time = 0;
         Timestamp tmp = new Timestamp(0);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(tsCur.getTime());
 
-        if (type == TimePeriod.DAILY.getFlag()) {
+        if (type == TimePeriod.DAILY) {
             time = 24 * 60 * 60 * 1000;
 
             // System.out.println("Yawartest tsCur" + tsCur +
@@ -92,7 +92,7 @@ public class DateTime {
             if (tmp.before(tsEnd)) {
                 return tmp;
             }
-        } else if (type == TimePeriod.WEEKLY.getFlag()) {
+        } else if (type == TimePeriod.WEEKLY) {
             time = 7 * 24 * 60 * 60 * 1000;
 
             tmp.setTime(tsCur.getTime() + time);
@@ -100,7 +100,7 @@ public class DateTime {
             if (tmp.before(tsEnd)) {
                 return tmp;
             }
-        } else if (type == TimePeriod.MONTHLY.getFlag()) {
+        } else if (type == TimePeriod.MONTHLY) {
             // org.joda.time.DateTime jdts = org.joda.time.DateTime.n ts;//new
             // org.joda.time.DateTime();
             // jdts.plusMonths(1);
@@ -111,14 +111,14 @@ public class DateTime {
                 return tmp;
             }
 
-        } else if (type == TimePeriod.QUARTERLY.getFlag()) {
+        } else if (type == TimePeriod.QUARTERLY) {
 
             calendar.add(Calendar.MONTH, 3);
             tmp = new Timestamp(calendar.getTimeInMillis());
             if (tmp.before(tsEnd)) {
                 return tmp;
             }
-        } else if (type == TimePeriod.YEARLY.getFlag()) {
+        } else if (type == TimePeriod.YEARLY) {
 
             calendar.add(Calendar.YEAR, 1);
             tmp = new Timestamp(calendar.getTimeInMillis());
@@ -135,17 +135,17 @@ public class DateTime {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(current.getTime());
 
-        if (period.equals(TimePeriod.DAILY.getFlag())) {
+        if (period.equals(TimePeriod.DAILY)) {
             calendar.add(Calendar.DATE, 1);
-        } else if (period.equals(TimePeriod.WEEKLY.getFlag())) {
+        } else if (period.equals(TimePeriod.WEEKLY)) {
             calendar.add(Calendar.DATE, 7);
-        } else if (period.equals(TimePeriod.MONTHLY.getFlag())) {
+        } else if (period.equals(TimePeriod.MONTHLY)) {
             calendar.add(Calendar.MONTH, 1);
-        } else if (period.equals(TimePeriod.QUARTERLY.getFlag())) {
+        } else if (period.equals(TimePeriod.QUARTERLY)) {
             calendar.add(Calendar.MONTH, 3);
-        } else if (period.equals(TimePeriod.HALF_YEARLY.getFlag())) {
+        } else if (period.equals(TimePeriod.HALF_YEARLY)) {
             calendar.add(Calendar.MONTH, 6);
-        } else if (period.equals(TimePeriod.YEARLY.getFlag())) {
+        } else if (period.equals(TimePeriod.YEARLY)) {
             calendar.add(Calendar.YEAR, 1);
         }
 
@@ -166,7 +166,7 @@ public class DateTime {
     }
 
     public static Timestamp getNextTimestamp(Timestamp current, TimePeriod period) {
-        return getNextTimestamp(current, period.getFlag());
+        return getNextTimestamp(current, period);
     }
 
     public static Date getNextDayDate(Timestamp endDate) {

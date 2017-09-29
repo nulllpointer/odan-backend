@@ -11,8 +11,8 @@ import org.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
-import com.odan.billing.user.UserQueryHandler;
-import com.odan.billing.user.model.User;
+import com.odan.security.user.UserQueryHandler;
+import com.odan.security.user.model.User;
 
 public class APISecurityInterceptor implements Interceptor {
 
@@ -27,7 +27,7 @@ public class APISecurityInterceptor implements Interceptor {
 		System.out.print("REW3-UserId: ");
 		System.out.println(externalId);
 		
-		User u = (new UserQueryHandler()).getByExternalId(externalId);
+//		User u = (new UserQueryHandler()).getByExternalId(externalId);
 
 		//TODO
 		
@@ -35,7 +35,7 @@ public class APISecurityInterceptor implements Interceptor {
 			return "InvalidUser";
 		}*/
 		
-		request.setAttribute("user", u);
+//		request.setAttribute("user", u);
 		
 		return invocation.invoke();
 	}

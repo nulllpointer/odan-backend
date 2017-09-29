@@ -3,7 +3,7 @@ package com.odan.inventory.sales;
 import com.odan.common.cqrs.EventStore;
 import com.odan.common.cqrs.IEvent;
 import com.odan.common.cqrs.IEventHandler;
-import com.odan.finance.sales.event.SalesCreated;
+import com.odan.security.sales.event.SalesCreated;
 
 public class SalesEventHandler implements IEventHandler {
 

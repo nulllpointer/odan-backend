@@ -2,12 +2,14 @@ package com.odan.common.shared.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.odan.common.model.Flags.EntityStatus;
 
-import javax.persistence.*;
-import java.io.IOException;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Timestamp;
-
 /**
  * Created by amit on 2/7/17.
  */
@@ -19,10 +21,7 @@ public class AbstractEntity implements Serializable {
     private Long id;
 
     @Column(name = "status")
-    private Byte status;
-
-    @Column(name = "owner_id")
-    private Long ownerId;
+    private EntityStatus status;
 
 
     @Column(name = "created_at")
@@ -43,21 +42,7 @@ public class AbstractEntity implements Serializable {
         this.id = id;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
 
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
 
     @JsonIgnore
     public Timestamp getCreatedAt() {
@@ -86,5 +71,11 @@ public class AbstractEntity implements Serializable {
         this.deletedAt = deletedAt;
     }
 
+    public EntityStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(EntityStatus status) {
+        this.status = status;
+    }
 }

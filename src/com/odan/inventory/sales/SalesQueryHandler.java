@@ -6,12 +6,11 @@ import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.EntityStatus;
-import com.odan.common.model.Flags.SalesIsInvoiced;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
 import com.odan.common.utils.DateTime;
 import com.odan.common.utils.Parser;
-import com.odan.finance.sales.model.Sales;
+import com.odan.security.sales.model.SaleItem;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class SalesQueryHandler implements IQueryHandler {
 
 	@Override
 	public Object getById(Long id) throws CommandException {
-		Sales s = (Sales) HibernateUtils.get(Sales.class, id);
+		SaleItem s = (SaleItem) HibernateUtils.get(SaleItem.class, id);
 		return s;
 	}
 
@@ -43,10 +42,7 @@ public class SalesQueryHandler implements IQueryHandler {
 		}
 
 		// Apply Filter Params
-		if (q.has("status")) {
-			whereSQL += " AND status = :status ";
-			sqlParams.put("status", Flags.convertInputToStatus(q.get("status")));
-		}
+
 		if (q.has("ownerId")) {
 			whereSQL += " AND ownerId = :ownerId ";
 			sqlParams.put("ownerId", q.get("ownerId"));
@@ -110,17 +106,6 @@ public class SalesQueryHandler implements IQueryHandler {
 		return sales;
 	}
 
-	public List<Sales> getInvoiceableSales() {
-		HashMap<String, Object> queryParams = new HashMap<>();
-		Timestamp currentTime = DateTime.getCurrentTimestamp();
-		String hql = "FROM Sales WHERE status = :status AND isInvoiced = :isInvoiced AND nextInvoiceAt < :currentDateTime";
-		queryParams.put("status", EntityStatus.ACTIVE.getFlag());
-		queryParams.put("isInvoiced", SalesIsInvoiced.NO.getFlag());
-		queryParams.put("currentDateTime", currentTime);
 
-		List<Sales> salesList = (List<Sales>) HibernateUtils.select(hql, queryParams);
-
-		return salesList;
-	}
 
 }

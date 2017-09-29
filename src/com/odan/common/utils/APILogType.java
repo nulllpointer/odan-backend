@@ -1,8 +1,7 @@
 package com.odan.common.utils;
 
-import com.odan.common.model.Flags.EntityFlags;
-
-public enum APILogType implements EntityFlags {
+import com.odan.common.model.Flags;
+public enum APILogType  {
 	SUCCESS("Success", (byte) 1), WARNING("Warning", (byte) 5), ERROR("Error", (byte) 11), EXCEPTION("Exception", (byte) 12);
 
 	private final String string;

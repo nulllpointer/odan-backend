@@ -79,7 +79,7 @@
                 <param name="statusCode">400</param>
             </result>
         </global-results>
-    </package>
+     </package>
 
     <package name="jsonPackageSecure" extends="jsonPackage">
         <interceptors>
@@ -95,32 +95,27 @@
 
     <package name="module-billing" extends="jsonPackageSecure"
              namespace="/v1/billing">
-        <action name="invoice" method="actionInvoice"
-                class="com.odan.billing.invoice.api.InvoiceResource"/>
 
 
-        <action name="invoice/refund" method="actionRefundRequest"
-                class="com.odan.billing.invoice.api.InvoiceResource"/>
 
-
-        <action name="customer" method="actionCustomer"
-                class="com.odan.billing.customer.api.CustomerResource"/>
+        <action name="customer" method="actionContact"
+                class="com.odan.billing.contact.api.ContactResource"/>
 
         <action name="user" method="actionUser"
-                class="com.odan.billing.user.api.UserResource"/>
+                class="com.odan.security.user.api.UserResource"/>
     </package>
 
     <package name="module-catalog" extends="jsonPackageSecure"
              namespace="/v1/billing/catalog">
         <action name="category" method="actionCategory"
-                class="com.odan.billing.catalog.productcategory.api.ProductCategoryResource"/>
+                class="com.odan.billing.menu.category.api.ProductCategoryResource"/>
 
     </package>
 
     <package name="module-sales" extends="jsonPackageSecure"
              namespace="/v1/billing">
         <action name="sales" method="actionSales"
-                class="com.odan.billing.sales.api.SalesResource"/>
+                class="com.odan.inventory.sales.api.SalesResource"/>
     </package>
 
     <package name="module-payment" extends="jsonPackageSecure"
@@ -138,6 +133,6 @@
              namespace="/v1/finance">
 
         <action name="accounting/period" method="actionAccountingPeriod"
-                class="com.odan.finance.accountingperiod.api.AccountingPeriodResource"/>
+                class="com.odan.security.accountingperiod.api.AccountingPeriodResource"/>
     </package>
 </struts>

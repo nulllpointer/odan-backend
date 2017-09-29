@@ -1,0 +1,104 @@
+{
+	"$schema": "http://koderlabs.com/myschema#",
+	"type": "object",
+	"title": "Get Sales",
+	"properties": 
+	{
+		"productId": 
+		{
+			"title": "Products",
+			"type": "array",
+			"maxItems": 10,
+			"items": 
+			{
+				"type": "integer",
+				"title": "Product Id"
+			}
+		},
+
+		"ratePlanId": 
+		{
+			"title": "Rate Plans",
+			"type": "array",
+			"maxItems": 10,
+			"items": 
+			{
+				"type": "integer",
+				"title": "Rate Plan Id"
+			}
+		},
+		
+		"customerId": 
+		{
+			"title": "Customers",
+			"type": "array",
+			"maxItems": 10,
+			"items": 
+			{
+				"type": "string",
+				"title": "Customer Id"
+			}
+			
+		},
+		
+		"startDateStart": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date Start"
+		},
+		"startDateEnd": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date End"
+		},
+		"startDateBefore": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date From"
+		},
+		"startDateAfter": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date To"
+		},
+		
+		"endDateStart": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date Start"
+		},
+		"endDateEnd": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date End"
+		},
+		"endDateBefore": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date From"
+		},
+		"endDateAfter": 
+		{
+			"type": "string",
+			"format": "date",
+			"title": "Start Date To"
+		},
+		
+		"status": 
+		{
+			"title": "Status",
+			"enum": 
+			[
+				"active",
+				"inactive"
+			]
+		}
+	}
+}

@@ -17,26 +17,20 @@
    	<mapping class="com.odan.common.model.File" />
    	
    	
-   	<mapping class="com.odan.finance.accountingperiod.model.AccountingPeriod" />
+   	<mapping class="com.odan.security.accountingperiod.model.AccountingPeriod" />
 
 
-   	<mapping class="com.odan.billing.user.model.User" />
+   	<mapping class="com.odan.security.user.model.User" />
 
-   	<mapping class="com.odan.billing.invoice.model.Invoice" />
-   	<mapping class="com.odan.billing.invoice.model.InvoiceItem" />
 
-   	<mapping class="com.odan.billing.catalog.product.model.Product" />
-   	<mapping class="com.odan.billing.catalog.product.model.ProductCategoryLink" />
-   	<mapping class="com.odan.billing.catalog.product.model.ProductFeatureLink" />
-   	<mapping class="com.odan.billing.catalog.product.model.ProductRatePlanLink" />
-   	<mapping class="com.odan.billing.catalog.productcategory.model.ProductCategory" />
+   	<mapping class="com.odan.billing.menu.category.model.Category" />
 
-   	<mapping class="com.odan.billing.sales.model.Sales" />
+   	<mapping class="com.odan.inventory.sales.model.Order" />
    	
 
 
 	<!--Changed one-->
-	<mapping class="com.odan.billing.customer.model.Customer" />
+	<mapping class="com.odan.billing.contact.model.Contact" />
 
 
 </session-factory>

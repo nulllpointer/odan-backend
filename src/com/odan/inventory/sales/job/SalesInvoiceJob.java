@@ -1,11 +1,10 @@
 package com.odan.inventory.sales.job;
 
-import com.odan.billing.invoice.command.CreateSalesInvoice;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.utils.DateTime;
-import com.odan.finance.sales.SalesQueryHandler;
-import com.odan.finance.sales.model.Sales;
+import com.odan.security.sales.SalesQueryHandler;
+import com.odan.security.sales.model.SaleItem;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -27,13 +26,7 @@ public class SalesInvoiceJob implements Job {
 			System.out.println("Sales Invoice Job Started");
 			System.out.println(DateTime.getCurrentTimestamp());
 			
-			SalesQueryHandler q = new SalesQueryHandler();
-			List<Sales> salesList = q.getInvoiceableSales();
-			
-			for(Sales s: salesList) {
-				ICommand c = new CreateSalesInvoice(s);
-				CommandRegister.getInstance().process(c);	
-			}
+
 			
 			System.out.println(DateTime.getCurrentTimestamp());
 			System.out.println("Sales Invoice Job Ended");

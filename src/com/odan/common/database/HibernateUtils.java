@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odan.common.application.Authentication;
 import com.odan.common.application.CommandException;
+import com.odan.common.cqrs.ICommand;
 import com.odan.common.model.Flags;
 import com.odan.common.shared.model.AbstractEntity;
 import com.odan.common.utils.DateTime;
@@ -294,6 +295,7 @@ public class HibernateUtils {
 		}
 		return obj;
 	}
+
 
 	public static synchronized boolean delete(Object obj, Transaction aTrx) {
 		boolean success = false;
@@ -608,5 +610,8 @@ public class HibernateUtils {
 
 		return query.uniqueResult();
 	}
+
+
+
 
 }

@@ -1,9 +1,0 @@
-{
-	"$schema": "http://koderlabs.com/myschema#",
-	"type": "object",
-	"title": "Get Category List",
-	"properties": 
-	{
-		
-	}
-}

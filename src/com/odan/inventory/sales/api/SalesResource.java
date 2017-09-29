@@ -4,9 +4,9 @@ import com.odan.common.api.RestAction;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.Query;
 import com.odan.common.utils.APILogger;
-import com.odan.finance.sales.SalesQueryHandler;
-import com.odan.finance.sales.command.CreateSales;
-import com.odan.finance.sales.model.Sales;
+import com.odan.security.sales.SalesQueryHandler;
+import com.odan.security.sales.command.CreateSales;
+import com.odan.security.sales.model.SaleItem;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -41,7 +41,7 @@ public class SalesResource extends RestAction {
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		CreateSales command = new CreateSales(requestData);
 		CommandRegister.getInstance().process(command);
-		Sales s = (Sales) command.getObject();
+		SaleItem s = (SaleItem) command.getObject();
 
 		if (s != null) {
 			responseStatus = SUCCESS;
