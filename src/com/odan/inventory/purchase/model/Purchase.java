@@ -16,14 +16,12 @@ import java.sql.Timestamp;
 public class Purchase extends AbstractEntity {
 
 
-	@Column(name="product_price_id")
 	@ManyToOne
 	ProductPrice productPrice;
 
 	@Column(name="amount")
 	private Integer amount;
 
-	@Column(name="contact_id")
 	@ManyToOne
 	private Contact contact;
 

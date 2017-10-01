@@ -13,7 +13,6 @@ import java.util.Date;
 @Table(name = "product_price")
 public class ProductPrice extends AbstractEntity {
 
-    @Column(name = "product_id")
     @ManyToOne
     private Product product;
 
@@ -29,7 +28,7 @@ public class ProductPrice extends AbstractEntity {
     @Column(name = "type")
     private  ProductPriceType type;
 
-    @Column(name = "type")
+    @Column(name = "alert")
     private  String alert;
 
     public Product getProduct() {

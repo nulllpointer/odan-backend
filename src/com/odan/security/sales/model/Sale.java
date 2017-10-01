@@ -19,11 +19,9 @@ import java.sql.Timestamp;
 @Table(name="sale")
 public class Sale extends AbstractEntity{
 
-	@Column(name="product_price")
 	@ManyToOne
 	private ProductPrice productPrice;
 
-	@Column(name="sale_id")
 	@ManyToOne
 	private Purchase purchase;
 

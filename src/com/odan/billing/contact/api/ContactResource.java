@@ -91,7 +91,7 @@ public class ContactResource extends RestAction {
 
 		if (q.validate()) {
 			responseStatus = SUCCESS;
-			getData().put("customers", customers);
+			getData().put("contacts", customers);
 			getData().put("logs", APILogger.getList());
 			setSuccess();
 		} else {

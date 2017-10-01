@@ -16,11 +16,9 @@ import java.util.concurrent.TimeUnit;
 @Table(name="purchase_item")
 public class PurchaseItem extends AbstractEntity {
 
-	@Column(name="product_price")
 	@ManyToOne
 	private ProductPrice productPrice;
 
-	@Column(name="purchase_id")
 	@ManyToOne
 	private Purchase purchase;
 

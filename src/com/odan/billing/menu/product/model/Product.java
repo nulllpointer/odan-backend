@@ -18,7 +18,6 @@ public class Product extends AbstractEntity {
 	@Column(name = "title")
 	private String title;
 
-	@Column(name = "category_id")
 	@ManyToOne
 	private Category category;
 
