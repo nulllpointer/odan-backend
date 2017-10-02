@@ -46,4 +46,8 @@ public abstract class Flags {
         ONE_TIME, DAILY, WEEKLY, MONTHLY, QUARTERLY, HALF_YEARLY, YEARLY;
 
     }
+    public enum EntityType {
+       CONTACTS,PRODUCT,CATEGORY
+
+    }
 }

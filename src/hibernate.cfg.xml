@@ -38,8 +38,6 @@
 
 		<mapping class="com.odan.inventory.sales.model.Order" />
 
-
-
 		<!--Changed one-->
 		<mapping class="com.odan.billing.contact.model.Contact" />
 

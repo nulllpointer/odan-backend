@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.odan.common.application.CommandException;
+import com.odan.common.model.Flags;
 import com.odan.common.utils.APILogType;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -60,6 +61,7 @@ public class ContactResource extends RestAction {
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
 		}*/
+        setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
 
         return responseStatus;
     }
@@ -70,18 +72,10 @@ public class ContactResource extends RestAction {
         UpdateContact command = new UpdateContact(requestData);
         CommandRegister.getInstance().process(command);
         Contact c = (Contact) command.getObject();
+        setJsonResponseForUpdate(c);
 
-		/*if (c != null) {
-			responseStatus = SUCCESS;
-			setSuccess("System Customer synced successfully.");
-			getData().put("customerId", c.getId().toString());
-		} else {
-			setError("System Customer sync failed.");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}
-*/
-        return responseStatus;
+
+        return SUCCESS;
     }
 
     public String getContact() {
@@ -92,7 +86,7 @@ public class ContactResource extends RestAction {
         List<Object> customers = (new ContactQueryHandler()).get(q);
 
 
-        return setJsonResponseForGet(customers,"contacts");
+        return setJsonResponseForGet(customers, "contacts");
     }
 
     public String actionContactById() throws Exception {
