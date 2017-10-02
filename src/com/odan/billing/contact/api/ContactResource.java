@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.odan.common.application.CommandException;
+import com.odan.common.utils.APILogType;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -24,32 +26,52 @@ import com.odan.common.utils.APILogger;
 @Namespace(value = "/v1/billing")
 public class ContactResource extends RestAction {
 
-	@Action(value = "contact", results = { @Result(type = "json") })
-	public String actionContact() {
-		String response = SUCCESS;
-		HttpServletRequest httpRequest = ServletActionContext.getRequest();
-		if (httpRequest.getMethod().equals("POST")) {
-			createContact();
-		} else if (httpRequest.getMethod().equals("PUT")) {
-			updateContact();
-		} else if (httpRequest.getMethod().equals("GET")) {
-			getContact();
+    @Action(value = "contact", results = {@Result(type = "json")})
+    public String actionContact() {
+        String response = SUCCESS;
+        HttpServletRequest httpRequest = ServletActionContext.getRequest();
+        if (httpRequest.getMethod().equals("POST")) {
+            createContact();
+        } else if (httpRequest.getMethod().equals("PUT")) {
+            updateContact();
+        } else if (httpRequest.getMethod().equals("GET")) {
+            getContact();
+        } else {
+            response = "HttpMethodNotAccepted";
+        }
+
+        return response;
+    }
+
+    public String createContact() {
+        String responseStatus = SUCCESS;
+        System.out.println("..Create Customer Request");
+        HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
+        CreateContact command = new CreateContact(requestData);
+        CommandRegister.getInstance().process(command);
+        Contact c = (Contact) command.getObject();
+
+		/*if (c != null) {
+            responseStatus = SUCCESS;
+			setSuccess("System Customer synced successfully.");
+			getData().put("customerId", c.getId().toString());
 		} else {
-			response = "HttpMethodNotAccepted";
-		}
+			setError("System Customer sync failed.");
+			getData().put("log", APILogger.getList());
+			APILogger.clear();
+		}*/
 
-		return response;
-	}
+        return responseStatus;
+    }
 
-	public String createContact() {
-		String responseStatus = SUCCESS;
-		System.out.println("..Create Customer Request");
-		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-		CreateContact command = new CreateContact(requestData);
-		CommandRegister.getInstance().process(command);
-		Contact c = (Contact) command.getObject();
+    public String updateContact() {
+        String responseStatus = SUCCESS;
+        HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
+        UpdateContact command = new UpdateContact(requestData);
+        CommandRegister.getInstance().process(command);
+        Contact c = (Contact) command.getObject();
 
-		if (c != null) {
+		/*if (c != null) {
 			responseStatus = SUCCESS;
 			setSuccess("System Customer synced successfully.");
 			getData().put("customerId", c.getId().toString());
@@ -58,49 +80,48 @@ public class ContactResource extends RestAction {
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
 		}
+*/
+        return responseStatus;
+    }
 
-		return responseStatus;
-	}
+    public String getContact() {
+        String responseStatus = SUCCESS;
+        HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
+        Query q = new Query(requestData);
 
-	public String updateContact() {
-		String responseStatus = SUCCESS;
-		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-		UpdateContact command = new UpdateContact(requestData);
-		CommandRegister.getInstance().process(command);
-		Contact c = (Contact) command.getObject();
+        List<Object> customers = (new ContactQueryHandler()).get(q);
 
-		if (c != null) {
-			responseStatus = SUCCESS;
-			setSuccess("System Customer synced successfully.");
-			getData().put("customerId", c.getId().toString());
-		} else {
-			setError("System Customer sync failed.");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}
 
-		return responseStatus;
-	}
+        return setJsonResponseForGet(customers,"contacts");
+    }
 
-	public String getContact() {
-		String responseStatus = SUCCESS;
-		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-		Query q = new Query(requestData);
+    public String actionContactById() throws Exception {
+        String response = SUCCESS;
+        HttpServletRequest httpRequest = ServletActionContext.getRequest();
+        String[] val = httpRequest.getServletPath().split("/");
 
-		List<Object> customers = (new ContactQueryHandler()).get(q);
+        Long id = Long.parseLong(val[val.length - 1]);
+        if (httpRequest.getMethod().equals("GET")) {
+            response = getContactById(id);
+        } else {
+            response = "HttpMethodNotAccepted";
+        }
 
-		if (q.validate()) {
-			responseStatus = SUCCESS;
-			getData().put("contacts", customers);
-			getData().put("logs", APILogger.getList());
-			setSuccess();
-		} else {
-			responseStatus = ERROR;
-			setError("Error Occured");
-			getData().put("logs", APILogger.getList());
-			APILogger.clear();
-		}
+        return response;
+    }
 
-		return responseStatus;
-	}
+    public String getContactById(Long id) {
+        Contact normalUser = null;
+        try {
+            normalUser = (Contact) (new ContactQueryHandler()).getById(id);
+        } catch (Exception e) {
+            if (e instanceof CommandException) {
+                APILogger.add(APILogType.ERROR, "Permission denied");
+            }
+
+        }
+        return setJsonResponseForGetById(normalUser);
+    }
+
+
 }

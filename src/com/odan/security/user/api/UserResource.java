@@ -50,11 +50,11 @@ public class UserResource extends RestAction {
 
 		if (su != null) {
 			responseStatus = SUCCESS;
-			setSuccess("User created successfully.");
-			getData().put("userId", su.getId().toString());
+			/*setSuccess("User created successfully.");
+			getData().put("userId", su.getId().toString());*/
 		} else {
-			setError("User creation failed.");
-			getData().put("log", APILogger.getList());
+			/*setError("User creation failed.");
+			getData().put("log", APILogger.getList());*/
 			APILogger.clear();
 		}
 
@@ -68,7 +68,7 @@ public class UserResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		User su = (User) command.getObject();
 
-		if (su != null) {
+		/*if (su != null) {
 			responseStatus = SUCCESS;
 			setSuccess("User updated successfully.");
 			getData().put("userId", su.getId().toString());
@@ -76,7 +76,7 @@ public class UserResource extends RestAction {
 			setError("User update failed.");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -88,7 +88,7 @@ public class UserResource extends RestAction {
 
 		List<Object> users = (new UserQueryHandler()).get(q);
 
-		if (q.validate()) {
+		/*if (q.validate()) {
 			responseStatus = SUCCESS;
 			getData().put("users", users);
 			getData().put("logs", APILogger.getList());
@@ -98,7 +98,7 @@ public class UserResource extends RestAction {
 			setError("Error Occured");
 			getData().put("logs", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}

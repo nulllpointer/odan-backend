@@ -56,7 +56,7 @@ public class NotificationResource extends RestAction {
 			e.printStackTrace();
 		}
 
-		if (report.isValid()) {
+		/*if (report.isValid()) {
 
 			if (true) {
 				setSuccess();
@@ -67,7 +67,7 @@ public class NotificationResource extends RestAction {
 			List<JSONValidatorLog> logs = report.getReport();
 			getData().put("log", logs);
 			setError("Schema Validation Failed");
-		}
+		}*/
 
 		return SUCCESS;
 	}
@@ -82,7 +82,7 @@ public class NotificationResource extends RestAction {
 			e.printStackTrace();
 		}
 
-		if (report.isValid()) {
+		/*if (report.isValid()) {
 
 			if (true) {
 				setSuccess();
@@ -93,7 +93,7 @@ public class NotificationResource extends RestAction {
 			List<JSONValidatorLog> logs = report.getReport();
 			getData().put("log", logs);
 			setError("Schema Validation Failed");
-		}
+		}*/
 
 		return SUCCESS;
 	}
@@ -108,7 +108,7 @@ public class NotificationResource extends RestAction {
 			e.printStackTrace();
 		}
 
-		if (report.isValid()) {
+	/*	if (report.isValid()) {
 
 			if (true) {
 				setSuccess();
@@ -120,7 +120,7 @@ public class NotificationResource extends RestAction {
 			getData().put("log", logs);
 			setError("Schema Validation Failed");
 		}
-
+*/
 		return SUCCESS;
 	}
 
@@ -135,7 +135,7 @@ public class NotificationResource extends RestAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setSuccess();
+		//setSuccess();
 		return SUCCESS;
 	}
 

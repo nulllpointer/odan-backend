@@ -32,7 +32,7 @@ public class SchedulerResource extends RestAction {
 
 	@Action(value = "sales/invoiceable", results = { @Result(type = "json") })
 	public String getSalesInvoiceable() {
-		setSuccess();
+		//setSuccess();
 
 		try {
 			JSONValidatorEngine.validateRequest("sales/get", getRequest());
@@ -41,7 +41,7 @@ public class SchedulerResource extends RestAction {
 
 		} catch (IOException | ProcessingException e) {
 			// TODO Auto-generated catch block
-			setError("Exception: " + e.getMessage());
+			//setError("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -50,7 +50,7 @@ public class SchedulerResource extends RestAction {
 
 	@Action(value = "invoice/recurring", results = { @Result(type = "json") })
 	public String getRecurringInvoice() throws IOException {
-		setSuccess();
+//		setSuccess();
 
 		// JSONValidatorEngine.validateRequest("sales/get", getRequest());
 //		List<Invoice> invoices = InvoiceModel.getRecurrableInvoices();
@@ -109,14 +109,14 @@ public class SchedulerResource extends RestAction {
 			success = false;
 		}
 
-		if (success) {
+		/*if (success) {
 			setSuccess();
 		} else {
 			getData().put("log", APILogger.getList());
 			setError("Error creating journal entries");
 			APILogger.clear();
 		}
-
+*/
 		return SUCCESS;
 	}
 

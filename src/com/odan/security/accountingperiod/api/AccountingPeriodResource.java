@@ -45,7 +45,7 @@ public class AccountingPeriodResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		AccountingPeriod ap = (AccountingPeriod) command.getObject();
 
-		if (ap != null) {
+		/*if (ap != null) {
 			responseStatus = SUCCESS;
 			setSuccess("Accounting period created successfully.");
 			getData().put("accountingPeriodId", ap.getId().toString());
@@ -53,7 +53,7 @@ public class AccountingPeriodResource extends RestAction {
 			setError("Accounting period creation failed.");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -65,7 +65,7 @@ public class AccountingPeriodResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		AccountingPeriod ap = (AccountingPeriod) command.getObject();
 
-		if (ap != null) {
+		/*if (ap != null) {
 			responseStatus = SUCCESS;
 			setSuccess("Accounting period update successfully.");
 			getData().put("accountingPeriodId", ap.getId().toString());
@@ -74,7 +74,7 @@ public class AccountingPeriodResource extends RestAction {
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
 		}
-
+*/
 		return responseStatus;
 	}
 	
@@ -85,7 +85,7 @@ public class AccountingPeriodResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		AccountingPeriod ap = (AccountingPeriod) command.getObject();
 
-		if (ap != null) {
+	/*	if (ap != null) {
 			responseStatus = SUCCESS;
 			setSuccess("Accounting period closed successfully.");
 			getData().put("accountingPeriodId", ap.getId().toString());
@@ -93,7 +93,7 @@ public class AccountingPeriodResource extends RestAction {
 			setError("Accounting period close failed.");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -105,7 +105,7 @@ public class AccountingPeriodResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		AccountingPeriod ap = (AccountingPeriod) command.getObject();
 
-		if (ap != null) {
+		/*if (ap != null) {
 			responseStatus = SUCCESS;
 			setSuccess("Accounting period reopened successfully.");
 			getData().put("accountingPeriodId", ap.getId().toString());
@@ -113,7 +113,7 @@ public class AccountingPeriodResource extends RestAction {
 			setError("Accounting period reopen failed.");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}

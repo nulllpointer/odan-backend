@@ -43,7 +43,7 @@ public class SalesResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		SaleItem s = (SaleItem) command.getObject();
 
-		if (s != null) {
+		/*if (s != null) {
 			responseStatus = SUCCESS;
 			setSuccess("Sales created successfully.");
 			getData().put("salesId", s.getId().toString());
@@ -52,7 +52,7 @@ public class SalesResource extends RestAction {
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
 		}
-
+*/
 		return responseStatus;
 		
 	}
@@ -64,7 +64,7 @@ public class SalesResource extends RestAction {
 
 		List<Object> sales = (new SalesQueryHandler()).get(q);
 
-		if (q.validate()) {
+		/*if (q.validate()) {
 			responseStatus = SUCCESS;
 			getData().put("sales", sales);
 			getData().put("logs", APILogger.getList());
@@ -74,7 +74,7 @@ public class SalesResource extends RestAction {
 			setError("Error Occured");
 			getData().put("logs", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}

@@ -51,7 +51,7 @@ public class ProductResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		Product p = (Product) command.getObject();
 
-		if (p != null) {
+		/*if (p != null) {
 			responseStatus = SUCCESS;
 			getData().put("productId", p.getId());
 			setSuccess();
@@ -60,7 +60,7 @@ public class ProductResource extends RestAction {
 			setError("Error Occured");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -72,7 +72,7 @@ public class ProductResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		Product p = (Product) command.getObject();
 
-		if (p != null) {
+		/*if (p != null) {
 			responseStatus = SUCCESS;
 			getData().put("productId", p.getId());
 			setSuccess();
@@ -81,7 +81,7 @@ public class ProductResource extends RestAction {
 			setError("Error Occured");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -93,7 +93,7 @@ public class ProductResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		boolean deleted = (boolean) command.getObject();
 
-		if (deleted) {
+		/*if (deleted) {
 			responseStatus = SUCCESS;
 			setSuccess();
 		} else {
@@ -101,7 +101,7 @@ public class ProductResource extends RestAction {
 			setError("Error Occured");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -113,7 +113,7 @@ public class ProductResource extends RestAction {
 
 		List<Object> categories = (new CategoryQueryHandler()).get(q);
 
-		if (q.validate()) {
+		/*if (q.validate()) {
 			responseStatus = SUCCESS;
 			getData().put("products", categories);
 			setSuccess();
@@ -122,7 +122,7 @@ public class ProductResource extends RestAction {
 			setError("Error Occured");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}

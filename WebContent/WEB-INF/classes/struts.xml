@@ -101,6 +101,10 @@
         <action name="contacts" method="actionContact"
                 class="com.odan.billing.contact.api.ContactResource"/>
 
+
+        <action name="contacts/{id}" method="actionContactById"
+                class="com.odan.billing.contact.api.ContactResource"/>
+
         <action name="user" method="actionUser"
                 class="com.odan.security.user.api.UserResource"/>
     </package>

@@ -52,7 +52,7 @@ public class ProductCategoryResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		Category pc = (Category) command.getObject();
 
-		if (pc != null) {
+		/*if (pc != null) {
 			responseStatus = SUCCESS;
 			getData().put("categoryId", pc.getId());
 			setSuccess();
@@ -61,7 +61,7 @@ public class ProductCategoryResource extends RestAction {
 			setError("Error Occured");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -73,7 +73,7 @@ public class ProductCategoryResource extends RestAction {
 		CommandRegister.getInstance().process(command);
 		Category pc = (Category) command.getObject();
 
-		if (pc != null) {
+		/*if (pc != null) {
 			responseStatus = SUCCESS;
 			getData().put("categoryId", pc.getId());
 			setSuccess();
@@ -82,7 +82,7 @@ public class ProductCategoryResource extends RestAction {
 			setError("Error Occured");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}
@@ -93,7 +93,7 @@ public class ProductCategoryResource extends RestAction {
 		Query q = new Query(requestData, "billing/menu/category/get");
 		List<Object> categories = (new CategoryQueryHandler()).get(q);
 
-		if (q.validate()) {
+		/*if (q.validate()) {
 			responseStatus = SUCCESS;
 			getData().put("categories", categories);
 			setSuccess();
@@ -102,7 +102,7 @@ public class ProductCategoryResource extends RestAction {
 			setError("Error Occured");
 			getData().put("log", APILogger.getList());
 			APILogger.clear();
-		}
+		}*/
 
 		return responseStatus;
 	}

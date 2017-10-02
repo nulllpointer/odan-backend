@@ -9,4 +9,4 @@ WebContent/META-INF/context.xml
 /dist/
 /.idea/*
 /out/
-*.iml
+/*.iml/
