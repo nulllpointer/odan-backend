@@ -8,5 +8,5 @@ build.xml
 WebContent/META-INF/context.xml
 /dist/
 /.idea/*
-/out/*
-/*.iml/
+/out/
+*.iml

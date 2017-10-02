@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-"-//Hibernate/Hibernate Configuration DTD//EN"
-"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+		"-//Hibernate/Hibernate Configuration DTD//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
+<<<<<<< HEAD
 <session-factory>
 	<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
@@ -18,20 +19,45 @@
    	
 
    	<mapping class="com.odan.security.accountingperiod.model.AccountingPeriod" />
+=======
+	<session-factory>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.connection.username">postgres</property>
+		<property name="hibernate.connection.password">admin</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/odan_financial</property>
+>>>>>>> d7e23fc48ac642073530d5478194b2468d7342ba
+
+		<property name="show_sql">false</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+		<mapping class="com.odan.common.model.File" />
 
 
-   	<mapping class="com.odan.security.user.model.User" />
+		<mapping class="com.odan.security.accountingperiod.model.AccountingPeriod" />
 
 
-   	<mapping class="com.odan.billing.menu.category.model.Category" />
-
-   	<mapping class="com.odan.inventory.sales.model.Order" />
-   	
+		<mapping class="com.odan.security.user.model.User" />
 
 
-	<!--Changed one-->
-	<mapping class="com.odan.billing.contact.model.Contact" />
+		<mapping class="com.odan.billing.menu.category.model.Category" />
+
+		<mapping class="com.odan.billing.menu.product.model.Product" />
+
+		<mapping class="com.odan.billing.menu.product.model.ProductPrice" />
+
+		<mapping class="com.odan.billing.menu.product.model.ProductPrice" />
+		<mapping class="com.odan.inventory.purchase.model.Purchase" />
+		<mapping class="com.odan.inventory.purchase.model.PurchaseItem" />
 
 
-</session-factory>
+		<mapping class="com.odan.inventory.sales.model.Order" />
+
+
+
+		<!--Changed one-->
+		<mapping class="com.odan.billing.contact.model.Contact" />
+
+
+	</session-factory>
 </hibernate-configuration>
