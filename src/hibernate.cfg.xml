@@ -4,29 +4,14 @@
 		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-<<<<<<< HEAD
-<session-factory>
-	<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.username">postgres</property>
-    <property name="hibernate.connection.password">12qw12</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/odan_financial</property>
-   
-   	<property name="show_sql">false</property>
-   	<property name="hibernate.hbm2ddl.auto">update</property>
-   	
-   	<mapping class="com.odan.common.model.File" />
-   	
 
-   	<mapping class="com.odan.security.accountingperiod.model.AccountingPeriod" />
-=======
+
 	<session-factory>
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.username">postgres</property>
 		<property name="hibernate.connection.password">admin</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/odan_financial</property>
->>>>>>> d7e23fc48ac642073530d5478194b2468d7342ba
 
 		<property name="show_sql">false</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
