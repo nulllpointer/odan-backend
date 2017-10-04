@@ -3,8 +3,6 @@ package com.odan.inventory.sales.job;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.utils.DateTime;
-import com.odan.security.sales.SalesQueryHandler;
-import com.odan.security.sales.model.SaleItem;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

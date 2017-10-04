@@ -2,6 +2,7 @@ package com.odan.security.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.odan.security.user.command.CreateUser;
+import com.odan.security.user.command.DeleteUser;
 import com.odan.security.user.command.UpdateUser;
 import com.odan.security.user.model.User;
 import com.odan.common.application.Authentication;
@@ -30,6 +31,9 @@ public class UserCommandHandler implements ICommandHandler {
 			handle((CreateUser) c);
 		} else if (c instanceof UpdateUser) {
 			handle((UpdateUser) c);
+		}
+		else if (c instanceof DeleteUser) {
+			handle((DeleteUser) c);
 		}
 	}
 
@@ -76,96 +80,84 @@ public class UserCommandHandler implements ICommandHandler {
 	}
 
 	private User _handleSaveUser(ICommand c) throws CommandException, JsonProcessingException {
-		User u = null;
+		User user = null;
 		boolean isNew = true;
 
 		if (c.has("id") && c instanceof UpdateUser) {
-			u = (User) (new UserQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+			user = (User) (new UserQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
 			isNew = false;
-			if (u == null) {
+			if (user == null) {
 				APILogger.add(APILogType.ERROR, "User (" + c.get("id") + ") not found.");
 				throw new CommandException("User (" + c.get("id") + ") not found.");
 			}
 		}
 
-		if (u == null) {
-			u = new User();
+		if (user == null) {
+			user = new User();
 		}
 
 		if (c.has("firstName")) {
-			u.setFirstName((String) c.get("firstName"));
+			user.setFirstName((String) c.get("firstName"));
 		}
 
 		if (c.has("lastName")) {
-			u.setLastName((String) c.get("lastName"));
+			user.setLastName((String) c.get("lastName"));
 		}
 
 		if (c.has("email")) {
-			u.setEmail((String) c.get("email"));
+			user.setEmail((String) c.get("email"));
 		}
 
 		if (c.has("phone")) {
-			u.setPhone((String) c.get("phone"));
+			user.setPhone((String) c.get("phone"));
 		}
 
 		if (c.has("addressLine1")) {
-			u.setAddressLine1((String) c.get("addressLine1"));
+			user.setAddressLine1((String) c.get("addressLine1"));
 		}
 
 		if (c.has("addressLine2")) {
-			u.setAddressLine2((String) c.get("addressLine2"));
+			user.setAddressLine2((String) c.get("addressLine2"));
 		}
 
 		if (c.has("city")) {
-			u.setCity((String) c.get("city"));
+			user.setCity((String) c.get("city"));
 		}
 
 		if (c.has("state")) {
-			u.setState((String) c.get("state"));
+			user.setState((String) c.get("state"));
 		}
 
 		if (c.has("country")) {
-			u.setCountry((String) c.get("country"));
+			user.setCountry((String) c.get("country"));
 		}
 
 		if (c.has("postalCode")) {
-			u.setPostalCode((String) c.get("postalCode"));
+			user.setPostalCode((String) c.get("postalCode"));
 		}
 
 
 		if (c.has("status")) {
-			u.setStatus(EntityStatus.ACTIVE);
+			user.setStatus(EntityStatus.ACTIVE);
 		} else if (isNew) {
-			u.setStatus(EntityStatus.ACTIVE);
+			user.setStatus(EntityStatus.ACTIVE);
 		}
 
 		if (isNew) {
-			u.setCreatedAt(DateTime.getCurrentTimestamp());
+			user.setCreatedAt(DateTime.getCurrentTimestamp());
 			Long ownerId = Parser.convertObjectToLong(c.get("ownerId"));
 			if (ownerId == null) {
 				ownerId = Authentication.getUserId();
 			}
 		} else {
-			u.setUpdatedAt(DateTime.getCurrentTimestamp());
+			user.setUpdatedAt(DateTime.getCurrentTimestamp());
 		}
 
-		u = (User) HibernateUtils.save(u, c.getTransaction());
-
-		String entityTitle = u.getFirstName() + " " + u.getLastName();
-
-		ICommand userEntityCommand = null;
-
-		// Create user entity code.
-		// Entity code is used in creating accounting code.
+		user = (User) HibernateUtils.save(user, c.getTransaction());
 
 
 
-
-		// If new user created then create user's gross commission entity code.
-		// Entity code is used in creating accounting code.
-
-
-		return u;
+		return user;
 
 	}
 }

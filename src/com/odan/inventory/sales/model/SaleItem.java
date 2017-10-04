@@ -1,21 +1,16 @@
 package com.odan.inventory.sales.model;
 
 
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import com.odan.billing.menu.product.model.Product;
 import com.odan.common.application.CommandException;
 import com.odan.common.database.HibernateUtils;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
+
 @Entity
 @Table(name="sales")
-public class Order {
+public class SaleItem {
 	
 	@Id
 	@GeneratedValue

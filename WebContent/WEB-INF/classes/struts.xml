@@ -112,7 +112,7 @@
     <package name="module-catalog" extends="jsonPackageSecure"
              namespace="/v1/billing/catalog">
         <action name="category" method="actionCategory"
-                class="com.odan.billing.menu.category.api.ProductCategoryResource"/>
+                class="com.odan.billing.menu.category.api.CategoryResource"/>
 
     </package>
 

@@ -2,8 +2,10 @@ package com.odan.billing.contact;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.odan.billing.contact.command.CreateContact;
+import com.odan.billing.contact.command.DeleteContact;
 import com.odan.billing.contact.command.UpdateContact;
 import com.odan.billing.contact.model.Contact;
+import com.odan.common.application.Authentication;
 import com.odan.common.utils.DateTime;
 import com.odan.security.user.command.UpdateUser;
 import com.odan.common.application.CommandException;
@@ -22,6 +24,9 @@ public class ContactCommandHandler implements ICommandHandler {
     public static void registerCommands() {
         CommandRegister.getInstance().registerHandler(CreateContact.class, ContactCommandHandler.class);
         CommandRegister.getInstance().registerHandler(UpdateContact.class, ContactCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(DeleteContact.class, ContactCommandHandler.class);
+
+
     }
 
     public void handle(ICommand c) {
@@ -30,6 +35,10 @@ public class ContactCommandHandler implements ICommandHandler {
         } else if (c instanceof UpdateContact) {
             handle((UpdateContact) c);
         }
+        else if (c instanceof DeleteContact) {
+            handle((DeleteContact) c);
+        }
+
     }
 
     public void handle(CreateContact c) {
@@ -73,6 +82,30 @@ public class ContactCommandHandler implements ICommandHandler {
             }
         }
     }
+
+    public void handle(DeleteContact c) {
+        Transaction trx = c.getTransaction();
+
+        try {
+            Contact user = (Contact) new ContactQueryHandler().getById(Parser.convertObjectToLong(c.get("id")));
+
+            HibernateUtils.delete(user);
+
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(user);
+        } catch (Exception ex) {
+            if (c.isCommittable()) {
+                HibernateUtils.rollbackTransaction(trx);
+            }
+        } finally {
+            if (c.isCommittable()) {
+                HibernateUtils.closeSession();
+            }
+        }
+    }
+
 
     private Contact _handleSaveContact(ICommand c) throws CommandException, JsonProcessingException {
 
@@ -149,4 +182,35 @@ public class ContactCommandHandler implements ICommandHandler {
         return cust;
 
     }
+
+   /* public void handle(DeleteContact c) {
+        Transaction trx = c.getTransaction();
+
+        try {
+            Contact user = (Contact) new ContactQueryHandler().getById(Parser.convertObjectToLong(c.get("id")));
+            if (user != null) {
+                if (!user.hasDeletePermission(Authentication.getRew3UserId(), Authentication.getRew3GroupId())) {
+                    APILogger.add(APILogType.ERROR, "Permission denied");
+                    throw new CommandException("Permission denied");
+                }
+                user.setStatus(Flags.EntityStatus.DISABLED.getFlag());
+                HibernateUtils.save(user, trx);
+            }
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(user);
+        } catch (Exception ex) {
+            if (c.isCommittable()) {
+                HibernateUtils.rollbackTransaction(trx);
+            }
+        } finally {
+            if (c.isCommittable()) {
+                HibernateUtils.closeSession();
+            }
+        }
+    }
+*/
+
+
 }

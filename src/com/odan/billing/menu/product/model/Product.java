@@ -1,14 +1,13 @@
 package com.odan.billing.menu.product.model;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.*;
-
 import com.odan.billing.menu.category.model.Category;
-import com.odan.common.database.HibernateUtils;
+import com.odan.common.model.Flags.ProductType;
 import com.odan.common.shared.model.AbstractEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "product")
@@ -23,6 +22,9 @@ public class Product extends AbstractEntity {
 
 	@Column(name = "description")
 	private String description;
+
+	@Column(name = "type")
+	private ProductType type;
 
 	public String getTitle() {
 		return title;
@@ -46,5 +48,13 @@ public class Product extends AbstractEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public ProductType getType() {
+		return type;
+	}
+
+	public void setType(ProductType type) {
+		this.type = type;
 	}
 }

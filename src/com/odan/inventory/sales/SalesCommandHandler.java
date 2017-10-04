@@ -1,3 +1,4 @@
+/*
 package com.odan.inventory.sales;
 
 import com.odan.common.cqrs.CommandRegister;
@@ -21,3 +22,4 @@ public class SalesCommandHandler implements ICommandHandler {
 
 	}
 }
+*/

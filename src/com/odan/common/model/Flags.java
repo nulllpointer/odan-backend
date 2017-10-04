@@ -39,15 +39,17 @@ public abstract class Flags {
         PAID, PARTIALLY_PAID, DUE
     }
 
-    public enum ProductPriceType {
-        PURCHASE, SALE
+    public enum ProductType {
+        PURCHASE, SALE, BOTH
     }
+
     public enum TimePeriod {
         ONE_TIME, DAILY, WEEKLY, MONTHLY, QUARTERLY, HALF_YEARLY, YEARLY;
 
     }
+
     public enum EntityType {
-       CONTACTS,PRODUCT,CATEGORY
+        CONTACTS, PRODUCT, CATEGORY
 
     }
 }

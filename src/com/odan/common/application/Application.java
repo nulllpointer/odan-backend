@@ -3,7 +3,7 @@ package com.odan.common.application;
 import com.odan.billing.contact.ContactCommandHandler;
 import com.odan.billing.menu.category.CategoryCommandHandler;
 import com.odan.billing.menu.product.ProductCommandHandler;
-import com.odan.inventory.sales.SalesCommandHandler;
+import com.odan.inventory.purchase.PurchaseCommandHandler;
 import com.odan.inventory.sales.SalesEventHandler;
 import com.odan.security.accountingperiod.AccountingPeriodCommandHandler;
 import com.odan.security.user.UserCommandHandler;
@@ -18,25 +18,26 @@ public class Application {
 		Application.context = context;
 		System.out.println("CONTEXT INIT");
 		
-		//Command Handler
-//		InvoiceCommandHandler.registerCommands();
-
-		
 		CategoryCommandHandler.registerCommands();
 		ProductCommandHandler.registerCommands();
-		SalesCommandHandler.registerCommands();
+
+		PurchaseCommandHandler.registerCommands();
+		//SalesCommandHandler.registerCommands();
+
+
 		
 		AccountingPeriodCommandHandler.registerCommands();
 
 
-		//I am the change
 		ContactCommandHandler.registerCommands();
 
 		UserCommandHandler.registerCommands();
+
+
+
+
 		
 		
-		//Event Handler
-//		InvoiceEventHandler.registerEvents();
 		SalesEventHandler.registerEvents();
 
 	}

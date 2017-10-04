@@ -22,13 +22,13 @@ import com.odan.common.utils.APILogger;
 
 @ParentPackage("jsonPackage")
 @Namespace(value = "/v1")
-public class ProductCategoryResource extends RestAction {
+public class CategoryResource extends RestAction {
 	
-	public ProductCategoryResource() {
+	public CategoryResource() {
 		System.out.println("PRODUCT CATEGORY RESOURCES");
 	}
 	
-	@Action(value = "sales/category", results = { @Result(type = "json") })
+	@Action(value = "menu/category", results = { @Result(type = "json") })
 	public String actionCategory() {
 		String responseStatus = SUCCESS;
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();

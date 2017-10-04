@@ -1,7 +1,7 @@
 {
 	"$schema": "http://koderlabs.com/myschema#",
 	"type": "object",
-	"title": "Create User",
+	"title": "Update User",
 	"properties": 
 	{
 		"id": 

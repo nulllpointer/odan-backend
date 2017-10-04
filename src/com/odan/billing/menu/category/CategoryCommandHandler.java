@@ -1,122 +1,134 @@
 package com.odan.billing.menu.category;
 
-import org.hibernate.Transaction;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.odan.billing.menu.category.command.CreateCategory;
 import com.odan.billing.menu.category.command.DeleteCategory;
 import com.odan.billing.menu.category.command.UpdateCategory;
 import com.odan.billing.menu.category.model.Category;
-import com.odan.common.application.Authentication;
 import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.cqrs.ICommandHandler;
 import com.odan.common.database.HibernateUtils;
-import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.EntityStatus;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
 import com.odan.common.utils.DateTime;
 import com.odan.common.utils.Parser;
+import org.hibernate.Transaction;
 
 public class CategoryCommandHandler implements ICommandHandler {
 
-	public static void registerCommands() {
-		CommandRegister.getInstance().registerHandler(CreateCategory.class, CategoryCommandHandler.class);
-		CommandRegister.getInstance().registerHandler(UpdateCategory.class, CategoryCommandHandler.class);
-		CommandRegister.getInstance().registerHandler(DeleteCategory.class, CategoryCommandHandler.class);
-	}
+    public static void registerCommands() {
+        CommandRegister.getInstance().registerHandler(CreateCategory.class, CategoryCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(UpdateCategory.class, CategoryCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(DeleteCategory.class, CategoryCommandHandler.class);
+    }
 
-	public void handle(ICommand c) {
-		if (c instanceof CreateCategory) {
-			handle((CreateCategory) c);
-		} else if (c instanceof UpdateCategory) {
-			handle((UpdateCategory) c);
-		} else if (c instanceof DeleteCategory) {
-			handle((DeleteCategory) c);
-		}
-	}
+    public void handle(ICommand c) {
+        if (c instanceof CreateCategory) {
+            handle((CreateCategory) c);
+        } else if (c instanceof UpdateCategory) {
+            handle((UpdateCategory) c);
+        } else if (c instanceof DeleteCategory) {
+            handle((DeleteCategory) c);
+        }
+    }
 
-	public void handle(CreateCategory c) {
 
-		// HibernateUtils.openSession();
-		Transaction trx = c.getTransaction();
+    private Category _handleSaveCategory(ICommand c) throws CommandException, JsonProcessingException, JsonProcessingException {
 
-		try {
-			Category pc = null;
+        Category category = null;
+        boolean isNew = true;
 
-			pc = new Category();
+        if (c.has("id") && c instanceof UpdateCategory) {
+            category = (Category) (new CategoryQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+            isNew = false;
+            if (category == null) {
+                APILogger.add(APILogType.ERROR, "Customer (" + c.get("id") + ") not found.");
+                throw new CommandException("Customer (" + c.get("id") + ") not found.");
+            }
+        }
 
-			if (c.has("title")) {
-				pc.setTitle((String) c.get("title"));
-			}
+        if (category == null) {
+            category = new Category();
+        }
 
-			if (c.has("status")) {
+        if (c.has("title")) {
+            category.setTitle((String) c.get("firstName"));
+        }
+        if (c.has("description")) {
+            category.setDescription((String) c.get("firstName"));
+        }
 
-				pc.setStatus(EntityStatus.valueOf((String) c.get("status")));
-			}else {
-				pc.setStatus(EntityStatus.ACTIVE);
-			}
+        if (c.has("parent_id")) {
+            Category parent = (Category) new CategoryQueryHandler().getById(Parser.convertObjectToLong(c.get("parent_id")));
+            category.setParent(parent);
+        }
 
-			pc.setCreatedAt(DateTime.getCurrentTimestamp());
+        if (c.has("status")) {
 
-			HibernateUtils.save(pc, trx);
+            category.setStatus(EntityStatus.ACTIVE);
+        }
 
-			if (c.isCommittable()) {
-				HibernateUtils.commitTransaction(trx);
-			}
-			c.setObject(pc);
-		} catch (Exception ex) {
-			if (c.isCommittable()) {
-				HibernateUtils.rollbackTransaction(trx);
-			}
-		} finally {
-			if (c.isCommittable()) {
-				HibernateUtils.closeSession();
-			}
-		}
-	}
+        if (isNew) {
+            category.setCreatedAt(DateTime.getCurrentTimestamp());
 
-	public void handle(UpdateCategory c) {
-		// HibernateUtils.openSession();
-		Transaction trx = c.getTransaction();
+        } else {
+            category.setUpdatedAt(DateTime.getCurrentTimestamp());
+        }
 
-		try {
+        category = (Category) HibernateUtils.save(category, c.getTransaction());
 
-			Category pc = (Category) (new CategoryQueryHandler())
-					.getById(Parser.convertObjectToLong(c.get("id")));
-			if (pc == null) {
-				APILogger.add(APILogType.ERROR, "Category id(" + c.get("id") + ") not found.");
-				throw new CommandException();
-			}
+        return category;
 
-			if (c.has("title")) {
-				pc.setTitle((String) c.get("title"));
-			}
-			if (c.has("status")) {
-				pc.setStatus(EntityStatus.valueOf((String) c.get("status")));
-			}
-			pc.setUpdatedAt(DateTime.getCurrentTimestamp());
+    }
 
-			HibernateUtils.save(pc, trx);
 
-			if (c.isCommittable()) {
-				HibernateUtils.commitTransaction(trx);
-			}
-			c.setObject(pc);
-		} catch (Exception ex) {
-			if (c.isCommittable()) {
-				HibernateUtils.rollbackTransaction(trx);
-			}
-		} finally {
-			if (c.isCommittable()) {
-				HibernateUtils.closeSession();
-			}
-		}
-	}
+    public void handle(CreateCategory c) {
+        // HibernateUtils.openSession();
+        Transaction trx = c.getTransaction();
 
-	public void handle(DeleteCategory c) {
+        try {
+            Category v = this._handleSaveCategory(c);
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(v);
+        } catch (Exception ex) {
+            if (c.isCommittable()) {
+                HibernateUtils.rollbackTransaction(trx);
+            }
+        } finally {
+            if (c.isCommittable()) {
+                HibernateUtils.closeSession();
+            }
+        }
+    }
 
-	}
+    public void handle(UpdateCategory c) {
+
+        Transaction trx = c.getTransaction();
+
+        try {
+            Category ba = this._handleSaveCategory(c);
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(ba);
+        } catch (Exception ex) {
+            if (c.isCommittable()) {
+                HibernateUtils.rollbackTransaction(trx);
+            }
+        } finally {
+            if (c.isCommittable()) {
+                HibernateUtils.closeSession();
+            }
+        }
+    }
+
+    public void handle(DeleteCategory c) {
+
+    }
 
 }

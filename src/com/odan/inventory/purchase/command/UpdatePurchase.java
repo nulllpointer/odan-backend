@@ -5,10 +5,10 @@ import com.odan.common.cqrs.ICommand;
 
 import java.util.HashMap;
 
-public class CreatePurchase extends Command implements ICommand {
-	public CreatePurchase(HashMap<String, Object> data) {
+public class UpdatePurchase extends Command implements ICommand {
+	public UpdatePurchase(HashMap<String, Object> data) {
 		super(data);
-		this.validationSchema = "billing/purchase/create";
+		this.validationSchema = "billing/purchase/update";
 		this.validate();
 	}
 }

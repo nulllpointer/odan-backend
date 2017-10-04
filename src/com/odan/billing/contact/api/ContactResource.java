@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.odan.billing.contact.command.DeleteContact;
 import com.odan.common.application.CommandException;
+import com.odan.common.cqrs.Command;
 import com.odan.common.model.Flags;
 import com.odan.common.utils.APILogType;
 import org.apache.struts2.ServletActionContext;
@@ -27,6 +29,7 @@ import com.odan.common.utils.APILogger;
 @Namespace(value = "/v1/billing")
 public class ContactResource extends RestAction {
 
+
     @Action(value = "contact", results = {@Result(type = "json")})
     public String actionContact() {
         String response = SUCCESS;
@@ -37,9 +40,12 @@ public class ContactResource extends RestAction {
             updateContact();
         } else if (httpRequest.getMethod().equals("GET")) {
             getContact();
+        } else if (httpRequest.getMethod().equals("DELETE")) {
+            deleteContact();
         } else {
             response = "HttpMethodNotAccepted";
         }
+
 
         return response;
     }
@@ -115,6 +121,19 @@ public class ContactResource extends RestAction {
 
         }
         return setJsonResponseForGetById(normalUser);
+    }
+
+    public String deleteContact() {
+        String responseStatus = SUCCESS;
+        System.out.println("Delete NormalUser");
+        HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
+        DeleteContact command = new DeleteContact(requestData);
+        CommandRegister.getInstance().process(command);
+        Command c = (Command) command.getObject();
+
+        setJsonResponseForDelete(c);
+
+        return responseStatus;
     }
 
 

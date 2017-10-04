@@ -36,7 +36,7 @@
 		<mapping class="com.odan.inventory.purchase.model.PurchaseItem" />
 
 
-		<mapping class="com.odan.inventory.sales.model.Order" />
+		<mapping class="com.odan.inventory.sales.model.Sale" />
 
 		<!--Changed one-->
 		<mapping class="com.odan.billing.contact.model.Contact" />
