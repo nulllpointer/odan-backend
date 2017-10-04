@@ -18,7 +18,8 @@ public class Command implements ICommand {
 	protected Transaction trx;
 	protected HashMap<String, Object> data;
 	protected Object obj;
-	protected String validationSchema;
+	protected String
+			validationSchema;
 	protected boolean isValid = true;
 	private boolean isCommittable = false;
 

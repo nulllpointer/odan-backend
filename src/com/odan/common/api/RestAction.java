@@ -109,8 +109,18 @@ public abstract class RestAction extends BaseAction {
         String method = req.getMethod();
         if (method.equals("GET")) {
             this.setRequest(getQueryRequest(req));
+        } else if (req.getServletPath().contains("/bulk") && (method.equals("PUT") | method.equals("POST"))) {
+
+            this.setRequests(getJSONRequestForBulk(req));
+        } else {
+
+            this.setRequest(getJSONRequest(req));
         }
+
+
     }
+
+
 
 
     public String execute() {

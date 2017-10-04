@@ -1,27 +1,25 @@
 package com.odan.billing.contact.api;
 
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.odan.billing.contact.ContactQueryHandler;
+import com.odan.billing.contact.command.CreateContact;
+import com.odan.billing.contact.command.UpdateContact;
+import com.odan.billing.contact.model.Contact;
+import com.odan.common.api.RestAction;
 import com.odan.common.application.CommandException;
+import com.odan.common.cqrs.CommandRegister;
+import com.odan.common.cqrs.Query;
 import com.odan.common.model.Flags;
 import com.odan.common.utils.APILogType;
+import com.odan.common.utils.APILogger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.odan.billing.contact.ContactQueryHandler;
-import com.odan.billing.contact.command.CreateContact;
-import com.odan.billing.contact.command.UpdateContact;
-import com.odan.billing.contact.model.Contact;
-import com.odan.common.api.RestAction;
-import com.odan.common.cqrs.CommandRegister;
-import com.odan.common.cqrs.Query;
-import com.odan.common.utils.APILogger;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 
 @ParentPackage("jsonPackage")
 @Namespace(value = "/v1/billing")
@@ -31,12 +29,16 @@ public class ContactResource extends RestAction {
     public String actionContact() {
         String response = SUCCESS;
         HttpServletRequest httpRequest = ServletActionContext.getRequest();
+
+
         if (httpRequest.getMethod().equals("POST")) {
             createContact();
         } else if (httpRequest.getMethod().equals("PUT")) {
             updateContact();
         } else if (httpRequest.getMethod().equals("GET")) {
             getContact();
+        } else if (httpRequest.getMethod().equals("DELETE")) {
+           // deleteContact(id);
         } else {
             response = "HttpMethodNotAccepted";
         }
@@ -44,6 +46,15 @@ public class ContactResource extends RestAction {
         return response;
     }
 
+  /*  private String deleteContact(Long id) {
+
+        DeleteContact command = new DeleteContact(requestData);
+        CommandRegister.getInstance().process(command);
+        boolean c = (boolean) command.getObject();
+        setJsonResponseForDelete(c);
+        return SUCCESS;
+    }
+*/
     public String createContact() {
         String responseStatus = SUCCESS;
         System.out.println("..Create Customer Request");
@@ -97,7 +108,11 @@ public class ContactResource extends RestAction {
         Long id = Long.parseLong(val[val.length - 1]);
         if (httpRequest.getMethod().equals("GET")) {
             response = getContactById(id);
+        } else if (httpRequest.getMethod().equals("DELETE")) {
+
+           //deleteContact(id);
         } else {
+
             response = "HttpMethodNotAccepted";
         }
 
