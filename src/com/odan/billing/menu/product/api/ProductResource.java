@@ -1,10 +1,14 @@
 package com.odan.billing.menu.product.api;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.common.application.CommandException;
+import com.odan.common.application.ValidationException;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -26,7 +30,7 @@ import com.odan.common.utils.APILogger;
 public class ProductResource extends RestAction {
 
 	@Action(value = "sales/product", results = { @Result(type = "json") })
-	public String actionProduct() {
+	public String actionProduct() throws ValidationException, CommandException, ParseException, JsonProcessingException {
 		String responseStatus = SUCCESS;
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
 		if (httpRequest.getMethod().equals("GET")) {
@@ -44,7 +48,7 @@ public class ProductResource extends RestAction {
 		return responseStatus;
 	}
 
-	public String createProduct() {
+	public String createProduct() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		CreateProduct command = new CreateProduct(requestData);
@@ -65,7 +69,7 @@ public class ProductResource extends RestAction {
 		return responseStatus;
 	}
 
-	public String updateProduct() {
+	public String updateProduct() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		UpdateProduct command = new UpdateProduct(requestData);
@@ -86,7 +90,7 @@ public class ProductResource extends RestAction {
 		return responseStatus;
 	}
 
-	public String deleteProduct() {
+	public String deleteProduct() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		DeleteProduct command = new DeleteProduct(requestData);

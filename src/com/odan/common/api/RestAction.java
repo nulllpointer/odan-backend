@@ -125,8 +125,10 @@ public abstract class RestAction extends BaseAction {
     protected String setJsonResponseForUpdate(Object c) {
         if (c != null) {
             HashMap<String, Object> map = new HashMap<>();
+
+            AbstractEntity entity=(AbstractEntity)c;
             map.put("result", SUCCESS);
-            map.put("message", "Successfully updated");
+            map.put("message", "Id : "+entity.getId() +" successfully updated");
             setJsonResponse(map);
             return SUCCESS;
         } else {

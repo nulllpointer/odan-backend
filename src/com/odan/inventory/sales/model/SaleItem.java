@@ -1,171 +1,113 @@
 package com.odan.inventory.sales.model;
 
 
+import com.odan.billing.contact.model.Contact;
 import com.odan.billing.menu.product.model.Product;
-import com.odan.common.application.CommandException;
-import com.odan.common.database.HibernateUtils;
+import com.odan.common.model.Flags;
+import com.odan.common.shared.model.AbstractEntity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
-@Table(name="sales")
-public class SaleItem {
-	
-	@Id
-	@GeneratedValue
-	@Column(name="id")
-	private Long id;
-	
-	@Column(name="product_id")
-	private Long productId;
+@Table(name="sale_item")
+public class SaleItem extends AbstractEntity {
 
-	@Column(name="product_rate_plan_id")
-	private Long productRatePlanId;
-	
-	@Column(name="customer_id")
-	private Long customerId;
+	@ManyToOne
+	private Product product;
 
-	@Column(name="start_date")
-	private Timestamp startDate;
-	
-	@Column(name="end_date")
-	private Timestamp endDate;
-	
-	@Column(name = "owner_id")
-	private Long ownerId;
+	@ManyToOne
+	private Contact contact;
 
-	@Column(name="is_invoiced")
-	private Byte isInvoiced;
-	
-	@Column(name="next_invoice_at")
-	private Timestamp nextInvoiceAt;
-	
-	@Column(name="status")
-	private Byte status;
-	
-	@Column(name="created_at")
-	private Timestamp createdAt;
-	
-	@Column(name="updated_at")
-	private Timestamp updatedAt;
-	
-	@Column(name="deleted_at")
-	private Timestamp deletedAt;
+	@ManyToOne
+	private Sale sale;
 
-	public Long getId() {
-		return id;
-	}
+	@Column(name="discount_type")
+	private Flags.DiscountType discountType;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@Column(name="discount")
+	private Double discount;
 
-	public Long getProductId() {
-		return productId;
-	}
+	@Column(name="offer_type")
+	private Flags.OfferType offerType;
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
-	}
+	@Column(name="offer")
+	private Double offer;
 
-	public Long getProductRatePlanId() {
-		return productRatePlanId;
-	}
+	@Column(name="price")
+	private Integer price;
 
-	public void setProductRatePlanId(Long productRatePlanId) {
-		this.productRatePlanId = productRatePlanId;
-	}
+	@Column(name="quantity")
+	private Integer quantity;
 
-	public Long getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
-
-	public Byte getStatus() {
-		return status;
-	}
-
-	public void setStatus(Byte status) {
-		this.status = status;
-	}
-	
-	public Long getOwnerId() {
-		return ownerId;
-	}
-
-	public void setOwnerId(Long ownerId) {
-		this.ownerId = ownerId;
-	}
-
-	public Timestamp getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
-	}
-
-	public Timestamp getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
-
-	public Byte getIsInvoiced() {
-		return isInvoiced;
-	}
-
-	public void setIsInvoiced(Byte isInvoiced) {
-		this.isInvoiced = isInvoiced;
-	}
-
-	public Timestamp getNextInvoiceAt() {
-		return nextInvoiceAt;
-	}
-
-	public void setNextInvoiceAt(Timestamp nextInvoiceAt) {
-		this.nextInvoiceAt = nextInvoiceAt;
-	}
-
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public Timestamp getDeletedAt() {
-		return deletedAt;
-	}
-
-	public void setDeletedAt(Timestamp deletedAt) {
-		this.deletedAt = deletedAt;
-	}
-	
-	public Product getProduct() throws CommandException {
-		Product product = null;
-		if(this.productId != null) {
-			product = (Product) HibernateUtils.get(Product.class, this.productId);
-		}
-		
+	public Product getProduct() {
 		return product;
 	}
-	
 
-		
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Sale getSale() {
+		return sale;
+	}
+
+	public void setSale(Sale sale) {
+		this.sale = sale;
+	}
+
+	public Flags.DiscountType getDiscountType() {
+		return discountType;
+	}
+
+	public void setDiscountType(Flags.DiscountType discountType) {
+		this.discountType = discountType;
+	}
+
+	public Double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Double discountValue) {
+		this.discount = discountValue;
+	}
+
+	public Flags.OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(Flags.OfferType offerType) {
+		this.offerType = offerType;
+	}
+
+	public Double getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Double offerValue) {
+		this.offer = offerValue;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer itemPrice) {
+		this.price = itemPrice;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 }

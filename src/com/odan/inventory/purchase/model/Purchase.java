@@ -16,8 +16,8 @@ import java.sql.Timestamp;
 public class Purchase extends AbstractEntity {
 
 
-	@ManyToOne
-	ProductPrice productPrice;
+	@Column(name = "txn_date")
+	private Timestamp txnDate;
 
 	@Column(name="amount")
 	private Integer amount;
@@ -25,10 +25,27 @@ public class Purchase extends AbstractEntity {
 	@ManyToOne
 	private Contact contact;
 
+	public Timestamp getTxnDate() {
+		return txnDate;
+	}
 
+	public void setTxnDate(Timestamp txnDate) {
+		this.txnDate = txnDate;
+	}
 
+	public Integer getAmount() {
+		return amount;
+	}
 
-	
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
 
-		
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 }

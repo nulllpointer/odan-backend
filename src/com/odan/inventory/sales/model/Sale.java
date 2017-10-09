@@ -1,176 +1,163 @@
 package com.odan.inventory.sales.model;
 
 
-import java.sql.Timestamp;
+import com.odan.billing.contact.model.Contact;
+import com.odan.common.model.Flags;
+import com.odan.common.shared.model.AbstractEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.odan.billing.menu.product.model.Product;
-import com.odan.common.application.CommandException;
-import com.odan.common.database.HibernateUtils;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name="sales")
-public class Sale {
-	
-	@Id
-	@GeneratedValue
-	@Column(name="id")
-	private Long id;
-	
-	@Column(name="product_id")
-	private Long productId;
+@Table(name="sale")
+public class Sale extends AbstractEntity{
 
-	@Column(name="product_rate_plan_id")
-	private Long productRatePlanId;
-	
-	@Column(name="customer_id")
-	private Long customerId;
+	@ManyToOne
+	private Contact contact;
 
-	@Column(name="start_date")
-	private Timestamp startDate;
-	
-	@Column(name="end_date")
-	private Timestamp endDate;
-	
-	@Column(name = "owner_id")
-	private Long ownerId;
 
-	@Column(name="is_invoiced")
-	private Byte isInvoiced;
-	
-	@Column(name="next_invoice_at")
-	private Timestamp nextInvoiceAt;
-	
-	@Column(name="status")
-	private Byte status;
-	
-	@Column(name="created_at")
-	private Timestamp createdAt;
-	
-	@Column(name="updated_at")
-	private Timestamp updatedAt;
-	
-	@Column(name="deleted_at")
-	private Timestamp deletedAt;
+	@ManyToOne
+	private Cart cart;
 
-	public Long getId() {
-		return id;
+	@ManyToOne
+	private SaleOffer saleOffer;
+
+
+	@Column(name="amount")
+	private Integer amount;
+
+	@Column(name = "txn_date")
+	private Timestamp txn_date;
+
+
+	@Column(name="discount_type")
+	private Flags.DiscountType discountType;
+
+	@Column(name="discount")
+	private Double discount;
+
+	@Column(name="txn_type")
+	private Flags.TransactionType txnType;
+
+	@Column(name="txn_status")
+	private Flags.TransactionStatus txnStatus;
+
+	@Column(name="tax_rate")
+	private  Double taxRate;
+
+	@Column(name="service_charge_rate")
+	private  Double serviceChargeRate;
+
+	@Column(name = "cash_reveived")
+	private Double cashReceived;
+
+	@Column(name = "due")
+	private Double due;
+
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public SaleOffer getSaleOffer() {
+		return saleOffer;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setSaleOffer(SaleOffer saleOffer) {
+		this.saleOffer = saleOffer;
 	}
 
-	public Long getProductRatePlanId() {
-		return productRatePlanId;
+	public Integer getAmount() {
+		return amount;
 	}
 
-	public void setProductRatePlanId(Long productRatePlanId) {
-		this.productRatePlanId = productRatePlanId;
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 
-	public Long getCustomerId() {
-		return customerId;
+	public Timestamp getTxn_date() {
+		return txn_date;
 	}
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setTxn_date(Timestamp txn_date) {
+		this.txn_date = txn_date;
 	}
 
-	public Byte getStatus() {
-		return status;
+	public Flags.DiscountType getDiscountType() {
+		return discountType;
 	}
 
-	public void setStatus(Byte status) {
-		this.status = status;
-	}
-	
-	public Long getOwnerId() {
-		return ownerId;
+	public void setDiscountType(Flags.DiscountType discountType) {
+		this.discountType = discountType;
 	}
 
-	public void setOwnerId(Long ownerId) {
-		this.ownerId = ownerId;
+	public Double getDiscount() {
+		return discount;
 	}
 
-	public Timestamp getStartDate() {
-		return startDate;
+	public void setDiscount(Double discountValue) {
+		this.discount = discountValue;
 	}
 
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
+	public Double getTaxRate() {
+		return taxRate;
 	}
 
-	public Timestamp getEndDate() {
-		return endDate;
+	public void setTaxRate(Double taxRate) {
+		this.taxRate = taxRate;
 	}
 
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
+	public Double getServiceChargeRate() {
+		return serviceChargeRate;
 	}
 
-	public Byte getIsInvoiced() {
-		return isInvoiced;
+	public void setServiceChargeRate(Double serviceChargeRate) {
+		this.serviceChargeRate = serviceChargeRate;
 	}
 
-	public void setIsInvoiced(Byte isInvoiced) {
-		this.isInvoiced = isInvoiced;
+	public Cart getCart() {
+		return cart;
 	}
 
-	public Timestamp getNextInvoiceAt() {
-		return nextInvoiceAt;
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
-	public void setNextInvoiceAt(Timestamp nextInvoiceAt) {
-		this.nextInvoiceAt = nextInvoiceAt;
+	public Double getCashReceived() {
+		return cashReceived;
 	}
 
-	public Timestamp getCreatedAt() {
-		return createdAt;
+	public void setCashReceived(Double cashReceived) {
+		this.cashReceived = cashReceived;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
+	public Double getDue() {
+		return due;
 	}
 
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
+	public void setDue(Double due) {
+		this.due = due;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
+	public Flags.TransactionType getTxnType() {
+		return txnType;
 	}
 
-	public Timestamp getDeletedAt() {
-		return deletedAt;
+	public void setTxnType(Flags.TransactionType txnType) {
+		this.txnType = txnType;
 	}
 
-	public void setDeletedAt(Timestamp deletedAt) {
-		this.deletedAt = deletedAt;
+	public Flags.TransactionStatus getTxnStatus() {
+		return txnStatus;
 	}
-	
-	public Product getProduct() throws CommandException {
-		Product product = null;
-		if(this.productId != null) {
-			product = (Product) HibernateUtils.get(Product.class, this.productId);
-		}
-		
-		return product;
-	}
-	
 
-		
+	public void setTxnStatus(Flags.TransactionStatus txnStatus) {
+		this.txnStatus = txnStatus;
+	}
 }

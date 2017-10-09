@@ -112,7 +112,7 @@ public class ContactCommandHandler implements ICommandHandler {
         Contact cust = null;
         boolean isNew = true;
 
-        if (c.has("id") && c instanceof UpdateUser) {
+        if (c.has("id") && c instanceof UpdateContact) {
             cust = (Contact) (new ContactQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
             isNew = false;
             if (cust == null) {

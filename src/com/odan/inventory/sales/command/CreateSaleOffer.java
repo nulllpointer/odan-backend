@@ -5,8 +5,8 @@ import com.odan.common.cqrs.ICommand;
 
 import java.util.HashMap;
 
-public class CreateSales extends Command implements ICommand {
-	public CreateSales(HashMap<String, Object> data) {
+public class CreateSaleOffer extends Command implements ICommand {
+	public CreateSaleOffer(HashMap<String, Object> data) {
 		super(data);
 		this.validationSchema = "billing/sales/create";
 		this.validate();

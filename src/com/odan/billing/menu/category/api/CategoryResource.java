@@ -1,10 +1,14 @@
 package com.odan.billing.menu.category.api;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.common.application.CommandException;
+import com.odan.common.application.ValidationException;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -29,7 +33,7 @@ public class CategoryResource extends RestAction {
 	}
 	
 	@Action(value = "menu/category", results = { @Result(type = "json") })
-	public String actionCategory() {
+	public String actionCategory() throws ValidationException, CommandException, ParseException, JsonProcessingException {
 		String responseStatus = SUCCESS;
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
 		if (httpRequest.getMethod().equals("GET")) {
@@ -45,7 +49,7 @@ public class CategoryResource extends RestAction {
 		return responseStatus;
 	}
 
-	public String createCategory() {
+	public String createCategory() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		CreateCategory command = new CreateCategory(requestData);
@@ -66,7 +70,7 @@ public class CategoryResource extends RestAction {
 		return responseStatus;
 	}
 
-	public String updateCategory() {
+	public String updateCategory() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		UpdateCategory command = new UpdateCategory(requestData);

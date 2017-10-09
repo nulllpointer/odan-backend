@@ -16,6 +16,12 @@ public abstract class Flags {
     public enum DiscountType {
         AMOUNT, PERCENTAGE
     }
+    public enum OfferType {
+        AMOUNT, PERCENTAGE
+    }
+    public enum SalesOfferType {
+        AMOUNT, PERCENTAGE,RANGE
+    }
 
 
     public enum SpecificDateType {
