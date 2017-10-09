@@ -1,13 +1,11 @@
 package com.odan.billing.menu.product.model;
 
-import com.odan.common.model.Flags.ProductPriceType;
 import com.odan.common.shared.model.AbstractEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Table(name = "product_price")
@@ -21,12 +19,6 @@ public class ProductPrice extends AbstractEntity {
 
     @Column(name = "old_price")
     private Integer oldPrice;
-
-    @Column(name = "active_from")
-    private Date activeFrom;
-
-    @Column(name = "type")
-    private  ProductPriceType type;
 
     @Column(name = "alert")
     private  String alert;
@@ -55,11 +47,4 @@ public class ProductPrice extends AbstractEntity {
         this.oldPrice = oldPrice;
     }
 
-    public Date getActiveFrom() {
-        return activeFrom;
-    }
-
-    public void setActiveFrom(Date activeFrom) {
-        this.activeFrom = activeFrom;
-    }
 }

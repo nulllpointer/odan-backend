@@ -10,7 +10,7 @@ import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
 import com.odan.common.utils.DateTime;
 import com.odan.common.utils.Parser;
-import com.odan.security.sales.model.SaleItem;
+import com.odan.inventory.sales.model.SaleItem;
 
 import java.sql.Timestamp;
 import java.util.HashMap;

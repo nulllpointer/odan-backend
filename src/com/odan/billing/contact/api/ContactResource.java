@@ -2,10 +2,16 @@ package com.odan.billing.contact.api;
 
 import com.odan.billing.contact.ContactQueryHandler;
 import com.odan.billing.contact.command.CreateContact;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.billing.contact.ContactQueryHandler;
+import com.odan.billing.contact.command.CreateContact;
+import com.odan.billing.contact.command.DeleteContact;
 import com.odan.billing.contact.command.UpdateContact;
 import com.odan.billing.contact.model.Contact;
 import com.odan.common.api.RestAction;
 import com.odan.common.application.CommandException;
+import com.odan.common.application.ValidationException;
+import com.odan.common.cqrs.Command;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.Query;
 import com.odan.common.model.Flags;
@@ -18,6 +24,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,8 +32,9 @@ import java.util.List;
 @Namespace(value = "/v1/billing")
 public class ContactResource extends RestAction {
 
+
     @Action(value = "contact", results = {@Result(type = "json")})
-    public String actionContact() {
+    public String actionContact() throws ValidationException, CommandException, ParseException, JsonProcessingException {
         String response = SUCCESS;
         HttpServletRequest httpRequest = ServletActionContext.getRequest();
 
@@ -38,46 +46,45 @@ public class ContactResource extends RestAction {
         } else if (httpRequest.getMethod().equals("GET")) {
             getContact();
         } else if (httpRequest.getMethod().equals("DELETE")) {
+
            // deleteContact(id);
+
+            ;
         } else {
             response = "HttpMethodNotAccepted";
         }
 
+
         return response;
     }
 
-  /*  private String deleteContact(Long id) {
 
-        DeleteContact command = new DeleteContact(requestData);
-        CommandRegister.getInstance().process(command);
-        boolean c = (boolean) command.getObject();
-        setJsonResponseForDelete(c);
-        return SUCCESS;
-    }
-*/
-    public String createContact() {
+
+    public String createContact() throws JsonProcessingException, CommandException, ParseException, ValidationException {
         String responseStatus = SUCCESS;
         System.out.println("..Create Customer Request");
         HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-        CreateContact command = new CreateContact(requestData);
-        CommandRegister.getInstance().process(command);
-        Contact c = (Contact) command.getObject();
 
-		/*if (c != null) {
-            responseStatus = SUCCESS;
-			setSuccess("System Customer synced successfully.");
-			getData().put("customerId", c.getId().toString());
-		} else {
-			setError("System Customer sync failed.");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}*/
-        setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
+        if (requestData.containsKey("id")) {
+            UpdateContact command = new UpdateContact(requestData);
+            CommandRegister.getInstance().process(command);
+            Contact c = (Contact) command.getObject();
+            setJsonResponseForUpdate(c);
+
+
+        } else {
+            CreateContact command = new CreateContact(requestData);
+            CommandRegister.getInstance().process(command);
+            Contact c = (Contact) command.getObject();
+            setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
+
+        }
+
 
         return responseStatus;
     }
 
-    public String updateContact() {
+    public String updateContact() throws JsonProcessingException, CommandException, ParseException, ValidationException {
         String responseStatus = SUCCESS;
         HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
         UpdateContact command = new UpdateContact(requestData);
@@ -110,7 +117,7 @@ public class ContactResource extends RestAction {
             response = getContactById(id);
         } else if (httpRequest.getMethod().equals("DELETE")) {
 
-           //deleteContact(id);
+           deleteContact(id);
         } else {
 
             response = "HttpMethodNotAccepted";
@@ -130,6 +137,20 @@ public class ContactResource extends RestAction {
 
         }
         return setJsonResponseForGetById(normalUser);
+    }
+
+    public String deleteContact(Long id) throws JsonProcessingException, CommandException, ParseException, ValidationException {
+        String responseStatus = SUCCESS;
+        System.out.println("Delete NormalUser");
+        HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
+        requestData.put("id",id);
+        DeleteContact command = new DeleteContact(requestData);
+        CommandRegister.getInstance().process(command);
+        Boolean c = (Boolean) command.getObject();
+
+        setJsonResponseForDelete(c);
+
+        return responseStatus;
     }
 
 

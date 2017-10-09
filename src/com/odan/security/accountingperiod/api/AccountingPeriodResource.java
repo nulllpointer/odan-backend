@@ -1,9 +1,13 @@
 package com.odan.security.accountingperiod.api;
 
+import java.text.ParseException;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.common.application.CommandException;
+import com.odan.common.application.ValidationException;
 import com.odan.security.accountingperiod.command.CloseAccountingPeriod;
 import com.odan.security.accountingperiod.command.CreateAccountingPeriod;
 import com.odan.security.accountingperiod.command.ReopenAccountingPeriod;
@@ -26,7 +30,7 @@ public class AccountingPeriodResource extends RestAction {
 	private static final long serialVersionUID = 1L;
 
 	@Action(value = "period", results = { @Result(type = "json") })
-	public String actionAccountingPeriod() {
+	public String actionAccountingPeriod() throws ValidationException, CommandException, ParseException, JsonProcessingException {
 		String response = SUCCESS;
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
 		if (httpRequest.getMethod().equals("PUT")) {
@@ -38,7 +42,7 @@ public class AccountingPeriodResource extends RestAction {
 		return response;
 	}
 
-	public String createAccountingPeriod() {
+	public String createAccountingPeriod() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		CreateAccountingPeriod command = new CreateAccountingPeriod(requestData);
@@ -58,7 +62,7 @@ public class AccountingPeriodResource extends RestAction {
 		return responseStatus;
 	}
 
-	public String updateAccountingPeriod() {
+	public String updateAccountingPeriod() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		UpdateAccountingPeriod command = new UpdateAccountingPeriod(requestData);
@@ -78,7 +82,7 @@ public class AccountingPeriodResource extends RestAction {
 		return responseStatus;
 	}
 	
-	public String closeAccountingPeriod() {
+	public String closeAccountingPeriod() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		CloseAccountingPeriod command = new CloseAccountingPeriod(requestData);
@@ -98,7 +102,7 @@ public class AccountingPeriodResource extends RestAction {
 		return responseStatus;
 	}
 	
-	public String reopenAccountingPeriod() {
+	public String reopenAccountingPeriod() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		ReopenAccountingPeriod command = new ReopenAccountingPeriod(requestData);

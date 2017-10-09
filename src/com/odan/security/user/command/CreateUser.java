@@ -1,8 +1,8 @@
 package com.odan.security.user.command;
 
-import java.util.HashMap;
-
 import com.odan.common.cqrs.ICommand;
+
+import java.util.HashMap;
 
 public class CreateUser extends CreateOrUpdateUserAbstract implements ICommand {
 	public CreateUser(HashMap<String, Object> data) {

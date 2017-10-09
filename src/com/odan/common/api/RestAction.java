@@ -20,6 +20,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opensymphony.xwork2.Action;
 
+import static org.json.XMLTokener.entity;
+
 public abstract class RestAction extends BaseAction {
 
 
@@ -112,15 +114,16 @@ public abstract class RestAction extends BaseAction {
         } else if (req.getServletPath().contains("/bulk") && (method.equals("PUT") | method.equals("POST"))) {
 
             this.setRequests(getJSONRequestForBulk(req));
-        } else {
+        } else if(method.equals("DELETE")){
+            System.out.println("do nothing");
+        }
 
+        else {
             this.setRequest(getJSONRequest(req));
         }
 
 
     }
-
-
 
 
     public String execute() {
@@ -131,8 +134,10 @@ public abstract class RestAction extends BaseAction {
     protected String setJsonResponseForUpdate(Object c) {
         if (c != null) {
             HashMap<String, Object> map = new HashMap<>();
+
+            AbstractEntity entity = (AbstractEntity) c;
             map.put("result", SUCCESS);
-            map.put("message", "Successfully updated");
+            map.put("message", "Id : " + entity.getId() + " successfully updated");
             setJsonResponse(map);
             return SUCCESS;
         } else {
@@ -144,18 +149,12 @@ public abstract class RestAction extends BaseAction {
         }
     }
 
-    protected String setJsonResponseForDelete(Object c) {
+    protected String setJsonResponseForDelete(Boolean value) {
         HashMap<String, Object> map = new HashMap<>();
-        AbstractEntity entity = null;
-
-        entity = (AbstractEntity) c;
 
 
-        if (c != null) {
+        if (value) {
             map.put("result", SUCCESS);
-            map.put("id", entity.getId().toString());
-
-
             map.put("message", " " + "successfully deleted");
             setJsonResponse(map);
 

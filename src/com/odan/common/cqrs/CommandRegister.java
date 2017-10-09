@@ -1,5 +1,10 @@
 package com.odan.common.cqrs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.common.application.CommandException;
+import com.odan.common.application.ValidationException;
+
+import java.text.ParseException;
 import java.util.HashMap;
 
 public class CommandRegister {
@@ -21,7 +26,7 @@ public class CommandRegister {
 		this.registry.put(command, handler);
 	}
 
-	public void process(ICommand command) {
+	public void process(ICommand command) throws ValidationException, CommandException, ParseException, JsonProcessingException {
 		Class commandType = command.getClass();
 		Class commandHandlerType = null;
 		ICommandHandler commandHandler = null;

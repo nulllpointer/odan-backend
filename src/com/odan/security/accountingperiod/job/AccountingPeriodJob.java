@@ -43,7 +43,7 @@ public class AccountingPeriodJob implements Job {
 		}
 		catch (Exception ex) {
 			isRunning = false;
-			throw ex;
+			//throw ex;
 		}
 		// try {
 		// Mailer.send("jawaidgadiwala@hotmail.com", "CRON RAN", "Invoice Job

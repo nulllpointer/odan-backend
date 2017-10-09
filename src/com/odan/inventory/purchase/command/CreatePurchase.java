@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class CreatePurchase extends Command implements ICommand {
 	public CreatePurchase(HashMap<String, Object> data) {
 		super(data);
-		this.validationSchema = "billing/sales/create";
+		this.validationSchema = "billing/purchase/create";
 		this.validate();
 	}
 }

@@ -1,10 +1,14 @@
 package com.odan.security.user.api;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.common.application.CommandException;
+import com.odan.common.application.ValidationException;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -25,7 +29,7 @@ import com.odan.common.utils.APILogger;
 public class UserResource extends RestAction {
 
 	@Action(value = "user", results = { @Result(type = "json") })
-	public String actionUser() {
+	public String actionUser() throws ValidationException, CommandException, ParseException, JsonProcessingException {
 		String response = SUCCESS;
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
 		if (httpRequest.getMethod().equals("POST")) {
@@ -41,7 +45,7 @@ public class UserResource extends RestAction {
 		return response;
 	}
 
-	public String createUser() {
+	public String createUser() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		CreateUser command = new CreateUser(requestData);
@@ -61,7 +65,7 @@ public class UserResource extends RestAction {
 		return responseStatus;
 	}
 
-	public String updateUser() {
+	public String updateUser() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		UpdateUser command = new UpdateUser(requestData);

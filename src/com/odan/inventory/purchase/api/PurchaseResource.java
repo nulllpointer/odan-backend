@@ -1,5 +1,8 @@
 package com.odan.inventory.purchase.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.common.application.CommandException;
+import com.odan.common.application.ValidationException;
 import com.odan.inventory.purchase.PurchaseQueryHandler;
 import com.odan.inventory.purchase.command.CreatePurchase;
 import com.odan.inventory.purchase.model.Purchase;
@@ -14,6 +17,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +26,7 @@ import java.util.List;
 public class PurchaseResource extends RestAction {
 
 	@Action(value = "sales", results = { @Result(type = "json") })
-	public String actionSales() {
+	public String actionSales() throws ValidationException, CommandException, ParseException, JsonProcessingException {
 		String response = SUCCESS;
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
 		if (httpRequest.getMethod().equals("GET")) {
@@ -36,7 +40,7 @@ public class PurchaseResource extends RestAction {
 		return response;
 	}
 
-	public String createSales() {
+	public String createSales() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		CreatePurchase command = new CreatePurchase(requestData);
