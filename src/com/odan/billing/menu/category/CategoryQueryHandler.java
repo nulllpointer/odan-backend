@@ -53,7 +53,12 @@ public class CategoryQueryHandler implements IQueryHandler {
 			whereSQL += " AND parent_id = :parentId ";
 			queryParams.put("parentId", q.get("parentId"));
 		}
+		if (q.has("type")) {
+			whereSQL += " AND lower(type) = :type ";
+			System.out.println(q.get("type"));
 
+			queryParams.put("title",q.get("type") );
+		}
 
 
 		List<Object> categories = HibernateUtils.select("FROM Category " + whereSQL, queryParams);

@@ -1,49 +1,51 @@
 package com.odan.inventory.sales;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.billing.menu.product.ProductQueryHandler;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.cqrs.ICommandHandler;
+import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags.EntityStatus;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
 import com.odan.common.utils.DateTime;
 import com.odan.common.utils.Parser;
-import com.odan.inventory.sales.command.CreateCart;
-import com.odan.inventory.sales.command.DeleteCart;
-import com.odan.inventory.sales.command.UpdateCart;
+import com.odan.inventory.sales.command.*;
 import com.odan.inventory.sales.model.Cart;
+import com.odan.inventory.sales.model.CartItem;
 import org.hibernate.Transaction;
 
-public class CartCommandHandler implements ICommandHandler {
+public class CartItemCommandHandler implements ICommandHandler {
 
     public static void registerCommands() {
-        CommandRegister.getInstance().registerHandler(CreateCart.class, CartCommandHandler.class);
-        CommandRegister.getInstance().registerHandler(UpdateCart.class, CartCommandHandler.class);
-        CommandRegister.getInstance().registerHandler(DeleteCart.class, CartCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(CreateCartItem.class, CartItemCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(UpdateCartItem.class, CartItemCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(DeleteCartItem.class, CartItemCommandHandler.class);
 
 
     }
 
     public void handle(ICommand c) throws CommandException {
-        if (c instanceof CreateCart) {
-            handle((CreateCart) c);
-        } else if (c instanceof UpdateCart) {
-            handle((UpdateCart) c);
-        } else if (c instanceof DeleteCart) {
-            handle((DeleteCart) c);
+        if (c instanceof CreateCartItem) {
+            handle((CreateCartItem) c);
+        } else if (c instanceof UpdateCartItem) {
+            handle((UpdateCartItem) c);
+        } else if (c instanceof DeleteCartItem) {
+            handle((DeleteCartItem) c);
         }
 
     }
 
-    public void handle(CreateCart c) {
+    public void handle(CreateCartItem c) {
         // HibernateUtils.openSession();
         Transaction trx = c.getTransaction();
 
         try {
-            Cart v = this._handleSaveCart(c);
+            CartItem v = this._handleSaveCartItem(c);
             if (c.isCommittable()) {
                 HibernateUtils.commitTransaction(c.getTransaction());
             }
@@ -60,12 +62,12 @@ public class CartCommandHandler implements ICommandHandler {
     }
 
 
-    public void handle(UpdateCart c) {
+    public void handle(UpdateCartItem c) {
         // HibernateUtils.openSession();
         Transaction trx = c.getTransaction();
 
         try {
-            Cart ba = this._handleSaveCart(c);
+            CartItem ba = this._handleSaveCartItem(c);
             if (c.isCommittable()) {
                 HibernateUtils.commitTransaction(c.getTransaction());
             }
@@ -82,53 +84,68 @@ public class CartCommandHandler implements ICommandHandler {
     }
 
 
-    private Cart _handleSaveCart(ICommand c) throws CommandException, JsonProcessingException {
+    private CartItem _handleSaveCartItem(ICommand c) throws CommandException, JsonProcessingException {
 
-        Cart cart = null;
+        CartItem item = null;
         boolean isNew = true;
 
-        if (c.has("id") && c instanceof UpdateCart) {
-            cart = (Cart) (new CartQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+        if (c.has("id") && c instanceof UpdateCartItem) {
+            item = (CartItem) (new CartItemQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
             isNew = false;
-            if (cart == null) {
+            if (item == null) {
                 APILogger.add(APILogType.ERROR, "Customer (" + c.get("id") + ") not found.");
                 throw new CommandException("Customer (" + c.get("id") + ") not found.");
             }
         }
 
-        if (cart == null) {
-            cart = new Cart();
+        if (item == null) {
+            item = new CartItem();
         }
 
-        if (c.has("identifier")) {
-            cart.setIdentifier((String) c.get("identifier"));
+        if (c.has("cartId")) {
+
+            Query query = new Query();
+            query.set("cartId", Parser.convertObjectToLong(c.get("cartId")));
+
+            Cart cart = (Cart) new CartQueryHandler().getById(Parser.convertObjectToLong(c.get("cartId")));
+
+            item.setCart(cart);
+
+        }
+        if (c.has("productId")) {
+            Product product = (Product) new ProductQueryHandler().getById(Parser.convertObjectToLong(c.get("productId")));
+
+            item.setProduct(product);
+        }
+        if (c.has("quantity")) {
+            item.setQuantity((Integer) c.get("quantity"));
         }
 
 
         if (c.has("status")) {
 
-            cart.setStatus(EntityStatus.ACTIVE);
+            item.setStatus(EntityStatus.ACTIVE);
         }
 
         if (isNew) {
-            cart.setCreatedAt(DateTime.getCurrentTimestamp());
+            item.setCreatedAt(DateTime.getCurrentTimestamp());
 
         } else {
-            cart.setUpdatedAt(DateTime.getCurrentTimestamp());
+            item.setUpdatedAt(DateTime.getCurrentTimestamp());
         }
 
-        cart = (Cart) HibernateUtils.save(cart, c.getTransaction());
+        item = (CartItem) HibernateUtils.save(item, c.getTransaction());
 
-        return cart;
+        return item;
 
     }
 
-    public void handle(DeleteCart c) throws CommandException {
+    public void handle(DeleteCartItem c) throws CommandException {
         // HibernateUtils.openSession();
         Transaction trx = c.getTransaction();
 
 
-        Cart cart = (Cart) (new CartQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+        CartItem cart = (CartItem) (new CartItemQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
         if (cart != null) {
             boolean success = HibernateUtils.delete(cart, trx);
             if (c.isCommittable()) {

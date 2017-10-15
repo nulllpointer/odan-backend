@@ -1,64 +1,136 @@
 {
-	"$schema": "http://koderlabs.com/myschema#",
-	"type": "object",
-	"title": "Create Sales",
-	"properties": 
-	{
-		"productId": 
-		{
-			"title": "Product Id",
-			"type": "integer",
-			"description": "Required"
-		},
-
-		"ratePlanId": 
-		{
-			"title": "Rate Plan Id",
-			"type": "integer",
-			"description": "Required"
-		},
-		
-		"customerId": 
-		{
-			"title": "Customer Id",
-			"type": "string",
-			"description": "Required"
-		},
-
-		
-		"startDate": 
-		{
-			"type": "string",
-			"title": "Start Date",
-			"format": "date",
-			"description": "Required"
-		},
-		
-		"endDate": 
-		{
-			"type": "string",
-			"title": "End Date",
-			"format": "date",
-			"description": "Required"
-		},
-
-		"status": 
-		{
-			"title": "Status",
-			"enum": 
-			[
-				"active",
-				"inactive"
-			]
-		}
+  "$schema": "http://koderlabs.com/myschema#",
+  "type": "object",
+  "title": "Send Invoice",
+  "properties": {
+	"txnDate": {
+	  "type": "string",
+	  "title": "Transaction Date"
 	},
+	"contactId": {
+	  "type": "number",
+	  "title": "Contact"
+	},
+	"cartId": {
+	  "type": "number",
+	  "title": "Cart"
+	},
+	"saleOfferId": {
+	  "type": "number",
+	  "title": "Sale offer id"
+	},
+	"amount": {
+	  "type": "number",
+	  "title": "Amount"
+	},
+	"discountType": {
+	  "title": "Discount Type",
+	  "enum": [
+		"amount",
+		"percentage"
+	  ]
+	},
+	"discount": {
+	  "title": "Discount",
+	  "type": "number"
+	},
+	"txnType": {
+	  "title": "Discount Type",
+	  "enum": [
+		"cash",
+		"on_credit"
+	  ]
+	},
+	"txnStatus": {
+	  "title": "Txn status Type",
+	  "enum": [
+		"paid",
+		"partially_paid",
+		"due"
+	  ]
+	},
+	"taxRate": {
+	  "type": "number",
+	  "title": "Amount"
+	},
+	"serviceChargeRate": {
+	  "type": "number",
+	  "title": "Rate: Service charge"
+	},
+	"cashReceived": {
+	  "type": "number",
+	  "title": "Cash received"
+	},
+	"due": {
+	  "type": "number",
+	  "title": "Due amount"
+	},
+	"saleItems": {
+	  "title": "Sale Items",
+	  "type": "array",
+	  "items": {
+		"type": "object",
+		"properties": {
+		  "productId": {
+			"title": "Product",
+			"type": "number"
+		  },
+		  "contactId": {
+			"title": "Contact",
+			"type": "number"
+		  },
+		  "quantity": {
+			"title": "Quantity",
+			"type": "integer"
+		  },
+		  "price": {
+			"title": "Price",
+			"type": "number"
+		  },
+		  "discountType": {
+			"title": "Discount Type",
+			"enum": [
+			  "amount",
+			  "percentage"
+			]
+		  },
+		  "discount": {
+			"title": "Discount",
+			"type": "number"
+		  },
+		  "offerType": {
+			"title": "Offer Type",
+			"enum": [
+			  "amount",
+			  "percentage"
+			]
+		  },
+		  "offer": {
+			"title": "offer",
+			"type": "number"
+		  },
+		  "required": [
+			"saleId",
+			"productId",
+			"quantity",
+			"price",
+			"txnDate"
 
-	"required": 
-	[
-		"productId",
-		"ratePlanId",
-		"customerId",
-		"startDate",
-		"endDate"
+		  ]
+		}
+	  }
+	},
+	"required": [
+	  "txnDate",
+	  "cartId",
+	  "amount",
+	  "discountType",
+	  "discount",
+	  "taxRate",
+	  "txnType",
+	  "txnStatus",
+	  "cashReceived"
+
 	]
+  }
 }

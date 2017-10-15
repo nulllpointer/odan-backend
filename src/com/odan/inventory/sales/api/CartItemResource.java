@@ -1,22 +1,19 @@
-package com.odan.billing.contact.api;
+package com.odan.inventory.sales.api;
 
-import com.odan.billing.contact.ContactQueryHandler;
-import com.odan.billing.contact.command.CreateContact;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.odan.billing.contact.ContactQueryHandler;
-import com.odan.billing.contact.command.CreateContact;
-import com.odan.billing.contact.command.DeleteContact;
-import com.odan.billing.contact.command.UpdateContact;
-import com.odan.billing.contact.model.Contact;
 import com.odan.common.api.RestAction;
 import com.odan.common.application.CommandException;
 import com.odan.common.application.ValidationException;
-import com.odan.common.cqrs.Command;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.Query;
 import com.odan.common.model.Flags;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
+import com.odan.inventory.sales.CartItemQueryHandler;
+import com.odan.inventory.sales.command.CreateCartItem;
+import com.odan.inventory.sales.command.DeleteCartItem;
+import com.odan.inventory.sales.command.UpdateCartItem;
+import com.odan.inventory.sales.model.CartItem;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -30,24 +27,24 @@ import java.util.List;
 
 @ParentPackage("jsonPackage")
 @Namespace(value = "/v1/billing")
-public class ContactResource extends RestAction {
+public class CartItemResource extends RestAction {
 
 
-    @Action(value = "contact", results = {@Result(type = "json")})
-    public String actionContact() throws ValidationException, CommandException, ParseException, JsonProcessingException {
+    @Action(value = "cart", results = {@Result(type = "json")})
+    public String actionCartItem() throws ValidationException, CommandException, ParseException, JsonProcessingException {
         String response = SUCCESS;
         HttpServletRequest httpRequest = ServletActionContext.getRequest();
 
 
          if (httpRequest.getMethod().equals("POST")) {
-            createContact();
+            createCartItem();
         } else if (httpRequest.getMethod().equals("PUT")) {
-            updateContact();
+            updateCartItem();
         } else if (httpRequest.getMethod().equals("GET")) {
-            getContact();
+            getCartItem();
         } else if (httpRequest.getMethod().equals("DELETE")) {
 
-            // deleteContact(id);
+            // deleteCartItem(id);
 
             ;
         } else {
@@ -59,23 +56,23 @@ public class ContactResource extends RestAction {
     }
 
 
-    public String createContact() throws JsonProcessingException, CommandException, ParseException, ValidationException {
+    public String createCartItem() throws JsonProcessingException, CommandException, ParseException, ValidationException {
         String responseStatus = SUCCESS;
         System.out.println("..Create Customer Request");
         HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 
         if (requestData.containsKey("id")) {
-            UpdateContact command = new UpdateContact(requestData);
+            UpdateCartItem command = new UpdateCartItem(requestData);
             CommandRegister.getInstance().process(command);
-            Contact c = (Contact) command.getObject();
+            CartItem c = (CartItem) command.getObject();
             setJsonResponseForUpdate(c);
 
 
         } else {
-            CreateContact command = new CreateContact(requestData);
+            CreateCartItem command = new CreateCartItem(requestData);
             CommandRegister.getInstance().process(command);
-            Contact c = (Contact) command.getObject();
-            setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
+            CartItem c = (CartItem) command.getObject();
+            setJsonResponseForCreate(c, Flags.EntityType.CART_ITEM);
 
         }
 
@@ -83,40 +80,40 @@ public class ContactResource extends RestAction {
         return responseStatus;
     }
 
-    public String updateContact() throws JsonProcessingException, CommandException, ParseException, ValidationException {
+    public String updateCartItem() throws JsonProcessingException, CommandException, ParseException, ValidationException {
         String responseStatus = SUCCESS;
         HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-        UpdateContact command = new UpdateContact(requestData);
+        UpdateCartItem command = new UpdateCartItem(requestData);
         CommandRegister.getInstance().process(command);
-        Contact c = (Contact) command.getObject();
+        CartItem c = (CartItem) command.getObject();
         setJsonResponseForUpdate(c);
 
 
         return SUCCESS;
     }
 
-    public String getContact() {
+    public String getCartItem() {
         String responseStatus = SUCCESS;
         HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
         Query q = new Query(requestData);
 
-        List<Object> customers = (new ContactQueryHandler()).get(q);
+        List<Object> customers = (new CartItemQueryHandler()).get(q);
 
 
-        return setJsonResponseForGet(customers, "contacts");
+        return setJsonResponseForGet(customers, "carts");
     }
 
-    public String actionContactById() throws Exception {
+    public String actionCartItemById() throws Exception {
         String response = SUCCESS;
         HttpServletRequest httpRequest = ServletActionContext.getRequest();
         String[] val = httpRequest.getServletPath().split("/");
 
         Long id = Long.parseLong(val[val.length - 1]);
         if (httpRequest.getMethod().equals("GET")) {
-            response = getContactById(id);
+            response = getCartItemById(id);
         } else if (httpRequest.getMethod().equals("DELETE")) {
 
-            deleteContact(id);
+            deleteCartItem(id);
         } else {
 
             response = "HttpMethodNotAccepted";
@@ -125,10 +122,10 @@ public class ContactResource extends RestAction {
         return response;
     }
 
-    public String getContactById(Long id) {
-        Contact normalUser = null;
+    public String getCartItemById(Long id) {
+        CartItem normalUser = null;
         try {
-            normalUser = (Contact) (new ContactQueryHandler()).getById(id);
+            normalUser = (CartItem) (new CartItemQueryHandler()).getById(id);
         } catch (Exception e) {
             if (e instanceof CommandException) {
                 APILogger.add(APILogType.ERROR, "Permission denied");
@@ -138,12 +135,12 @@ public class ContactResource extends RestAction {
         return setJsonResponseForGetById(normalUser);
     }
 
-    public String deleteContact(Long id) throws JsonProcessingException, CommandException, ParseException, ValidationException {
+    public String deleteCartItem(Long id) throws JsonProcessingException, CommandException, ParseException, ValidationException {
         String responseStatus = SUCCESS;
         System.out.println("Delete NormalUser");
         HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
         requestData.put("id", id);
-        DeleteContact command = new DeleteContact(requestData);
+        DeleteCartItem command = new DeleteCartItem(requestData);
         CommandRegister.getInstance().process(command);
         Boolean c = (Boolean) command.getObject();
 
@@ -153,14 +150,14 @@ public class ContactResource extends RestAction {
     }
 
 
-    public String actionContactDeleteById() throws Exception {
+    public String actionCartItemDeleteById() throws Exception {
         String response = SUCCESS;
         HttpServletRequest httpRequest = ServletActionContext.getRequest();
         String[] val = httpRequest.getServletPath().split("/");
 
         Long id = Long.parseLong(val[val.length - 1]);
         if (httpRequest.getMethod().equals("GET")) {
-            response = deleteContact(id);
+            response = deleteCartItem(id);
         } else {
 
             response = "HttpMethodNotAccepted";

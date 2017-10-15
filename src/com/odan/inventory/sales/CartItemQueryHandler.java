@@ -6,18 +6,17 @@ import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
-import com.odan.common.utils.Parser;
 import com.odan.inventory.sales.model.Cart;
-import com.odan.inventory.sales.model.SaleItem;
+import com.odan.inventory.sales.model.CartItem;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class CartQueryHandler implements IQueryHandler {
+public class CartItemQueryHandler implements IQueryHandler {
 
 	@Override
 	public Object getById(Long id) throws CommandException {
-		Cart s = (Cart) HibernateUtils.get(Cart.class, id);
+		CartItem s = (CartItem) HibernateUtils.get(CartItem.class, id);
 		return s;
 	}
 
@@ -30,9 +29,9 @@ public class CartQueryHandler implements IQueryHandler {
 		// Apply Filter Params
 
 
-		if (q.has("productRatePlanId")) {
-			whereSQL += " AND productRatePlanId = :productRatePlanId ";
-			sqlParams.put("productRatePlanId", q.get("productRatePlanId"));
+		if (q.has("cartId")) {
+			whereSQL += " AND cart_id = :cartId ";
+			sqlParams.put("cartId", q.get("cartId"));
 		}
 		if (q.has("customerId")) {
 			whereSQL += " AND customerId = :customerId ";
@@ -79,7 +78,7 @@ public class CartQueryHandler implements IQueryHandler {
 		}
 
 
-		List<Object> sales = HibernateUtils.select("FROM Cart " + whereSQL, sqlParams);
+		List<Object> sales = HibernateUtils.select("FROM CartItem " + whereSQL, sqlParams);
 		return sales;
 	}
 

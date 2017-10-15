@@ -10,6 +10,7 @@ import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.cqrs.ICommandHandler;
 import com.odan.common.database.HibernateUtils;
+import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.EntityStatus;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
@@ -59,6 +60,9 @@ public class CategoryCommandHandler implements ICommandHandler {
         }
         if (c.has("description")) {
             category.setDescription((String) c.get("firstName"));
+        }
+        if (c.has("type")) {
+            category.setType(Flags.MainCategoryType.valueOf((String) c.get("type").toString().toUpperCase()));
         }
 
         if (c.has("parent_id")) {

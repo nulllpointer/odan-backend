@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
-public class SalesQueryHandler implements IQueryHandler {
+public class SaleQueryHandler implements IQueryHandler {
 
 	@Override
 	public Object getById(Long id) throws CommandException {

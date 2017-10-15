@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.odan.billing.menu.category.model.Category;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.IQueryHandler;
 import com.odan.common.cqrs.Query;
@@ -16,8 +17,8 @@ public class ProductQueryHandler implements IQueryHandler {
 
     @Override
     public Object getById(Long id) throws CommandException {
-        Category category = (Category) HibernateUtils.get(Category.class, id);
-        return category;
+        Product product = (Product) HibernateUtils.get(Product.class, id);
+        return product;
 
     }
 

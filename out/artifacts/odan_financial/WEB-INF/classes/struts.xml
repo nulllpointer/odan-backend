@@ -97,30 +97,90 @@
              namespace="/v1/billing">
 
 
-
+                    <!--For Contacts-->
         <action name="contacts" method="actionContact"
                 class="com.odan.billing.contact.api.ContactResource"/>
-
 
         <action name="contacts/{id}" method="actionContactById"
                 class="com.odan.billing.contact.api.ContactResource"/>
 
+        <action name="contacts/delete/{id}" method="actionContactDeleteById"
+                class="com.odan.billing.contact.api.ContactResource"/>
+
+
+        <!--For User-->
+
+
         <action name="user" method="actionUser"
                 class="com.odan.security.user.api.UserResource"/>
+
+
+
+        <!--For Cart-->
+
+
+        <action name="carts" method="actionCart"
+                class="com.odan.inventory.sales.api.CartResource"/>
+
+        <action name="carts/{id}" method="actionCartById"
+                class="com.odan.inventory.sales.api.CartResource"/>
+
+        <action name="carts/delete/{id}" method="actionCartDeleteById"
+                class="com.odan.inventory.sales.api.CartResource"/>
+
+
+
+        <!--For Cart-->
+
+
+        <action name="cart-items" method="actionCartItem"
+                class="com.odan.inventory.sales.api.CartItemResource"/>
+
+        <action name="cart-items/{id}" method="actionCartItemById"
+                class="com.odan.inventory.sales.api.CartItemResource"/>
+
+        <action name="cart-items/delete/{id}" method="actionCartItemDeleteById"
+                class="com.odan.inventory.sales.api.CartItemResource"/>
+
+        <!--For Sale-->
+
+
+        <action name="sale" method="actionSale"
+                class="com.odan.inventory.sales.api.SaleResource"/>
+
+        <action name="sales/{id}" method="actionSaleById"
+                class="com.odan.inventory.sales.api.SaleResource"/>
+
+        <action name="sales/delete/{id}" method="actionSaleDeleteById"
+                class="com.odan.inventory.sales.api.SaleResource"/>
+
+
+        <!--For Purchase-->
+
+
+        <action name="purchases" method="actionPurchase"
+                class="com.odan.inventory.sales.api.PurchaseResource"/>
+
+        <action name="purchases/{id}" method="actionPurchaseById"
+                class="com.odan.inventory.sales.api.PurchaseResource"/>
+
+        <action name="purchases/delete/{id}" method="actionPurchaseDeleteById"
+                class="com.odan.inventory.sales.api.PurchaseResource"/>
+
+
+
+
+
     </package>
 
     <package name="module-catalog" extends="jsonPackageSecure"
-             namespace="/v1/billing/catalog">
-        <action name="category" method="actionCategory"
+             namespace="/v1/billing">
+        <action name="categories" method="actionCategory"
                 class="com.odan.billing.menu.category.api.CategoryResource"/>
 
     </package>
 
-    <package name="module-sales" extends="jsonPackageSecure"
-             namespace="/v1/billing">
-        <action name="sales" method="actionSales"
-                class="com.odan.inventory.sales.api.SalesResource"/>
-    </package>
+
 
     <package name="module-payment" extends="jsonPackageSecure"
              namespace="/v1">

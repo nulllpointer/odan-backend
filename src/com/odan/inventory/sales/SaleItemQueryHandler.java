@@ -98,7 +98,7 @@ public class SaleItemQueryHandler implements IQueryHandler {
 
 		offset = (limit * (page - 1));
 
-		List<Object> sales = HibernateUtils.select("FROM Sales " + whereSQL, sqlParams, limit, offset);
+		List<Object> sales = HibernateUtils.select("FROM SaleItem " + whereSQL, sqlParams, limit, offset);
 		return sales;
 	}
 

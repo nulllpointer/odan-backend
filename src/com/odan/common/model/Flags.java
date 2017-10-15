@@ -55,7 +55,13 @@ public abstract class Flags {
     }
 
     public enum EntityType {
-        CONTACTS, PRODUCT, CATEGORY
+        CONTACTS, PRODUCT, CATEGORY,CART_ITEM
 
     }
+
+    public enum MainCategoryType {
+        SNACKS, DRINKS, KHANA_KHAJA,ICE_CREAM
+
+    }
+
 }

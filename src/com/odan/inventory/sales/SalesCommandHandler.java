@@ -19,12 +19,10 @@ import com.odan.inventory.sales.command.*;
 import com.odan.inventory.sales.model.Cart;
 import com.odan.inventory.sales.model.Sale;
 import com.odan.inventory.sales.model.SaleItem;
-import com.sun.mail.imap.protocol.Item;
 import org.hibernate.Transaction;
 
 import java.text.ParseException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SalesCommandHandler implements ICommandHandler {
 

@@ -34,8 +34,7 @@ public class ContactCommandHandler implements ICommandHandler {
             handle((CreateContact) c);
         } else if (c instanceof UpdateContact) {
             handle((UpdateContact) c);
-        }
-        else if (c instanceof DeleteContact) {
+        } else if (c instanceof DeleteContact) {
             handle((DeleteContact) c);
         }
 
@@ -83,8 +82,6 @@ public class ContactCommandHandler implements ICommandHandler {
             }
         }
     }
-
-
 
 
     private Contact _handleSaveContact(ICommand c) throws CommandException, JsonProcessingException {
@@ -168,20 +165,15 @@ public class ContactCommandHandler implements ICommandHandler {
         Transaction trx = c.getTransaction();
 
 
-       Contact contact = (Contact) (new ContactQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
-       if(contact!=null){
-          boolean success= HibernateUtils.delete(contact,trx);
-           if (c.isCommittable()) {
-               HibernateUtils.commitTransaction(c.getTransaction());
-           }
-           c.setObject(success);
+        Contact contact = (Contact) (new ContactQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+        if (contact != null) {
+            boolean success = HibernateUtils.delete(contact, trx);
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(success);
 
-       }
-
-
-
-
-
+        }
 
 
     }

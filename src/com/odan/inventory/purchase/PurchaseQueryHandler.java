@@ -25,17 +25,6 @@ public class PurchaseQueryHandler implements IQueryHandler {
 		HashMap<String, Object> sqlParams = new HashMap<String, Object>();
 		String whereSQL = " WHERE 1=1 ";
 
-		int page = 1;
-		int limit = 10;
-		int offset = 0;
-
-		if (q.has("page")) {
-			page = Parser.convertObjectToInteger(q.get("page"));
-		}
-
-		if (q.has("limit")) {
-			limit = Parser.convertObjectToInteger(q.get("limit"));
-		}
 
 		// Apply Filter Params
 
@@ -96,9 +85,8 @@ public class PurchaseQueryHandler implements IQueryHandler {
 			whereSQL += " AND DATE(endDate) < DATE(" + HibernateUtils.s((String) q.get("salesEndDateBefore")) + ") ";
 		}
 
-		offset = (limit * (page - 1));
 
-		List<Object> sales = HibernateUtils.select("FROM Sales " + whereSQL, sqlParams, limit, offset);
+		List<Object> sales = HibernateUtils.select("FROM Purchase " + whereSQL, sqlParams);
 		return sales;
 	}
 

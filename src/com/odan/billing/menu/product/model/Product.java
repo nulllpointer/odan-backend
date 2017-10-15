@@ -1,5 +1,6 @@
 package com.odan.billing.menu.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odan.billing.menu.category.model.Category;
 import com.odan.common.model.Flags.ProductType;
 import com.odan.common.shared.model.AbstractEntity;
@@ -18,6 +19,7 @@ public class Product extends AbstractEntity {
 	private String title;
 
 	@ManyToOne
+	@JsonIgnore
 	private Category category;
 
 	@Column(name = "description")

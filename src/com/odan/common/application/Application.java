@@ -4,10 +4,7 @@ import com.odan.billing.contact.ContactCommandHandler;
 import com.odan.billing.menu.category.CategoryCommandHandler;
 import com.odan.billing.menu.product.ProductCommandHandler;
 import com.odan.inventory.purchase.PurchaseCommandHandler;
-import com.odan.inventory.sales.CartCommandHandler;
-import com.odan.inventory.sales.SaleOfferCommandHandler;
-import com.odan.inventory.sales.SalesCommandHandler;
-import com.odan.inventory.sales.SalesEventHandler;
+import com.odan.inventory.sales.*;
 import com.odan.inventory.sales.model.SaleOffer;
 import com.odan.security.accountingperiod.AccountingPeriodCommandHandler;
 import com.odan.security.user.UserCommandHandler;
@@ -36,6 +33,8 @@ public class Application {
         SalesCommandHandler.registerCommands();
 
         CartCommandHandler.registerCommands();
+
+        CartItemCommandHandler.registerCommands();
 
         SaleOfferCommandHandler.registerCommands();
 

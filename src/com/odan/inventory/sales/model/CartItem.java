@@ -1,6 +1,8 @@
 package com.odan.inventory.sales.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odan.billing.menu.product.model.Product;
 import com.odan.common.application.CommandException;
 import com.odan.common.database.HibernateUtils;
@@ -17,7 +19,10 @@ public class CartItem extends AbstractEntity {
     private Product product;
 
     @ManyToOne
+    @JsonIgnore
     private Cart cart;
+
+   private Integer quantity;
 
     public Product getProduct() {
         return product;
@@ -35,4 +40,11 @@ public class CartItem extends AbstractEntity {
         this.cart = cart;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }
