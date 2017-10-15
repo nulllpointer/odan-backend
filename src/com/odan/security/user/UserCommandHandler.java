@@ -24,9 +24,12 @@ public class UserCommandHandler implements ICommandHandler {
 	public static void registerCommands() {
 		CommandRegister.getInstance().registerHandler(CreateUser.class, UserCommandHandler.class);
 		CommandRegister.getInstance().registerHandler(UpdateUser.class, UserCommandHandler.class);
+		CommandRegister.getInstance().registerHandler(DeleteUser.class, UserCommandHandler.class);
+
+
 	}
 
-	public void handle(ICommand c) {
+	public void handle(ICommand c) throws CommandException {
 		if (c instanceof CreateUser) {
 			handle((CreateUser) c);
 		} else if (c instanceof UpdateUser) {
@@ -35,6 +38,7 @@ public class UserCommandHandler implements ICommandHandler {
 		else if (c instanceof DeleteUser) {
 			handle((DeleteUser) c);
 		}
+
 	}
 
 	public void handle(CreateUser c) {
@@ -42,11 +46,11 @@ public class UserCommandHandler implements ICommandHandler {
 		Transaction trx = c.getTransaction();
 
 		try {
-			User u = this._handleSaveUser(c);
+			User v = this._handleSaveUser(c);
 			if (c.isCommittable()) {
 				HibernateUtils.commitTransaction(c.getTransaction());
 			}
-			c.setObject(u);
+			c.setObject(v);
 		} catch (Exception ex) {
 			if (c.isCommittable()) {
 				HibernateUtils.rollbackTransaction(trx);
@@ -57,6 +61,7 @@ public class UserCommandHandler implements ICommandHandler {
 			}
 		}
 	}
+
 
 	public void handle(UpdateUser c) {
 		// HibernateUtils.openSession();
@@ -79,85 +84,108 @@ public class UserCommandHandler implements ICommandHandler {
 		}
 	}
 
+
+
+
 	private User _handleSaveUser(ICommand c) throws CommandException, JsonProcessingException {
-		User user = null;
+
+		User cust = null;
 		boolean isNew = true;
 
 		if (c.has("id") && c instanceof UpdateUser) {
-			user = (User) (new UserQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+			cust = (User) (new UserQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
 			isNew = false;
-			if (user == null) {
-				APILogger.add(APILogType.ERROR, "User (" + c.get("id") + ") not found.");
-				throw new CommandException("User (" + c.get("id") + ") not found.");
+			if (cust == null) {
+				APILogger.add(APILogType.ERROR, "Customer (" + c.get("id") + ") not found.");
+				throw new CommandException("Customer (" + c.get("id") + ") not found.");
 			}
 		}
 
-		if (user == null) {
-			user = new User();
+		if (cust == null) {
+			cust = new User();
 		}
 
 		if (c.has("firstName")) {
-			user.setFirstName((String) c.get("firstName"));
+			cust.setFirstName((String) c.get("firstName"));
 		}
 
 		if (c.has("lastName")) {
-			user.setLastName((String) c.get("lastName"));
+			cust.setLastName((String) c.get("lastName"));
 		}
 
 		if (c.has("email")) {
-			user.setEmail((String) c.get("email"));
+			cust.setEmail((String) c.get("email"));
 		}
 
 		if (c.has("phone")) {
-			user.setPhone((String) c.get("phone"));
+			cust.setPhone((String) c.get("phone"));
 		}
 
 		if (c.has("addressLine1")) {
-			user.setAddressLine1((String) c.get("addressLine1"));
+			cust.setAddressLine1((String) c.get("addressLine1"));
 		}
 
 		if (c.has("addressLine2")) {
-			user.setAddressLine2((String) c.get("addressLine2"));
+			cust.setAddressLine2((String) c.get("addressLine2"));
 		}
 
 		if (c.has("city")) {
-			user.setCity((String) c.get("city"));
+			cust.setCity((String) c.get("city"));
 		}
 
 		if (c.has("state")) {
-			user.setState((String) c.get("state"));
+			cust.setState((String) c.get("state"));
 		}
 
 		if (c.has("country")) {
-			user.setCountry((String) c.get("country"));
+			cust.setCountry((String) c.get("country"));
 		}
 
 		if (c.has("postalCode")) {
-			user.setPostalCode((String) c.get("postalCode"));
+			cust.setPostalCode((String) c.get("postalCode"));
 		}
 
-
 		if (c.has("status")) {
-			user.setStatus(EntityStatus.ACTIVE);
-		} else if (isNew) {
-			user.setStatus(EntityStatus.ACTIVE);
+
+			cust.setStatus(EntityStatus.ACTIVE);
 		}
 
 		if (isNew) {
-			user.setCreatedAt(DateTime.getCurrentTimestamp());
-			Long ownerId = Parser.convertObjectToLong(c.get("ownerId"));
-			if (ownerId == null) {
-				ownerId = Authentication.getUserId();
-			}
+			cust.setCreatedAt(DateTime.getCurrentTimestamp());
+
 		} else {
-			user.setUpdatedAt(DateTime.getCurrentTimestamp());
+			cust.setUpdatedAt(DateTime.getCurrentTimestamp());
 		}
 
-		user = (User) HibernateUtils.save(user, c.getTransaction());
+		cust = (User) HibernateUtils.save(cust, c.getTransaction());
 
-
-
-		return user;
+		return cust;
 
 	}
+
+	public void handle(DeleteUser c) throws CommandException {
+		// HibernateUtils.openSession();
+		Transaction trx = c.getTransaction();
+
+
+		User user = (User) (new UserQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+		if(user!=null){
+			boolean success= HibernateUtils.delete(user,trx);
+			if (c.isCommittable()) {
+				HibernateUtils.commitTransaction(c.getTransaction());
+			}
+			c.setObject(success);
+
+		}
+
+
+
+
+
+
+
+	}
+
+
+
 }

@@ -19,23 +19,10 @@ public class UserQueryHandler implements IQueryHandler {
 
 	}
 
-	/*public User getByExternalId(String externalId) {
-		Query q = new Query();
-		q.set("externalId", externalId);
-		List<Object> userList = this.get(q);
-		User c = null;
-		if (userList.size() > 0) {
-			c = (User) userList.get(0);
-		}
-		return c;
-
-	}*/
-
 	@Override
 	public List<Object> get(Query q) {
 		HashMap<String, Object> sqlParams = new HashMap<String, Object>();
 		String whereSQL = " WHERE 1=1 ";
-
 
 
 		if (q.has("id")) {
@@ -73,14 +60,9 @@ public class UserQueryHandler implements IQueryHandler {
 			sqlParams.put("country", ((String) q.get("country")).toLowerCase());
 		}
 
-		if (q.has("externalId")) {
-			whereSQL += " AND lower(externalId) = :externalId ";
-			sqlParams.put("externalId", ((String) q.get("externalId")).toLowerCase());
-		}
 
-
-		List<Object> users = HibernateUtils.select("FROM User " + whereSQL, sqlParams);
-		return users;
+		List<Object> customers = HibernateUtils.select("FROM User " + whereSQL, sqlParams);
+		return customers;
 	}
 
 }

@@ -1,13 +1,8 @@
 package com.odan.inventory.sales.model;
 
-
-import com.odan.billing.menu.product.model.Product;
-import com.odan.common.application.CommandException;
-import com.odan.common.database.HibernateUtils;
 import com.odan.common.shared.model.AbstractEntity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name="cart")

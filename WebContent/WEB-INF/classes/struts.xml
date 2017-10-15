@@ -105,9 +105,29 @@
         <action name="contacts/{id}" method="actionContactById"
                 class="com.odan.billing.contact.api.ContactResource"/>
 
-        <action name="user" method="actionUser"
-                class="com.odan.security.user.api.UserResource"/>
+
+
+
+
     </package>
+
+    <package name="module-security" extends="jsonPackageSecure"
+             namespace="/v1/security">
+
+        <action name="users" method="actionUser"
+                class="com.odan.security.user.api.UserResource"/>
+
+        <action name="users/{id}" method="actionUserById"
+                class="com.odan.security.user.api.UserResource"/>
+
+
+
+
+
+    </package>
+
+
+
 
     <package name="module-catalog" extends="jsonPackageSecure"
              namespace="/v1/billing/catalog">

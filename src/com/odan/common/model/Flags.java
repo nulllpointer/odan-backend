@@ -32,6 +32,12 @@ public abstract class Flags {
         CUSTOMER, SUPPLIER
     }
 
+    public enum UserKind {
+        ADMIN, STAFF
+    }
+
+
+
     public enum TransactionType {
         CASH, ON_CREDIT
 

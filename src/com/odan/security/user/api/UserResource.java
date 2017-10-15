@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.odan.common.application.CommandException;
 import com.odan.common.application.ValidationException;
+import com.odan.common.model.Flags;
+import com.odan.common.utils.APILogType;
+import com.odan.security.user.command.DeleteUser;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -47,20 +50,24 @@ public class UserResource extends RestAction {
 
 	public String createUser() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
+		System.out.println("..Create Customer Request");
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-		CreateUser command = new CreateUser(requestData);
-		CommandRegister.getInstance().process(command);
-		User su = (User) command.getObject();
 
-		if (su != null) {
-			responseStatus = SUCCESS;
-			/*setSuccess("User created successfully.");
-			getData().put("userId", su.getId().toString());*/
+		if (requestData.containsKey("id")) {
+			UpdateUser command = new UpdateUser(requestData);
+			CommandRegister.getInstance().process(command);
+			User c = (User) command.getObject();
+			setJsonResponseForUpdate(c);
+
+
 		} else {
-			/*setError("User creation failed.");
-			getData().put("log", APILogger.getList());*/
-			APILogger.clear();
+			CreateUser command = new CreateUser(requestData);
+			CommandRegister.getInstance().process(command);
+			User c = (User) command.getObject();
+			setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
+
 		}
+
 
 		return responseStatus;
 	}
@@ -70,19 +77,11 @@ public class UserResource extends RestAction {
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		UpdateUser command = new UpdateUser(requestData);
 		CommandRegister.getInstance().process(command);
-		User su = (User) command.getObject();
+		User c = (User) command.getObject();
+		setJsonResponseForUpdate(c);
 
-		/*if (su != null) {
-			responseStatus = SUCCESS;
-			setSuccess("User updated successfully.");
-			getData().put("userId", su.getId().toString());
-		} else {
-			setError("User update failed.");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}*/
 
-		return responseStatus;
+		return SUCCESS;
 	}
 
 	public String getUser() {
@@ -90,20 +89,56 @@ public class UserResource extends RestAction {
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		Query q = new Query(requestData);
 
-		List<Object> users = (new UserQueryHandler()).get(q);
+		List<Object> customers = (new UserQueryHandler()).get(q);
 
-		/*if (q.validate()) {
-			responseStatus = SUCCESS;
-			getData().put("users", users);
-			getData().put("logs", APILogger.getList());
-			setSuccess();
+
+		return setJsonResponseForGet(customers, "users");
+	}
+
+	public String actionUserById() throws Exception {
+		String response = SUCCESS;
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String[] val = httpRequest.getServletPath().split("/");
+
+		Long id = Long.parseLong(val[val.length - 1]);
+		if (httpRequest.getMethod().equals("GET")) {
+			response = getUserById(id);
+		} else if (httpRequest.getMethod().equals("DELETE")) {
+
+			deleteUser(id);
 		} else {
-			responseStatus = ERROR;
-			setError("Error Occured");
-			getData().put("logs", APILogger.getList());
-			APILogger.clear();
-		}*/
+
+			response = "HttpMethodNotAccepted";
+		}
+
+		return response;
+	}
+
+	public String getUserById(Long id) {
+		User normalUser = null;
+		try {
+			normalUser = (User) (new UserQueryHandler()).getById(id);
+		} catch (Exception e) {
+			if (e instanceof CommandException) {
+				APILogger.add(APILogType.ERROR, "Permission denied");
+			}
+
+		}
+		return setJsonResponseForGetById(normalUser);
+	}
+
+	public String deleteUser(Long id) throws JsonProcessingException, CommandException, ParseException, ValidationException {
+		String responseStatus = SUCCESS;
+		System.out.println("Delete NormalUser");
+		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
+		requestData.put("id",id);
+		DeleteUser command = new DeleteUser(requestData);
+		CommandRegister.getInstance().process(command);
+		Boolean c = (Boolean) command.getObject();
+
+		setJsonResponseForDelete(c);
 
 		return responseStatus;
 	}
+
 }
