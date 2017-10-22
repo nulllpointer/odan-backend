@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 @Table(name="purchase")
 public class Purchase extends AbstractEntity {
 
-
 	@Column(name = "txn_date")
 	private Timestamp txnDate;
 

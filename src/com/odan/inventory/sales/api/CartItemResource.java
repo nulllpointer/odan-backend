@@ -9,10 +9,13 @@ import com.odan.common.cqrs.Query;
 import com.odan.common.model.Flags;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
+import com.odan.common.utils.Parser;
 import com.odan.inventory.sales.CartItemQueryHandler;
+import com.odan.inventory.sales.CartQueryHandler;
 import com.odan.inventory.sales.command.CreateCartItem;
 import com.odan.inventory.sales.command.DeleteCartItem;
 import com.odan.inventory.sales.command.UpdateCartItem;
+import com.odan.inventory.sales.model.Cart;
 import com.odan.inventory.sales.model.CartItem;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -36,10 +39,8 @@ public class CartItemResource extends RestAction {
         HttpServletRequest httpRequest = ServletActionContext.getRequest();
 
 
-         if (httpRequest.getMethod().equals("POST")) {
+        if (httpRequest.getMethod().equals("POST")) {
             createCartItem();
-        } else if (httpRequest.getMethod().equals("PUT")) {
-            updateCartItem();
         } else if (httpRequest.getMethod().equals("GET")) {
             getCartItem();
         } else if (httpRequest.getMethod().equals("DELETE")) {
@@ -61,7 +62,22 @@ public class CartItemResource extends RestAction {
         System.out.println("..Create Customer Request");
         HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 
+
+        if (requestData.get("cartId") != null) {
+            Cart cart = (Cart) new CartQueryHandler().getById(Parser.convertObjectToLong(requestData.get("cartId")));
+            List<CartItem> items = cart.getItems();
+
+            for (CartItem cartItem : items) {
+                if (cartItem.getProductPrice().getId().equals(Parser.convertObjectToLong(requestData.get("productPriceId")))) {
+                    requestData.put("id", cartItem.getId());
+                    requestData.put("increaseQty", true);
+                    break;
+                }
+            }
+        }
+
         if (requestData.containsKey("id")) {
+
             UpdateCartItem command = new UpdateCartItem(requestData);
             CommandRegister.getInstance().process(command);
             CartItem c = (CartItem) command.getObject();

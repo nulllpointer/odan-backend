@@ -1,6 +1,7 @@
 package com.odan.billing.menu.product;
 
 import com.odan.billing.menu.category.model.Category;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.billing.menu.product.model.ProductPrice;
 import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.IQueryHandler;
@@ -9,6 +10,8 @@ import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.utils.Parser;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +20,8 @@ public class ProductPriceQueryHandler implements IQueryHandler {
 
     @Override
     public Object getById(Long id) throws CommandException {
-        Category category = (Category) HibernateUtils.get(Category.class, id);
-        return category;
+        ProductPrice pp = (ProductPrice) HibernateUtils.get(ProductPrice.class, id);
+        return pp;
 
     }
 
@@ -38,29 +41,31 @@ public class ProductPriceQueryHandler implements IQueryHandler {
             queryParams.put("productId", Parser.convertObjectToLong(q.get("productId")));
         }
 
-
-        if (q.has("type")) {
-            whereSQL += " AND type = :type ";
-            queryParams.put("type", Flags.ProductType.valueOf("type"));
-        }
         List<Object> products = HibernateUtils.select("FROM ProductPrice " + whereSQL, queryParams);
         return products;
     }
 
-    public ProductPrice getLatestPrice(Long productId) {
-        return null;
+    public ProductPrice getProductPrice(Long productId, Timestamp txnDate) throws ParseException {
+
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("productId", productId);
+
+        List<Object> products = get(new Query(map));
+        ProductPrice pp = null;
+
+        for (Object o : products) {
+            pp = (ProductPrice) o;
+            System.out.println(pp.getStartDate() + "after" + "  " + "  " + txnDate +Parser.convertObjectToTimestamp(pp.getStartDate()) .after(txnDate));
+
+
+            if (Parser.convertObjectToTimestamp(pp.getStartDate()).before(txnDate) && Parser.convertObjectToTimestamp(pp.getEndDate()).after(txnDate)) {
+                return pp;
+            }
+
+
+        }
+        return pp;
+
     }
-
-  /*  public Integer getSalesCountById(Query q) {
-        Long productId = Parser.convertObjectToLong(q.get("productId"));
-        String sql = "SELECT COUNT(s.id) AS count FROM sales s WHERE s.product_id = :productId";
-        HashMap<String, Object> sqlParams = new HashMap<>();
-        sqlParams.put("productId", productId);
-
-        List<Map<String, Object>> queryResult = (List<Map<String, Object>>) HibernateUtils.selectSQL(sql, sqlParams);
-        Integer count = Parser.convertObjectToInteger(queryResult.get(0).get("count"));
-        return count;
-    }
-*/
-
 }

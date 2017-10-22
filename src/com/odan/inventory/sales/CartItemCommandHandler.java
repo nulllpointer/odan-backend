@@ -1,8 +1,8 @@
 package com.odan.inventory.sales;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.odan.billing.menu.product.ProductQueryHandler;
-import com.odan.billing.menu.product.model.Product;
+import com.odan.billing.menu.product.ProductPriceQueryHandler;
+import com.odan.billing.menu.product.model.ProductPrice;
 import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
@@ -18,6 +18,8 @@ import com.odan.inventory.sales.command.*;
 import com.odan.inventory.sales.model.Cart;
 import com.odan.inventory.sales.model.CartItem;
 import org.hibernate.Transaction;
+
+import java.text.ParseException;
 
 public class CartItemCommandHandler implements ICommandHandler {
 
@@ -84,7 +86,7 @@ public class CartItemCommandHandler implements ICommandHandler {
     }
 
 
-    private CartItem _handleSaveCartItem(ICommand c) throws CommandException, JsonProcessingException {
+    private CartItem _handleSaveCartItem(ICommand c) throws CommandException, JsonProcessingException, ParseException {
 
         CartItem item = null;
         boolean isNew = true;
@@ -101,24 +103,40 @@ public class CartItemCommandHandler implements ICommandHandler {
         if (item == null) {
             item = new CartItem();
         }
+        Cart cart=null;
 
         if (c.has("cartId")) {
 
             Query query = new Query();
             query.set("cartId", Parser.convertObjectToLong(c.get("cartId")));
 
-            Cart cart = (Cart) new CartQueryHandler().getById(Parser.convertObjectToLong(c.get("cartId")));
+              cart = (Cart) new CartQueryHandler().getById(Parser.convertObjectToLong(c.get("cartId")));
 
             item.setCart(cart);
 
-        }
-        if (c.has("productId")) {
-            Product product = (Product) new ProductQueryHandler().getById(Parser.convertObjectToLong(c.get("productId")));
 
-            item.setProduct(product);
+
+
+
+        }
+        if (c.has("productPriceId")) {
+            ProductPrice pPrice = (ProductPrice) new ProductPriceQueryHandler().getProductPrice(Parser.convertObjectToLong(c.get("productId")), Parser.convertObjectToTimestamp(cart.getTxnDate().toString()));
+
+            item.setProductPrice(pPrice);
         }
         if (c.has("quantity")) {
             item.setQuantity((Integer) c.get("quantity"));
+        }
+
+        if (c.has("quantity")) {
+            item.setQuantity((Integer) c.get("quantity"));
+        }
+
+        if(c.has("increaseQty") && c.get("increaseQty").equals(true)){
+
+            int qty=item.getQuantity();
+
+            item.setQuantity(qty+1);
         }
 
 
