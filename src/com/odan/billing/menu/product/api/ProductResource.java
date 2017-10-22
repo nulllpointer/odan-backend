@@ -1,70 +1,81 @@
 package com.odan.billing.menu.product.api;
 
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.odan.billing.menu.product.ProductQueryHandler;
+import com.odan.billing.menu.product.command.CreateProduct;
+import com.odan.billing.menu.product.command.DeleteProduct;
+import com.odan.billing.menu.product.command.UpdateProduct;
+import com.odan.billing.menu.product.model.Product;
+import com.odan.common.api.RestAction;
 import com.odan.common.application.CommandException;
 import com.odan.common.application.ValidationException;
+import com.odan.common.cqrs.CommandRegister;
+import com.odan.common.cqrs.Query;
+import com.odan.common.model.Flags;
+import com.odan.common.utils.APILogType;
+import com.odan.common.utils.APILogger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.odan.billing.menu.product.command.CreateProduct;
-import com.odan.billing.menu.product.command.DeleteProduct;
-import com.odan.billing.menu.product.command.UpdateProduct;
-import com.odan.billing.menu.product.model.Product;
-import com.odan.billing.menu.category.CategoryQueryHandler;
-import com.odan.common.api.RestAction;
-import com.odan.common.cqrs.CommandRegister;
-import com.odan.common.cqrs.Query;
-import com.odan.common.utils.APILogger;
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
 
 @ParentPackage("jsonPackage")
-@Namespace(value = "/v1")
+@Namespace(value = "/v1/billing")
 public class ProductResource extends RestAction {
 
-	@Action(value = "sales/product", results = { @Result(type = "json") })
+
+	@Action(value = "product", results = {@Result(type = "json")})
 	public String actionProduct() throws ValidationException, CommandException, ParseException, JsonProcessingException {
-		String responseStatus = SUCCESS;
+		String response = SUCCESS;
 		HttpServletRequest httpRequest = ServletActionContext.getRequest();
-		if (httpRequest.getMethod().equals("GET")) {
-			responseStatus = getProduct();
-		} else if (httpRequest.getMethod().equals("POST")) {
-			responseStatus = createProduct();
+
+
+		if (httpRequest.getMethod().equals("POST")) {
+			createProduct();
 		} else if (httpRequest.getMethod().equals("PUT")) {
-			responseStatus = updateProduct();
+			updateProduct();
+		} else if (httpRequest.getMethod().equals("GET")) {
+			getProduct();
 		} else if (httpRequest.getMethod().equals("DELETE")) {
-			responseStatus = deleteProduct();
+
+			// deleteProduct(id);
+
+			;
 		} else {
-			responseStatus = "HttpMethodNotAccepted";
+			response = "HttpMethodNotAccepted";
 		}
 
-		return responseStatus;
+
+		return response;
 	}
+
 
 	public String createProduct() throws JsonProcessingException, CommandException, ParseException, ValidationException {
 		String responseStatus = SUCCESS;
+		System.out.println("..Create Customer Request");
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-		CreateProduct command = new CreateProduct(requestData);
-		CommandRegister.getInstance().process(command);
-		Product p = (Product) command.getObject();
 
-		/*if (p != null) {
-			responseStatus = SUCCESS;
-			getData().put("productId", p.getId());
-			setSuccess();
+		if (requestData.containsKey("id")) {
+			UpdateProduct command = new UpdateProduct(requestData);
+			CommandRegister.getInstance().process(command);
+			Product c = (Product) command.getObject();
+			setJsonResponseForUpdate(c);
+
+
 		} else {
-			responseStatus = ERROR;
-			setError("Error Occured");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}*/
+			CreateProduct command = new CreateProduct(requestData);
+			CommandRegister.getInstance().process(command);
+			Product c = (Product) command.getObject();
+			setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
+
+		}
+
 
 		return responseStatus;
 	}
@@ -74,150 +85,86 @@ public class ProductResource extends RestAction {
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
 		UpdateProduct command = new UpdateProduct(requestData);
 		CommandRegister.getInstance().process(command);
-		Product p = (Product) command.getObject();
+		Product c = (Product) command.getObject();
+		setJsonResponseForUpdate(c);
 
-		/*if (p != null) {
-			responseStatus = SUCCESS;
-			getData().put("productId", p.getId());
-			setSuccess();
-		} else {
-			responseStatus = ERROR;
-			setError("Error Occured");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}*/
 
-		return responseStatus;
+		return SUCCESS;
 	}
 
-	public String deleteProduct() throws JsonProcessingException, CommandException, ParseException, ValidationException {
-		String responseStatus = SUCCESS;
-		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-		DeleteProduct command = new DeleteProduct(requestData);
-		CommandRegister.getInstance().process(command);
-		boolean deleted = (boolean) command.getObject();
-
-		/*if (deleted) {
-			responseStatus = SUCCESS;
-			setSuccess();
-		} else {
-			responseStatus = ERROR;
-			setError("Error Occured");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}*/
-
-		return responseStatus;
-	}
-	
 	public String getProduct() {
 		String responseStatus = SUCCESS;
 		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-		Query q = new Query(requestData, "billing/menu/product/get");
+		Query q = new Query(requestData);
 
-		List<Object> categories = (new CategoryQueryHandler()).get(q);
+		List<Object> products = (new ProductQueryHandler()).get(q);
 
-		/*if (q.validate()) {
-			responseStatus = SUCCESS;
-			getData().put("products", categories);
-			setSuccess();
+
+		return setJsonResponseForGet(products, "products");
+	}
+
+	public String actionProductById() throws Exception {
+		String response = SUCCESS;
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String[] val = httpRequest.getServletPath().split("/");
+
+		Long id = Long.parseLong(val[val.length - 1]);
+		if (httpRequest.getMethod().equals("GET")) {
+			response = getProductById(id);
+		} else if (httpRequest.getMethod().equals("DELETE")) {
+
+			deleteProduct(id);
 		} else {
-			responseStatus = ERROR;
-			setError("Error Occured");
-			getData().put("log", APILogger.getList());
-			APILogger.clear();
-		}*/
+
+			response = "HttpMethodNotAccepted";
+		}
+
+		return response;
+	}
+
+	public String getProductById(Long id) {
+		Product normalUser = null;
+		try {
+			normalUser = (Product) (new ProductQueryHandler()).getById(id);
+		} catch (Exception e) {
+			if (e instanceof CommandException) {
+				APILogger.add(APILogType.ERROR, "Permission denied");
+			}
+
+		}
+		return setJsonResponseForGetById(normalUser);
+	}
+
+	public String deleteProduct(Long id) throws JsonProcessingException, CommandException, ParseException, ValidationException {
+		String responseStatus = SUCCESS;
+		System.out.println("Delete NormalUser");
+		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
+		requestData.put("id", id);
+		DeleteProduct command = new DeleteProduct(requestData);
+		CommandRegister.getInstance().process(command);
+		Boolean c = (Boolean) command.getObject();
+
+		setJsonResponseForDelete(c);
 
 		return responseStatus;
 	}
-	
-//
-//	@Action(value = "sales/product/{id}/clone", results = { @Result(type = "json") })
-//	public String actionProductClone() {
-//		String responseStatus = SUCCESS;
-//		HttpServletRequest httpRequest = ServletActionContext.getRequest();
-//
-//		if (httpRequest.getMethod().equals("POST")) {
-//			responseStatus = cloneProduct();
-//		} else {
-//			responseStatus = "HttpMethodNotAccepted";
-//		}
-//
-//		return responseStatus;
-//	}
-//
-//	public String cloneProduct() {
-//		String responseStatus = SUCCESS;
-//		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-//		JSONValidatorReport report = null;
-//		try {
-//			report = JSONValidatorEngine.validateRequest("sales/product/clone", getRequest());
-//		} catch (IOException | ProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			responseStatus = ERROR;
-//		}
-//
-//		if (report.isValid()) {
-//			Product p = ProductCommandHandler.cloneProduct(requestData);
-//			if (p != null) {
-//				setSuccess("Product is saved");
-//				getData().put("id", p.getId());
-//				responseStatus = SUCCESS;
-//			} else {
-//				setError("Error saving product");
-//				responseStatus = ERROR;
-//			}
-//		} else {
-//			List<JSONValidatorLog> logs = report.getReport();
-//			getData().put("log", logs);
-//			setError("Schema Validation Failed");
-//			responseStatus = ERROR;
-//		}
-//
-//		return responseStatus;
-//	}
-//
-//	@Action(value = "sales/product/{id}/rateplan", results = { @Result(type = "json") })
-//	public String actionProductRatePlan() {
-//		String response = SUCCESS;
-//		HttpServletRequest httpRequest = ServletActionContext.getRequest();
-//
-//		if (httpRequest.getMethod().equals("GET")) {
-//			getProductRatePlan();
-//		} else {
-//			response = "HttpMethodNotAccepted";
-//		}
-//
-//		return response;
-//	}
-//
-//	public String getProductRatePlan() {
-//		HashMap<String, Object> requestData = (HashMap<String, Object>) getRequest();
-//		JSONValidatorReport report = null;
-//		try {
-//			report = JSONValidatorEngine.validateRequest("sales/product/get", getRequest());
-//
-//		} catch (IOException | ProcessingException e) {
-//			// TODO Auto-generated catch block
-//			setError("Exception: " + e.getMessage());
-//			e.printStackTrace();
-//		}
-//
-//		if (report.isValid()) {
-//			setSuccess();
-//			Long productId = null;
-//			if (requestData.containsKey("productId")) {
-//				productId = Parser.convertObjectToLong(requestData.get("productId"));
-//			}
-//			List<Map<String, Object>> ratePlans = ProductCommandHandler.getProductRatePlanList(productId);
-//			getData().put("ratePlans", ratePlans);
-//		} else {
-//			List<JSONValidatorLog> logs = report.getReport();
-//			getData().put("log", logs);
-//			setError("Schema Validation Failed");
-//		}
-//
-//		return SUCCESS;
-//	}
+
+
+	public String actionProductDeleteById() throws Exception {
+		String response = SUCCESS;
+		HttpServletRequest httpRequest = ServletActionContext.getRequest();
+		String[] val = httpRequest.getServletPath().split("/");
+
+		Long id = Long.parseLong(val[val.length - 1]);
+		if (httpRequest.getMethod().equals("GET")) {
+			response = deleteProduct(id);
+		} else {
+
+			response = "HttpMethodNotAccepted";
+		}
+
+		return response;
+	}
+
+
 }

@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class CreateUser extends CreateOrUpdateUserAbstract implements ICommand {
 	public CreateUser(HashMap<String, Object> data) {
 		super(data);
-		this.validationSchema = "billing/user/create";
+		this.validationSchema = "security/user/create";
 		this.validate();
 	}
 }

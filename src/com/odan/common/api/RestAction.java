@@ -125,11 +125,9 @@ public abstract class RestAction extends BaseAction {
 
     }
 
-
     public String execute() {
         return Action.SUCCESS;
     }
-
 
     protected String setJsonResponseForUpdate(Object c) {
         if (c != null) {
@@ -171,7 +169,6 @@ public abstract class RestAction extends BaseAction {
 
         }
     }
-
 
     protected String setJsonResponseForGet(Query q, List<Object> val) {
 
@@ -282,7 +279,6 @@ public abstract class RestAction extends BaseAction {
             APILogger.clear();
         }
     }
-
 
     protected String setStandardJsonResponse(List<Object> bta, Object msg) {
         HashMap<String, Object> map = new HashMap<>();

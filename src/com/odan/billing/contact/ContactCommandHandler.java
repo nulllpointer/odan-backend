@@ -6,6 +6,7 @@ import com.odan.billing.contact.command.DeleteContact;
 import com.odan.billing.contact.command.UpdateContact;
 import com.odan.billing.contact.model.Contact;
 import com.odan.common.application.Authentication;
+import com.odan.common.model.Flags;
 import com.odan.common.utils.DateTime;
 import com.odan.security.user.command.UpdateUser;
 import com.odan.common.application.CommandException;
@@ -146,6 +147,11 @@ public class ContactCommandHandler implements ICommandHandler {
 
             cust.setStatus(EntityStatus.ACTIVE);
         }
+
+
+
+
+
 
         if (isNew) {
             cust.setCreatedAt(DateTime.getCurrentTimestamp());

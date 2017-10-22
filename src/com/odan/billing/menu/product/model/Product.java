@@ -1,62 +1,78 @@
 package com.odan.billing.menu.product.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.odan.billing.menu.category.CategoryQueryHandler;
 import com.odan.billing.menu.category.model.Category;
+import com.odan.common.application.CommandException;
+import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.ProductType;
 import com.odan.common.shared.model.AbstractEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
 public class Product extends AbstractEntity {
 
 
-	@Column(name = "title")
-	private String title;
+    @Column(name = "title")
+    private String title;
 
-	@ManyToOne
-	@JsonIgnore
-	private Category category;
+    @ManyToOne
+    private Category category;
 
-	@Column(name = "description")
-	private String description;
+    @Column(name = "description")
+    private String description;
 
-	@Column(name = "type")
-	private ProductType type;
+    @Column(name = "product_type")
+    private ProductType productType;
 
-	public String getTitle() {
-		return title;
-	}
+    @Column(name = "principal_category_type")
+    private Flags.PrincipalCategoryType principalCategoryType;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
-	public Category getCategory() {
-		return category;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public Category getCategory(Object category_id) {
+        return category;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-	public ProductType getType() {
-		return type;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setType(ProductType type) {
-		this.type = type;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getCategory() throws CommandException {
+        return category;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public Flags.PrincipalCategoryType getPrincipalCategoryType() {
+        return principalCategoryType;
+    }
+
+    public void setPrincipalCategoryType(Flags.PrincipalCategoryType principalCategoryType) {
+        this.principalCategoryType = principalCategoryType;
+    }
+
 }

@@ -7,6 +7,7 @@ import com.odan.common.cqrs.ICommand;
 public class UpdateContact extends CreateOrUpdateContactAbstract implements ICommand {
 	public UpdateContact(HashMap<String, Object> data) {
 		super(data);
-		//this.validate();
+		this.validationSchema = "/billing/contact/update";
+		this.validate();
 	}
 }

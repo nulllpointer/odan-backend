@@ -1,6 +1,8 @@
 package com.odan.billing.menu.category.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.shared.model.AbstractEntity;
@@ -25,7 +27,7 @@ public class Category extends AbstractEntity {
     @Column(name = "description")
     private String description;
 
-    private Flags.MainCategoryType type;
+    private Flags.PrincipalCategoryType type;
 
     public Category getParent() {
         return parent;
@@ -51,20 +53,21 @@ public class Category extends AbstractEntity {
         this.description = description;
     }
 
-    public List<Category> getProducts() {
-        List<Category> items = null;
+    @JsonIgnore
+    public List<Product> getProducts() {
+        List<Product> items = null;
         if(this.getId() != null) {
-            items = (List<Category>) HibernateUtils.select("FROM Product WHERE category_id = " + this.getId());
+            items = (List<Product>) HibernateUtils.select("FROM Product WHERE category_id = " + this.getId());
         }
 
         return items;
     }
 
-    public Flags.MainCategoryType getType() {
+    public Flags.PrincipalCategoryType getType() {
         return type;
     }
 
-    public void setType(Flags.MainCategoryType type) {
+    public void setType(Flags.PrincipalCategoryType type) {
         this.type = type;
     }
 }

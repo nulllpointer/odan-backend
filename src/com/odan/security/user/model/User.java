@@ -2,13 +2,13 @@ package com.odan.security.user.model;
 
 
 import com.odan.common.shared.model.AbstractEntity;
-
+import com.odan.common.model.Flags.UserKind;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="`user`")
+@Table(name= "app_user" )
 public class User extends AbstractEntity{
 
 
@@ -44,6 +44,17 @@ public class User extends AbstractEntity{
 	
 	@Column(name="username")
 	private String username;
+
+	@Column(name="type")
+	private UserKind type;
+
+	public UserKind getType() {
+		return type;
+	}
+
+	public void setType(UserKind type) {
+		this.type = type;
+	}
 
 	public String getFirstName() {
 		return firstName;

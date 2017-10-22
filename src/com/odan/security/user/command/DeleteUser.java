@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class DeleteUser extends CreateOrUpdateUserAbstract implements ICommand {
 	public DeleteUser(HashMap<String, Object> data) {
 		super(data);
-		this.validationSchema = "billing/user/update";
+		this.validationSchema = "security/user/update";
 		this.validate();
 	}
 }

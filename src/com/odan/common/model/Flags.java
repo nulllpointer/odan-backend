@@ -32,6 +32,12 @@ public abstract class Flags {
         CUSTOMER, SUPPLIER
     }
 
+    public enum UserKind {
+        ADMIN, STAFF
+    }
+
+
+
     public enum TransactionType {
         CASH, ON_CREDIT
 
@@ -59,8 +65,9 @@ public abstract class Flags {
 
     }
 
-    public enum MainCategoryType {
+    public enum PrincipalCategoryType {
         SNACKS, DRINKS, KHANA_KHAJA,ICE_CREAM
+
 
     }
 

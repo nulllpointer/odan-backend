@@ -8,6 +8,6 @@ public class UpdateCategory extends CreateOrUpdateCategoryAbstract implements IC
 	public UpdateCategory(HashMap<String, Object> data) {
 		super(data);
 		this.validationSchema ="billing/menu/category/update";
-		this.validate();
+	//	this.validate();
 	}
 }

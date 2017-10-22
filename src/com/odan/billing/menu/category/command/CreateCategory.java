@@ -8,6 +8,6 @@ public class CreateCategory extends CreateOrUpdateCategoryAbstract implements IC
 	public CreateCategory(HashMap<String, Object> data) {
 		super(data);
 		this.validationSchema = "billing/menu/category/create";
-		this.validate();
+		//this.validate();
 	}
 }

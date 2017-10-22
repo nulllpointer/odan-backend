@@ -75,8 +75,6 @@ public class CartResource extends RestAction {
             setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
 
         }
-
-
         return responseStatus;
     }
 
