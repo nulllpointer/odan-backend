@@ -168,6 +168,24 @@
                 class="com.odan.inventory.sales.api.PurchaseResource"/>
 
 
+        <!--For Purchase-->
+
+
+        <action name="product-prices" method="actionProductPrice"
+                class="com.odan.billing.menu.product.api.ProductResource"/>
+
+        <action name="product-price/{id}" method="actionProductPriceById"
+                class="com.odan.billing.menu.product.api.ProductResource"/>
+
+        <action name="product-price/delete/{id}" method="actionProductPriceDeleteById"
+                class="com.odan.billing.menu.product.api.ProductResource"/>
+
+        <action name="product-price" method="getProductPrice"
+                class="com.odan.billing.menu.product.api.ProductResource"/>
+
+
+
+
 
 
 

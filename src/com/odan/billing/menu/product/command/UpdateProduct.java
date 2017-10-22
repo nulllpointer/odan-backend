@@ -8,6 +8,6 @@ public class UpdateProduct extends CreateOrUpdateProductAbstract implements ICom
 	public UpdateProduct(HashMap<String, Object> data) {
 		super(data);
 		this.validationSchema ="billing/menu/product/update";
-		this.validate();
+		//this.validate();
 	}
 }

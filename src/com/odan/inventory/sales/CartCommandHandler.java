@@ -17,6 +17,8 @@ import com.odan.inventory.sales.command.UpdateCart;
 import com.odan.inventory.sales.model.Cart;
 import org.hibernate.Transaction;
 
+import java.text.ParseException;
+
 public class CartCommandHandler implements ICommandHandler {
 
     public static void registerCommands() {
@@ -82,7 +84,7 @@ public class CartCommandHandler implements ICommandHandler {
     }
 
 
-    private Cart _handleSaveCart(ICommand c) throws CommandException, JsonProcessingException {
+    private Cart _handleSaveCart(ICommand c) throws CommandException, JsonProcessingException, ParseException {
 
         Cart cart = null;
         boolean isNew = true;
@@ -102,6 +104,9 @@ public class CartCommandHandler implements ICommandHandler {
 
         if (c.has("identifier")) {
             cart.setIdentifier((String) c.get("identifier"));
+        }
+        if (c.has("txnDate")) {
+            cart.setTxnDate(Parser.convertObjectToTimestamp(c.get("txnDate")));
         }
 
 

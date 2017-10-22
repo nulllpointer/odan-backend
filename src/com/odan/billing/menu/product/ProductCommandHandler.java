@@ -8,10 +8,7 @@ import com.odan.billing.menu.product.model.Product;
 import com.odan.billing.menu.product.model.ProductPrice;
 import com.odan.common.application.Authentication;
 import com.odan.common.application.CommandException;
-import com.odan.common.cqrs.CommandRegister;
-import com.odan.common.cqrs.ICommand;
-import com.odan.common.cqrs.IQueryHandler;
-import com.odan.common.cqrs.Query;
+import com.odan.common.cqrs.*;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.EntityStatus;
@@ -21,15 +18,21 @@ import com.odan.common.utils.DateTime;
 import com.odan.common.utils.Parser;
 import org.hibernate.Transaction;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProductCommandHandler {
+public class ProductCommandHandler implements ICommandHandler {
 
     public static void registerCommands() {
         CommandRegister.getInstance().registerHandler(CreateProduct.class, ProductCommandHandler.class);
         CommandRegister.getInstance().registerHandler(UpdateProduct.class, ProductCommandHandler.class);
         CommandRegister.getInstance().registerHandler(DeleteProduct.class, ProductCommandHandler.class);
+
+        //Product Price
+        CommandRegister.getInstance().registerHandler(CreateProductPrice.class, ProductCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(UpdateProductPrice.class, ProductCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(DeleteProductPrice.class, ProductCommandHandler.class);
     }
 
     public void handle(ICommand c) throws CommandException, JsonProcessingException {
@@ -43,6 +46,12 @@ public class ProductCommandHandler {
             handle((AddProductToCategory) c);
         } else if (c instanceof RemoveCategoryFromProduct) {
             handle((RemoveCategoryFromProduct) c);
+        } else if (c instanceof CreateProductPrice) {
+            handle((CreateProductPrice) c);
+        } else if (c instanceof UpdateProductPrice) {
+            handle((UpdateProductPrice) c);
+        } else if (c instanceof DeleteProductPrice) {
+            handle((DeleteProductPrice) c);
         }
     }
 
@@ -144,22 +153,19 @@ public class ProductCommandHandler {
         ProductPrice productPrice = new ProductPrice();
 
         if (isNew) {
-            productPrice.setPrice((Integer) c.get("price"));
-            productPrice.setOldPrice(0);
+            productPrice.setPrice((Double) c.get("price"));
 
             productPrice.setCreatedAt(DateTime.getCurrentTimestamp());
             HibernateUtils.save(productPrice, c.getTransaction());
         } else {
-            int currentPrice=(Integer) c.get("price");
-            productPrice = new ProductPriceQueryHandler().getLatestPrice(product.getId());
-            if(currentPrice!=productPrice.getPrice()){
-                productPrice.setOldPrice(productPrice.getPrice());
+            double currentPrice = (Double) c.get("price");
+         //   productPrice = new ProductPriceQueryHandler().getLatestPrice(product.getId());
+            if (currentPrice != productPrice.getPrice()) {
                 productPrice.setPrice(currentPrice);
                 productPrice.setProduct(product);
                 productPrice.setUpdatedAt(DateTime.getCurrentTimestamp());
                 HibernateUtils.save(productPrice, c.getTransaction());
-            }
-            else {
+            } else {
                 return product;
             }
 
@@ -169,20 +175,138 @@ public class ProductCommandHandler {
     }
 
 
-	/*private boolean isDuplicateTitle(String title) {
-        HashMap<String, Object> queryParamsTitle = new HashMap<String, Object>();
-		queryParamsTitle.put("title", title);
-		queryParamsTitle.put("ownerId", Authentication.getUserId());
-		Query q = new Query(queryParamsTitle);
-		IQueryHandler qHandle = new ProductQueryHandler();
-		List<Object> pList = qHandle.get(q);
-		return (pList.size() > 0);
-	}
+    public void handle(DeleteProduct c) throws CommandException {
+        // HibernateUtils.openSession();
+        Transaction trx = c.getTransaction();
 
-	private boolean isProductUsed(Long productId) {
-		Query q = new Query();
-		q.set("productId", productId);
-		Integer count = (new ProductQueryHandler()).getSalesCountById(q);
-		return (count != null && count > 0);
-	}*/
+
+        Product product = (Product) (new ProductQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+        if (product != null) {
+            boolean success = HibernateUtils.delete(product, trx);
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(success);
+
+        }
+
+
+    }
+
+
+    public void handle(CreateProductPrice c) {
+        // HibernateUtils.openSession();
+        Transaction trx = c.getTransaction();
+
+        try {
+            ProductPrice v = this._handleSaveProductPrice(c);
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(v);
+        } catch (Exception ex) {
+            if (c.isCommittable()) {
+                HibernateUtils.rollbackTransaction(trx);
+            }
+        } finally {
+            if (c.isCommittable()) {
+                HibernateUtils.closeSession();
+            }
+        }
+    }
+
+    public void handle(UpdateProductPrice c) throws CommandException, JsonProcessingException {
+
+        // HibernateUtils.openSession();
+        Transaction trx = c.getTransaction();
+
+        try {
+            ProductPrice ba = this._handleSaveProductPrice(c);
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(ba);
+        } catch (Exception ex) {
+            if (c.isCommittable()) {
+                HibernateUtils.rollbackTransaction(trx);
+            }
+        } finally {
+            if (c.isCommittable()) {
+                HibernateUtils.closeSession();
+            }
+        }
+    }
+
+    private ProductPrice _handleSaveProductPrice(ICommand c) throws CommandException, JsonProcessingException, ParseException {
+        ProductPrice pp = null;
+        boolean isNew = true;
+
+        if (c.has("id") && c instanceof UpdateProductPrice) {
+            pp = (ProductPrice) (new ProductPriceQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+            isNew = false;
+            if (pp == null) {
+                APILogger.add(APILogType.ERROR, "Customer (" + c.get("id") + ") not found.");
+                throw new CommandException("Customer (" + c.get("id") + ") not found.");
+            }
+        }
+
+        if (pp == null) {
+            pp = new ProductPrice();
+        }
+
+
+        if (c.has("startDate")) {
+            pp.setStartDate(Parser.convertObjectToTimestamp(c.get("startDate")));
+        }
+        if (c.has("endDate")) {
+            pp.setEndDate(Parser.convertObjectToTimestamp(c.get("endDate")));
+        }
+
+        if (c.has("product_id")) {
+            Product product = (Product) new ProductQueryHandler().getById(Parser.convertObjectToLong(c.get("product_id")));
+            pp.setProduct(product);
+        }
+
+
+        if (c.has("status")) {
+
+            pp.setStatus(Flags.EntityStatus.valueOf((String) c.get("status").toString().toUpperCase()));
+        } else {
+            pp.setStatus(EntityStatus.ACTIVE);
+        }
+
+        if (isNew) {
+            pp.setCreatedAt(DateTime.getCurrentTimestamp());
+
+        } else {
+            pp.setUpdatedAt(DateTime.getCurrentTimestamp());
+        }
+
+        pp = (ProductPrice) HibernateUtils.save(pp, c.getTransaction());
+
+        return pp;
+
+    }
+
+
+    public void handle(DeleteProductPrice c) throws CommandException {
+        // HibernateUtils.openSession();
+        Transaction trx = c.getTransaction();
+
+
+        ProductPrice product = (ProductPrice) (new ProductPriceQueryHandler()).getById(Parser.convertObjectToLong(c.get("id")));
+        if (product != null) {
+            boolean success = HibernateUtils.delete(product, trx);
+            if (c.isCommittable()) {
+                HibernateUtils.commitTransaction(c.getTransaction());
+            }
+            c.setObject(success);
+
+        }
+
+
+    }
+
+
+
 }

@@ -3,6 +3,7 @@ package com.odan.common.application;
 import com.odan.billing.contact.ContactCommandHandler;
 import com.odan.billing.menu.category.CategoryCommandHandler;
 import com.odan.billing.menu.product.ProductCommandHandler;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.inventory.purchase.PurchaseCommandHandler;
 import com.odan.inventory.sales.*;
 import com.odan.inventory.sales.model.SaleOffer;
@@ -37,6 +38,7 @@ public class Application {
         CartItemCommandHandler.registerCommands();
 
         SaleOfferCommandHandler.registerCommands();
+        ProductCommandHandler.registerCommands();
 
 
         SalesEventHandler.registerEvents();

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "product_price")
@@ -15,13 +16,15 @@ public class ProductPrice extends AbstractEntity {
     private Product product;
 
     @Column(name = "price")
-    private Integer price;
+    private Double price;
 
-    @Column(name = "old_price")
-    private Integer oldPrice;
 
-    @Column(name = "alert")
-    private  String alert;
+    @Column(name = "start_date")
+    private Timestamp startDate;
+
+    @Column(name = "end_date")
+    private Timestamp endDate;
+
 
     public Product getProduct() {
         return product;
@@ -31,20 +34,27 @@ public class ProductPrice extends AbstractEntity {
         this.product = product;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Integer getOldPrice() {
-        return oldPrice;
+    public String getStartDate() {
+        return startDate.toString();
     }
 
-    public void setOldPrice(Integer oldPrice) {
-        this.oldPrice = oldPrice;
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
     }
 
+    public String getEndDate() {
+        return endDate.toString();
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
 }

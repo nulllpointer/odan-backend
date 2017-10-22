@@ -1,22 +1,20 @@
 package com.odan.inventory.sales.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.odan.billing.menu.product.model.Product;
-import com.odan.common.application.CommandException;
-import com.odan.common.database.HibernateUtils;
+import com.odan.billing.menu.product.model.ProductPrice;
 import com.odan.common.shared.model.AbstractEntity;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cart_item")
 public class CartItem extends AbstractEntity {
 
     @ManyToOne
-    private Product product;
+    private ProductPrice productPrice;
 
     @ManyToOne
     @JsonIgnore
@@ -24,12 +22,14 @@ public class CartItem extends AbstractEntity {
 
    private Integer quantity;
 
-    public Product getProduct() {
-        return product;
+    private Integer price;
+
+    public ProductPrice getProductPrice() {
+        return productPrice;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductPrice(ProductPrice productPrice) {
+        this.productPrice = productPrice;
     }
 
     public Cart getCart() {
@@ -46,5 +46,14 @@ public class CartItem extends AbstractEntity {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

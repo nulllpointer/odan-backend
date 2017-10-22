@@ -23,8 +23,16 @@ public class Cart extends AbstractEntity {
     @Column(name = "identifier")
     private String identifier;
 
+    @Column(name = "txn_date")
+    private Timestamp txnDate;
 
+    public String getTxnDate() {
+        return txnDate.toString();
+    }
 
+    public void setTxnDate(Timestamp txnDate) {
+        this.txnDate = txnDate;
+    }
 
     public String getIdentifier() {
         return identifier;
@@ -42,5 +50,6 @@ public class Cart extends AbstractEntity {
 
         return items;
     }
+
 
 }
