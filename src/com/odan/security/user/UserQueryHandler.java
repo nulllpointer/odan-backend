@@ -59,10 +59,21 @@ public class UserQueryHandler implements IQueryHandler {
 			whereSQL += " AND lower(country) = :country ";
 			sqlParams.put("country", ((String) q.get("country")).toLowerCase());
 		}
+		if (q.has("userName")) {
+			whereSQL += " AND lower(userName) = :userName ";
+			sqlParams.put("userName", ((String) q.get("userName")).toLowerCase());
+		}
+		if (q.has("userPassword")) {
+			whereSQL += " AND lower(userPassword) = :userPassword ";
+			sqlParams.put("userPassword", ((String) q.get("userPassword")).toLowerCase());
+		}
+
+
 
 
 		List<Object> customers = HibernateUtils.select("FROM User " + whereSQL, sqlParams);
 		return customers;
 	}
+
 
 }

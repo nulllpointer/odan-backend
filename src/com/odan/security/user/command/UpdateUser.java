@@ -8,6 +8,6 @@ public class UpdateUser extends CreateOrUpdateUserAbstract implements ICommand {
 	public UpdateUser(HashMap<String, Object> data) {
 		super(data);
 		this.validationSchema = "security/user/update";
-		this.validate();
+		//this.validate();
 	}
 }

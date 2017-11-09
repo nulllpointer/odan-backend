@@ -61,7 +61,7 @@ public abstract class Flags {
     }
 
     public enum EntityType {
-        CONTACTS, PRODUCT, CATEGORY,CART_ITEM,PRODUCT_PRICE
+        CONTACTS, PRODUCT, CATEGORY,CART_ITEM,PRODUCT_PRICE, USER
 
     }
 

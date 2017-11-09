@@ -7,4 +7,5 @@ import java.util.List;
 public interface IQueryHandler {
 	Object getById(Long id) throws CommandException;
 	List<Object> get(Query q);
+
 }

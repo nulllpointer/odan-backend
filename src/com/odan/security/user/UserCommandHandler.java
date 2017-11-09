@@ -3,6 +3,7 @@ package com.odan.security.user;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.odan.security.user.command.CreateUser;
 import com.odan.security.user.command.DeleteUser;
+import com.odan.security.user.command.LoginUser;
 import com.odan.security.user.command.UpdateUser;
 import com.odan.security.user.model.User;
 import com.odan.common.application.Authentication;
@@ -25,6 +26,8 @@ public class UserCommandHandler implements ICommandHandler {
 		CommandRegister.getInstance().registerHandler(CreateUser.class, UserCommandHandler.class);
 		CommandRegister.getInstance().registerHandler(UpdateUser.class, UserCommandHandler.class);
 		CommandRegister.getInstance().registerHandler(DeleteUser.class, UserCommandHandler.class);
+		CommandRegister.getInstance().registerHandler(LoginUser.class, UserCommandHandler.class);
+
 
 
 	}
@@ -39,7 +42,15 @@ public class UserCommandHandler implements ICommandHandler {
 			handle((DeleteUser) c);
 		}
 
+		else if (c instanceof LoginUser) {
+			handle((LoginUser) c);
+		}
+
+
 	}
+
+
+
 
 	public void handle(CreateUser c) {
 		// HibernateUtils.openSession();
@@ -105,6 +116,7 @@ public class UserCommandHandler implements ICommandHandler {
 			cust = new User();
 		}
 
+
 		if (c.has("firstName")) {
 			cust.setFirstName((String) c.get("firstName"));
 		}
@@ -150,6 +162,17 @@ public class UserCommandHandler implements ICommandHandler {
 			cust.setStatus(EntityStatus.ACTIVE);
 		}
 
+
+		if (c.has("userPassword")) {
+
+			cust.setUserPassword((String) c.get("userPassword"));
+		}
+		if (c.has("userName")) {
+
+			cust.setUserName((String) c.get("userName"));
+		}
+
+
 		if (isNew) {
 			cust.setCreatedAt(DateTime.getCurrentTimestamp());
 
@@ -177,15 +200,29 @@ public class UserCommandHandler implements ICommandHandler {
 			c.setObject(success);
 
 		}
-
-
-
-
-
-
-
 	}
 
+
+
+
+	public void handle(LoginUser c) {
+		// HibernateUtils.openSession();
+		Transaction trx = c.getTransaction();
+
+		try {
+			if (c.isCommittable()) {
+				HibernateUtils.commitTransaction(c.getTransaction());
+			}
+		} catch (Exception ex) {
+			if (c.isCommittable()) {
+				HibernateUtils.rollbackTransaction(trx);
+			}
+		} finally {
+			if (c.isCommittable()) {
+				HibernateUtils.closeSession();
+			}
+		}
+	}
 
 
 }
