@@ -1,15 +1,15 @@
+/*
 package com.odan.inventory.purchase.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.billing.menu.product.model.ProductPrice;
 import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.Uom;
 import com.odan.common.shared.model.AbstractEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
@@ -17,30 +17,27 @@ import java.util.concurrent.TimeUnit;
 @Table(name="purchase_item")
 public class PurchaseItem extends AbstractEntity {
 
-	@ManyToOne
-	private ProductPrice productPrice;
+	private Double price;
 
 	@ManyToOne
 	private Purchase purchase;
 
 
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "product_id")
+	private Product product;
+
 	private Integer quantity;
+
+
+
+
 
 	private Uom uom;
 
-	@Column(name="amount")
-	private Integer alertAfter;
-
 	@Column(name="time_unit")
 	private TimeUnit timeUnit;
-
-	public ProductPrice getProductPrice() {
-		return productPrice;
-	}
-
-	public void setProductPrice(ProductPrice productPrice) {
-		this.productPrice = productPrice;
-	}
 
 	public Purchase getPurchase() {
 		return purchase;
@@ -66,13 +63,6 @@ public class PurchaseItem extends AbstractEntity {
 		this.uom = uom;
 	}
 
-	public Integer getAlertAfter() {
-		return alertAfter;
-	}
-
-	public void setAlertAfter(Integer alertAfter) {
-		this.alertAfter = alertAfter;
-	}
 
 	public TimeUnit getTimeUnit() {
 		return timeUnit;
@@ -81,4 +71,21 @@ public class PurchaseItem extends AbstractEntity {
 	public void setTimeUnit(TimeUnit timeUnit) {
 		this.timeUnit = timeUnit;
 	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 }
+*/

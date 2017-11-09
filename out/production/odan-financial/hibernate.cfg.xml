@@ -7,19 +7,23 @@
 
 
 	<session-factory>
-		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.username">postgres</property>
-		<property name="hibernate.connection.password">12qw12</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/odan_financial</property>
+		<property name="hibernate.connection.password">admin</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/odan</property>
 
-		<property name="show_sql">false</property>
+		<property name="show_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="logging.level.org.hibernate">DEBUG</property>
+
+
+
 
 		<mapping class="com.odan.common.model.File" />
 
 
-		<mapping class="com.odan.security.accountingperiod.model.AccountingPeriod" />
+		<!--<mapping class="com.odan.security.accountingperiod.model.AccountingPeriod" />-->
 
 
 		<mapping class="com.odan.security.user.model.User" />
@@ -33,12 +37,14 @@
 
 		<mapping class="com.odan.billing.menu.product.model.ProductPrice" />
 		<mapping class="com.odan.inventory.purchase.model.Purchase" />
+<!--
 		<mapping class="com.odan.inventory.purchase.model.PurchaseItem" />
+-->
 
 
 		<mapping class="com.odan.inventory.sales.model.Sale" />
-		<mapping class="com.odan.inventory.sales.model.SaleItem" />
-		<mapping class="com.odan.inventory.sales.model.SaleOffer" />
+		<!--<mapping class="com.odan.inventory.sales.model.SaleItem" />
+		<mapping class="com.odan.inventory.sales.model.SaleOffer" />-->
 		<mapping class="com.odan.inventory.sales.model.CartItem" />
 
 		<mapping class="com.odan.inventory.sales.model.Cart" />

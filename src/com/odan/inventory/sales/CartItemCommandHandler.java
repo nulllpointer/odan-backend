@@ -113,21 +113,13 @@ public class CartItemCommandHandler implements ICommandHandler {
               cart = (Cart) new CartQueryHandler().getById(Parser.convertObjectToLong(c.get("cartId")));
 
             item.setCart(cart);
-
-
-
-
-
         }
         if (c.has("productPriceId")) {
-            ProductPrice pPrice = (ProductPrice) new ProductPriceQueryHandler().getProductPrice(Parser.convertObjectToLong(c.get("productId")), Parser.convertObjectToTimestamp(cart.getTxnDate().toString()));
+            ProductPrice pPrice = (ProductPrice) new ProductPriceQueryHandler().getById(Parser.convertObjectToLong(c.get("productPriceId")));
 
+            item.setPrice(pPrice.getPrice());
             item.setProductPrice(pPrice);
         }
-        if (c.has("quantity")) {
-            item.setQuantity((Integer) c.get("quantity"));
-        }
-
         if (c.has("quantity")) {
             item.setQuantity((Integer) c.get("quantity"));
         }
@@ -144,12 +136,18 @@ public class CartItemCommandHandler implements ICommandHandler {
 
             item.setStatus(EntityStatus.ACTIVE);
         }
+        if (c.has("price")) {
+
+            item.setPrice(Parser.convertObjectToDouble(c.get("price")));
+        }
 
         if (isNew) {
             item.setCreatedAt(DateTime.getCurrentTimestamp());
+            item.setQuantity(1);
 
         } else {
             item.setUpdatedAt(DateTime.getCurrentTimestamp());
+
         }
 
         item = (CartItem) HibernateUtils.save(item, c.getTransaction());

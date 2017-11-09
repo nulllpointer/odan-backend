@@ -128,10 +128,6 @@ public class ProductCommandHandler implements ICommandHandler {
             prod.setTitle((String) c.get("title"));
         }
 
-        if (c.has("principalCategoryType")) {
-            Flags.PrincipalCategoryType type= Flags.PrincipalCategoryType.valueOf(c.get("principalCategoryType").toString().toUpperCase());
-            prod.setPrincipalCategoryType(type);
-        }
         if (c.has("productType")) {
             Flags.ProductType pType= Flags.ProductType.valueOf(c.get("productType").toString().toUpperCase());
             prod.setProductType(pType);

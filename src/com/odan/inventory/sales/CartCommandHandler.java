@@ -110,6 +110,7 @@ public class CartCommandHandler implements ICommandHandler {
         }
 
 
+
         if (c.has("status")) {
 
             cart.setStatus(EntityStatus.ACTIVE);

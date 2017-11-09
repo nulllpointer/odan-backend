@@ -6,9 +6,7 @@ import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
-import com.odan.common.utils.Parser;
 import com.odan.inventory.sales.model.Cart;
-import com.odan.inventory.sales.model.SaleItem;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,3 +1,4 @@
+/*
 package com.odan.inventory.sales.command;
 
 import com.odan.common.cqrs.Command;
@@ -11,4 +12,4 @@ public class CreateSaleOffer extends Command implements ICommand {
 		this.validationSchema = "billing/sales/create";
 		this.validate();
 	}
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.odan.inventory.sales.command;
 
 import com.odan.common.cqrs.Command;
@@ -15,4 +16,4 @@ public class CreateSaleItem extends Command implements ICommand {
 	public CreateSaleItem(HashMap<String, Object> data, Transaction trx) {
 		super(data, trx);
 	}
-}
+}*/

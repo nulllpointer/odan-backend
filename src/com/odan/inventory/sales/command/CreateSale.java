@@ -9,6 +9,6 @@ public class CreateSale extends Command implements ICommand {
 	public CreateSale(HashMap<String, Object> data) {
 		super(data);
 		this.validationSchema = "billing/sales/create";
-		this.validate();
+		//this.validate();
 	}
 }

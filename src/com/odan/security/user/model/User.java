@@ -45,6 +45,9 @@ public class User extends AbstractEntity{
 	@Column(name="username")
 	private String username;
 
+	@Column(name="password")
+	private String password;
+
 	@Column(name="type")
 	private UserKind type;
 
@@ -142,5 +145,13 @@ public class User extends AbstractEntity{
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

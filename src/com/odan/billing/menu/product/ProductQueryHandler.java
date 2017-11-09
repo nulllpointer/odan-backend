@@ -8,6 +8,7 @@ import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.IQueryHandler;
 import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
+import com.odan.common.model.Flags;
 import com.odan.common.utils.Parser;
 
 public class ProductQueryHandler implements IQueryHandler {
@@ -69,6 +70,18 @@ public class ProductQueryHandler implements IQueryHandler {
         if (q.has("category")) {
             whereSQL += " AND category_id = :categoryId ";
             sqlParams.put("categoryId", q.get("categoryId"));
+        }
+
+
+        if (q.has("purchaseSide")) {
+            whereSQL += " AND productType = :param1 OR productType=:param2 ";
+            sqlParams.put("param1", Flags.ProductType.PURCHASE);
+            sqlParams.put("param2", Flags.ProductType.BOTH);
+        }
+        if (q.has("saleSide")) {
+            whereSQL += " AND productType = :param1 OR productType=:param2 ";
+            sqlParams.put("param1", Flags.ProductType.SALE  );
+            sqlParams.put("param2", Flags.ProductType.BOTH);
         }
 
 

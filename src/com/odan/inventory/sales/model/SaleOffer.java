@@ -1,14 +1,13 @@
+/*
 package com.odan.inventory.sales.model;
 
 
-import com.odan.billing.menu.product.model.Product;
-import com.odan.common.application.CommandException;
-import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.shared.model.AbstractEntity;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="sale-offer")
@@ -81,3 +80,4 @@ public class SaleOffer extends AbstractEntity {
 		this.offerValue = offerValue;
 	}
 }
+*/

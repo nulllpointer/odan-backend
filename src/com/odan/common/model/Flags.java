@@ -38,17 +38,13 @@ public abstract class Flags {
 
 
 
-    public enum TransactionType {
-        CASH, ON_CREDIT
-
-    }
 
     public enum Uom {
-        ML, L, KG, GM, MUTHA, FULL, HALF, QUARTER, BOTTLE, FULL_1L, PLATE, HALF_PLATE, CUP, PIECE
+        ML, L, KG, GM, MUTHA, FULL, HALF, QUARTER, BOTTLE, FULL_1L, PIECE
     }
 
     public enum TransactionStatus {
-        PAID, PARTIALLY_PAID, DUE
+        CASH, DUE
     }
 
     public enum ProductType {
@@ -61,7 +57,7 @@ public abstract class Flags {
     }
 
     public enum EntityType {
-        CONTACTS, PRODUCT, CATEGORY,CART_ITEM,PRODUCT_PRICE
+        CONTACTS, PRODUCT, CATEGORY,CART_ITEM,PRODUCT_PRICE,SALES,PURCHASE
 
     }
 

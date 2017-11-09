@@ -27,9 +27,6 @@ public class Product extends AbstractEntity {
     @Column(name = "product_type")
     private ProductType productType;
 
-    @Column(name = "principal_category_type")
-    private Flags.PrincipalCategoryType principalCategoryType;
-
 
     public String getTitle() {
         return title;
@@ -55,8 +52,9 @@ public class Product extends AbstractEntity {
         this.description = description;
     }
 
-    public Category getCategory() throws CommandException {
-        return category;
+    public Category getCategory() {
+       return this.category;
+
     }
 
     public ProductType getProductType() {
@@ -67,12 +65,5 @@ public class Product extends AbstractEntity {
         this.productType = productType;
     }
 
-    public Flags.PrincipalCategoryType getPrincipalCategoryType() {
-        return principalCategoryType;
-    }
-
-    public void setPrincipalCategoryType(Flags.PrincipalCategoryType principalCategoryType) {
-        this.principalCategoryType = principalCategoryType;
-    }
 
 }

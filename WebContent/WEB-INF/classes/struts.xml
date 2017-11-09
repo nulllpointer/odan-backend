@@ -127,7 +127,7 @@
         <action name="cart-items/delete/{id}" method="actionCartItemDeleteById"
                 class="com.odan.inventory.sales.api.CartItemResource"/>
         <!--For Sale-->
-        <action name="sale" method="actionSale"
+        <action name="sales" method="actionSale"
                 class="com.odan.inventory.sales.api.SaleResource"/>
 
         <action name="sales/{id}" method="actionSaleById"
@@ -144,17 +144,6 @@
 
         <action name="purchases/delete/{id}" method="actionPurchaseDeleteById"
                 class="com.odan.inventory.sales.api.PurchaseResource"/>
-    </package>
-
-    <package name="module-security" extends="jsonPackageSecure"
-             namespace="/v1/security">
-
-        <action name="users" method="actionUser"
-                class="com.odan.security.user.api.UserResource"/>
-
-        <!--For Purchase-->
-
-
         <action name="product-prices" method="actionProductPrice"
                 class="com.odan.billing.menu.product.api.ProductResource"/>
 
@@ -167,20 +156,25 @@
         <action name="product-price" method="getProductPrice"
                 class="com.odan.billing.menu.product.api.ProductResource"/>
 
+        <action name="categories" method="actionCategory"
+                class="com.odan.billing.menu.category.api.CategoryResource"/>
+
+        <action name="products" method="actionProduct"
+                class="com.odan.billing.menu.product.api.ProductResource"/>
+
+    </package>
+
+    <package name="module-security" extends="jsonPackageSecure"
+             namespace="/v1/security">
+
+        <action name="users" method="actionUser"
+                class="com.odan.security.user.api.UserResource"/>
 
         <action name="users/{id}" method="actionUserById"
                 class="com.odan.security.user.api.UserResource"/>
 
     </package>
 
-    <package name="module-catalog" extends="jsonPackageSecure"
-             namespace="/v1/billing">
-        <action name="categories" method="actionCategory"
-                class="com.odan.billing.menu.category.api.CategoryResource"/>
-
-        <action name="products" method="actionProduct"
-                class="com.odan.billing.menu.product.api.ProductResource"/>
-    </package>
 
     <package name="module-payment" extends="jsonPackageSecure"
              namespace="/v1">

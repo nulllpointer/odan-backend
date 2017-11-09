@@ -8,28 +8,27 @@ import com.odan.common.application.ValidationException;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.cqrs.ICommandHandler;
-import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
 import com.odan.common.utils.DateTime;
 import com.odan.common.utils.Parser;
-import com.odan.inventory.sales.command.*;
+import com.odan.inventory.sales.command.CreateSale;
+import com.odan.inventory.sales.command.DeleteSale;
+import com.odan.inventory.sales.command.UpdateSale;
 import com.odan.inventory.sales.model.Cart;
 import com.odan.inventory.sales.model.Sale;
-import com.odan.inventory.sales.model.SaleItem;
 import org.hibernate.Transaction;
 
 import java.text.ParseException;
-import java.util.*;
 
-public class SalesCommandHandler implements ICommandHandler {
+public class SaleCommandHandler implements ICommandHandler {
 
     public static void registerCommands() {
-        CommandRegister.getInstance().registerHandler(CreateSale.class, SalesCommandHandler.class);
-        CommandRegister.getInstance().registerHandler(UpdateSale.class, SalesCommandHandler.class);
-        CommandRegister.getInstance().registerHandler(DeleteSale.class, SalesCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(CreateSale.class, SaleCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(UpdateSale.class, SaleCommandHandler.class);
+        CommandRegister.getInstance().registerHandler(DeleteSale.class, SaleCommandHandler.class);
 
     }
 
@@ -103,9 +102,15 @@ public class SalesCommandHandler implements ICommandHandler {
         }
 
 
-        if (!c.has("taxRate")) {
-            APILogger.add(APILogType.ERROR, "Tax rate should be defined.");
-            throw new ValidationException("Tax rate should be defined.");
+        if (c.has("taxRate")) {
+            sale.setTaxRate(Parser.convertObjectToDouble(c.get("taxRate")));
+        }
+        if (c.has("discount")) {
+            sale.setDiscount(Parser.convertObjectToDouble(c.get("discount")));
+        }
+        if (c.has("discountType")) {
+            Flags.DiscountType pType = Flags.DiscountType.valueOf(c.get("discountType").toString().toUpperCase());
+            sale.setDiscountType(pType);
         }
         // If discount type is defined then discount should be defined
         // too and vice versa.
@@ -118,95 +123,63 @@ public class SalesCommandHandler implements ICommandHandler {
         }
 
         if (c.has("cartId")) {
-            sale.setCart((Cart) new CartQueryHandler().getById((Long) c.get("cart_id")));
+
+            Cart cart = (Cart) new CartQueryHandler().getById(Parser.convertObjectToLong(c.get("cartId")));
+            if (cart == null) {
+                APILogger.add(APILogType.ERROR, "Discount type should be defined.");
+                throw new ValidationException("Discount type should be defined.");
+            }
+
+            sale.setCart(cart);
         }
 
         if (c.has("txnDate")) {
-            sale.setTxn_date(Parser.convertObjectToTimestamp(c.get("invoiceDate")));
+            sale.setTxnDate(Parser.convertObjectToTimestamp(c.get("txnDate")));
         }
 
         if (c.has("contactId")) {
-            sale.setContact((Contact) new ContactQueryHandler().getById((Long) c.get("cart_id")));
-        }
 
+            Contact contact = (Contact) new ContactQueryHandler().getById(Parser.convertObjectToLong(c.get("contactId")));
+            if (contact == null) {
+                APILogger.add(APILogType.ERROR, "Discount type should be defined.");
+                throw new ValidationException("Discount type should be defined.");
+            }
+
+            sale.setContact(contact);
+        }
 
         if (c.has("taxRate")) {
 
-            sale.setTaxRate((Double) c.get("taxRate"));
+            sale.setTaxRate(Parser.convertObjectToDouble(c.get("taxRate")));
+        }
+        if (c.has("serviceChargeRate")) {
+
+            sale.setServiceChargeRate(Parser.convertObjectToDouble(c.get("serviceChargeRate")));
         }
 
+        if (c.has("grandTotal")) {
 
-        if (c.has("discountType")) {
-            Flags.DiscountType discountType = (Flags.DiscountType) Flags.DiscountType.valueOf((String) c.get("discountType").toString().toUpperCase());
-            sale.setDiscountType(discountType);
+            sale.setAmount(Parser.convertObjectToDouble(c.get("grandTotal")));
         }
+        if (c.has("dueAmount")) {
 
-        if (c.has("discount")) {
-            Double discount = Parser.convertObjectToDouble(c.get("discount"));
-            sale.setDiscount(discount);
+            sale.setDue(Parser.convertObjectToDouble(c.get("due")));
         }
+        if (c.has("cashReceived")) {
 
+            sale.setCashReceived(Parser.convertObjectToDouble(c.get("cashReceived")));
+        }
+        if (c.has("txnStatus")) {
 
-        List<HashMap<String, Object>> itemsData = (List<HashMap<String, Object>>) c.get("saleItems");
-
-        if (isNew) {
             Flags.TransactionStatus txnStatus = Flags.TransactionStatus.valueOf((String) c.get("txnStatus").toString().toUpperCase());
             sale.setTxnStatus(txnStatus);
-            Flags.TransactionType txnType = Flags.TransactionType.valueOf((String) c.get("txnType").toString().toUpperCase());
-            sale.setTxnType(txnType);
+        }
 
-            HibernateUtils.save(sale, c.getTransaction());
+        if (isNew) {
 
 
             sale.setCreatedAt(DateTime.getCurrentTimestamp());
-        } else {
-
-
-            Query query = new Query();
-            query.set("id", sale.getId());
-
-            List<Object> oldSaleItems = new SaleItemQueryHandler().get(query);
-
-            if (oldSaleItems != null) {
-
-                for (Object o : oldSaleItems) {
-
-                    HashMap<String, Object> oldIdMap = new HashMap<String, Object>();
-                    oldIdMap.put("id", ((SaleItem) o).getId());
-                    ICommand deleteItemCommand = new DeleteSaleItem(oldIdMap, c.getTransaction());
-                    CommandRegister.getInstance().process(deleteItemCommand);
-                    SaleItem item = (SaleItem) deleteItemCommand.getObject();
-                    if (item == null) {
-                        APILogger.add(APILogType.ERROR, "Error creating sale item.");
-                        throw new ValidationException("Error creating sale item.");
-                    }
-
-                }
-
-            }
-
-
-            sale.setUpdatedAt(DateTime.getCurrentTimestamp());
         }
-
-
-        List<Object> saleItems = new ArrayList<Object>();
-        if (itemsData != null) {
-            for (HashMap<String, Object> itemData : itemsData) {
-                itemData.put("sale", sale);
-                ICommand createItemCommand = new CreateSaleItem(itemData, c.getTransaction());
-                CommandRegister.getInstance().process(createItemCommand);
-                SaleItem item = (SaleItem) createItemCommand.getObject();
-                if (item == null) {
-                    APILogger.add(APILogType.ERROR, "Error creating sale item.");
-                    throw new ValidationException("Error creating sale item.");
-                }
-                saleItems.add(item);
-
-            }
-        }
-
-
         sale = (Sale) HibernateUtils.save(sale, c.getTransaction());
         return sale;
     }

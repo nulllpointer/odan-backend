@@ -72,7 +72,7 @@ public class SaleResource extends RestAction {
             CreateSale command = new CreateSale(requestData);
             CommandRegister.getInstance().process(command);
             Sale c = (Sale) command.getObject();
-            setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
+            setJsonResponseForCreate(c, Flags.EntityType.SALES);
 
         }
 

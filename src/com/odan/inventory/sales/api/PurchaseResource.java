@@ -77,7 +77,7 @@ public class PurchaseResource extends RestAction {
             CreatePurchase command = new CreatePurchase(requestData);
             CommandRegister.getInstance().process(command);
             Purchase c = (Purchase) command.getObject();
-            setJsonResponseForCreate(c, Flags.EntityType.CONTACTS);
+            setJsonResponseForCreate(c, Flags.EntityType.PURCHASE);
 
         }
 

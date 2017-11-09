@@ -22,7 +22,7 @@ public class CartItem extends AbstractEntity {
 
    private Integer quantity;
 
-    private Integer price;
+    private Double price;
 
     public ProductPrice getProductPrice() {
         return productPrice;
@@ -49,11 +49,11 @@ public class CartItem extends AbstractEntity {
     }
 
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

@@ -4,15 +4,10 @@ import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.IQueryHandler;
 import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
-import com.odan.common.model.Flags;
-import com.odan.common.model.Flags.EntityStatus;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
-import com.odan.common.utils.DateTime;
-import com.odan.common.utils.Parser;
-import com.odan.inventory.sales.model.SaleItem;
+import com.odan.inventory.sales.model.Sale;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,7 +15,7 @@ public class SaleQueryHandler implements IQueryHandler {
 
 	@Override
 	public Object getById(Long id) throws CommandException {
-		SaleItem s = (SaleItem) HibernateUtils.get(SaleItem.class, id);
+		Sale s = (Sale) HibernateUtils.get(Sale.class, id);
 		return s;
 	}
 
@@ -29,17 +24,6 @@ public class SaleQueryHandler implements IQueryHandler {
 		HashMap<String, Object> sqlParams = new HashMap<String, Object>();
 		String whereSQL = " WHERE 1=1 ";
 
-		int page = 1;
-		int limit = 10;
-		int offset = 0;
-
-		if (q.has("page")) {
-			page = Parser.convertObjectToInteger(q.get("page"));
-		}
-
-		if (q.has("limit")) {
-			limit = Parser.convertObjectToInteger(q.get("limit"));
-		}
 
 		// Apply Filter Params
 
@@ -100,9 +84,7 @@ public class SaleQueryHandler implements IQueryHandler {
 			whereSQL += " AND DATE(endDate) < DATE(" + HibernateUtils.s((String) q.get("salesEndDateBefore")) + ") ";
 		}
 
-		offset = (limit * (page - 1));
-
-		List<Object> sales = HibernateUtils.select("FROM Sales " + whereSQL, sqlParams, limit, offset);
+		List<Object> sales = HibernateUtils.select("FROM Sale " + whereSQL, sqlParams);
 		return sales;
 	}
 

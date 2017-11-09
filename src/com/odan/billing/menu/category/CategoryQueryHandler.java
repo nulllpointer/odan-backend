@@ -5,10 +5,12 @@ import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.IQueryHandler;
 import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
+import com.odan.common.model.Flags;
 import com.odan.common.utils.Parser;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CategoryQueryHandler implements IQueryHandler {
 
@@ -29,10 +31,15 @@ public class CategoryQueryHandler implements IQueryHandler {
 
 		// Apply Filter Params
 		if (q.has("status")) {
-			whereSQL += " AND status = :status ";
+			whereSQL += " AND status =:status";
+			queryParams.put("status", Flags.EntityStatus.valueOf(q.get("status").toString().toUpperCase()));
 		}
 
+		if (q.has("principalCategoryType")) {
+			whereSQL += " AND principalCategoryType =:principalCategoryType";
+			queryParams.put("principalCategoryType", Flags.PrincipalCategoryType.valueOf(q.get("principalCategoryType").toString().toUpperCase()));
 
+		}
 
 		if (q.has("title")) {
 			whereSQL += " AND lower(title) = :title ";
@@ -62,6 +69,7 @@ public class CategoryQueryHandler implements IQueryHandler {
 
 
 		List<Object> categories = HibernateUtils.select("FROM Category " + whereSQL, queryParams);
+
 		return categories;
 
 	}

@@ -25,10 +25,6 @@ public class CartItemQueryHandler implements IQueryHandler {
 		HashMap<String, Object> sqlParams = new HashMap<String, Object>();
 		String whereSQL = " WHERE 1=1 ";
 
-
-		// Apply Filter Params
-
-
 		if (q.has("cartId")) {
 			whereSQL += " AND cart_id = :cartId ";
 			sqlParams.put("cartId", q.get("cartId"));

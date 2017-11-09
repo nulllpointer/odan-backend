@@ -1,22 +1,21 @@
 package com.odan.billing.menu.category.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odan.billing.menu.product.model.Product;
+import com.odan.billing.menu.product.model.ProductDTO;
 import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.shared.model.AbstractEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 
 @Entity
 @Table(name = "category")
 public class Category extends AbstractEntity {
-
 
     @Column(name = "title")
     private String title;
@@ -27,7 +26,8 @@ public class Category extends AbstractEntity {
     @Column(name = "description")
     private String description;
 
-    private Flags.PrincipalCategoryType type;
+    @Column(name = "principal_category_type")
+    private Flags.PrincipalCategoryType principalCategoryType;
 
     public Category getParent() {
         return parent;
@@ -53,21 +53,45 @@ public class Category extends AbstractEntity {
         this.description = description;
     }
 
-    @JsonIgnore
-    public List<Product> getProducts() {
-        List<Product> items = null;
-        if(this.getId() != null) {
-            items = (List<Product>) HibernateUtils.select("FROM Product WHERE category_id = " + this.getId());
+
+
+
+    //JsonIgnore
+    public List<ProductDTO> getProducts() {
+        List<ProductDTO> dtos = null;
+        List<Product> products = null;
+        if (this.getId() != null) {
+            products = (List<Product>) HibernateUtils.select("FROM Product WHERE category_id = " + this.getId());
         }
-
-        return items;
+        return convertToDto(products);
     }
 
-    public Flags.PrincipalCategoryType getType() {
-        return type;
+    @Transient
+    private final Function<Product, ProductDTO> toDto = this::convertToDto;
+
+    public List<ProductDTO> convertToDto(List<Product> products) {
+        return products.stream()
+                .map(toDto)
+                .collect(Collectors.toList());
     }
 
-    public void setType(Flags.PrincipalCategoryType type) {
-        this.type = type;
+    private ProductDTO convertToDto(Product product) {
+        ProductDTO dto = new ProductDTO();
+        dto.setId(product.getId());
+        dto.setTitle(product.getTitle());
+        dto.setDescription(product.getDescription());
+        // dto.setPrincipalCategoryType(product.getPrincipalCategoryType());
+        dto.setProductType(product.getProductType());
+        dto.setCategoryTitle(product.getCategory().getTitle());
+        dto.setCategoryId(product.getCategory().getId());
+        return dto;
+    }
+
+    public Flags.PrincipalCategoryType getPrincipalCategoryType() {
+        return principalCategoryType;
+    }
+
+    public void setPrincipalCategoryType(Flags.PrincipalCategoryType principalCategoryType) {
+        this.principalCategoryType = principalCategoryType;
     }
 }

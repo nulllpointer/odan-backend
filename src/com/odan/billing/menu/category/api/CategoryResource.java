@@ -92,7 +92,7 @@ public class CategoryResource extends RestAction {
         List<Object> customers = (new CategoryQueryHandler()).get(q);
 
 
-        return setJsonResponseForGet(customers, "categorys");
+        return setJsonResponseForGet(customers, "categories");
     }
 
     public String actionCategoryById() throws Exception {

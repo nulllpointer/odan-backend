@@ -18,19 +18,14 @@ public class Sale extends AbstractEntity{
 	@ManyToOne
 	private Contact contact;
 
-
 	@ManyToOne
 	private Cart cart;
 
-	@ManyToOne
-	private SaleOffer saleOffer;
-
-
 	@Column(name="amount")
-	private Integer amount;
+	private Double amount;
 
 	@Column(name = "txn_date")
-	private Timestamp txn_date;
+	private Timestamp txnDate;
 
 
 	@Column(name="discount_type")
@@ -39,8 +34,6 @@ public class Sale extends AbstractEntity{
 	@Column(name="discount")
 	private Double discount;
 
-	@Column(name="txn_type")
-	private Flags.TransactionType txnType;
 
 	@Column(name="txn_status")
 	private Flags.TransactionStatus txnStatus;
@@ -51,7 +44,7 @@ public class Sale extends AbstractEntity{
 	@Column(name="service_charge_rate")
 	private  Double serviceChargeRate;
 
-	@Column(name = "cash_reveived")
+	@Column(name = "cash_received")
 	private Double cashReceived;
 
 	@Column(name = "due")
@@ -65,28 +58,13 @@ public class Sale extends AbstractEntity{
 		this.contact = contact;
 	}
 
-	public SaleOffer getSaleOffer() {
-		return saleOffer;
+
+	public Timestamp getTxnDate() {
+		return txnDate;
 	}
 
-	public void setSaleOffer(SaleOffer saleOffer) {
-		this.saleOffer = saleOffer;
-	}
-
-	public Integer getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Integer amount) {
-		this.amount = amount;
-	}
-
-	public Timestamp getTxn_date() {
-		return txn_date;
-	}
-
-	public void setTxn_date(Timestamp txn_date) {
-		this.txn_date = txn_date;
+	public void dxnDate(Timestamp txn_date) {
+		this.txnDate = txn_date;
 	}
 
 	public Flags.DiscountType getDiscountType() {
@@ -145,19 +123,23 @@ public class Sale extends AbstractEntity{
 		this.due = due;
 	}
 
-	public Flags.TransactionType getTxnType() {
-		return txnType;
-	}
-
-	public void setTxnType(Flags.TransactionType txnType) {
-		this.txnType = txnType;
-	}
-
 	public Flags.TransactionStatus getTxnStatus() {
 		return txnStatus;
 	}
 
 	public void setTxnStatus(Flags.TransactionStatus txnStatus) {
 		this.txnStatus = txnStatus;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public void setTxnDate(Timestamp txnDate) {
+		this.txnDate = txnDate;
 	}
 }

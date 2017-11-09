@@ -1,3 +1,4 @@
+/*
 package com.odan.inventory.sales.model;
 
 
@@ -111,3 +112,4 @@ public class SaleItem extends AbstractEntity {
 		this.contact = contact;
 	}
 }
+*/

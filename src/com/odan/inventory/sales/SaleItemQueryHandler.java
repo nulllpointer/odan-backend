@@ -1,3 +1,4 @@
+/*
 package com.odan.inventory.sales;
 
 import com.odan.common.application.CommandException;
@@ -105,3 +106,4 @@ public class SaleItemQueryHandler implements IQueryHandler {
 
 
 }
+*/
