@@ -14,6 +14,7 @@ import com.odan.common.model.Flags.EntityType;
 import com.odan.common.shared.model.AbstractEntity;
 import com.odan.common.utils.APILogger;
 import com.odan.common.utils.Parser;
+import com.odan.security.user.model.User;
 import org.apache.struts2.ServletActionContext;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -147,6 +148,33 @@ public abstract class RestAction extends BaseAction {
         }
     }
 
+
+
+    protected String setJsonResponseForLogin(List<Object> value) {
+        HashMap<String, Object> map = new HashMap<>();
+
+
+        if (value!=null) {
+       //     map.put("result", SUCCESS);
+            map.put("user", value);
+            setJsonResponse(map);
+            return SUCCESS;
+
+
+
+        } else {
+
+            map.put("result", ERROR);
+            setJsonResponse(map);
+            return ERROR;
+
+
+        }
+    }
+
+
+
+
     protected String setJsonResponseForDelete(Boolean value) {
         HashMap<String, Object> map = new HashMap<>();
 
@@ -186,6 +214,7 @@ public abstract class RestAction extends BaseAction {
 
 
     }
+
 
     protected String setJsonResponseForGet(List<Object> val) {
         HashMap<String, Object> map = new HashMap<>();

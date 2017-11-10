@@ -24,8 +24,11 @@ public abstract class CreateOrUpdateUserAbstract extends Command implements ICom
 		boolean isRequestValid = super.validate();
 		Long id = Parser.convertObjectToLong(this.get("id"));
 		Long ownerId = Parser.convertObjectToLong(this.get("ownerId"));
+
+
 		if (ownerId == null) {
 			ownerId = Authentication.getUserId();
+
 		}
 		
 		// Validate that user is not duplicate

@@ -26,14 +26,14 @@ public class Authentication {
 		User u = (User) request.getAttribute("user");
 		return u;
 	}
-	public synchronized static String getRew3UserId() {
+	public synchronized static String getuserName() {
 		HttpServletRequest request = ServletActionContext.getRequest();
-		String userId = request.getHeader("REW3-UserId");
-		return userId;
+		String username = request.getHeader("userName");
+		return username ;
 	}
-	public synchronized static String getRew3GroupId() {
+	public synchronized static String getpassword() {
 		HttpServletRequest request = ServletActionContext.getRequest();
-		String userId = request.getHeader("REW3-GroupId");
-		return userId;
+		String password = request.getHeader("Password");
+		return password;
 	}
 }

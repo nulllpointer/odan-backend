@@ -170,7 +170,7 @@
         <action name="users" method="actionUser"
                 class="com.odan.security.user.api.UserResource"/>
 
-        <action name="users/{id}" method="actionUserById"
+        <action name="login" method="actionLogin"
                 class="com.odan.security.user.api.UserResource"/>
 
     </package>
