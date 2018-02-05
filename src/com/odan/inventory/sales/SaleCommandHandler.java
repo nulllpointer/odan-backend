@@ -3,6 +3,8 @@ package com.odan.inventory.sales;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.odan.billing.contact.ContactQueryHandler;
 import com.odan.billing.contact.model.Contact;
+import com.odan.billing.menu.product.command.UpdateProduct;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.common.application.CommandException;
 import com.odan.common.application.ValidationException;
 import com.odan.common.cqrs.CommandRegister;
@@ -16,12 +18,14 @@ import com.odan.common.utils.DateTime;
 import com.odan.common.utils.Parser;
 import com.odan.inventory.sales.command.CreateSale;
 import com.odan.inventory.sales.command.DeleteSale;
+import com.odan.inventory.sales.command.UpdateCart;
 import com.odan.inventory.sales.command.UpdateSale;
 import com.odan.inventory.sales.model.Cart;
 import com.odan.inventory.sales.model.Sale;
 import org.hibernate.Transaction;
 
 import java.text.ParseException;
+import java.util.HashMap;
 
 public class SaleCommandHandler implements ICommandHandler {
 
@@ -124,13 +128,54 @@ public class SaleCommandHandler implements ICommandHandler {
 
         if (c.has("cartId")) {
 
-            Cart cart = (Cart) new CartQueryHandler().getById(Parser.convertObjectToLong(c.get("cartId")));
+           /* Cart cart = (Cart) new CartQueryHandler().getById());
             if (cart == null) {
                 APILogger.add(APILogType.ERROR, "Discount type should be defined.");
                 throw new ValidationException("Discount type should be defined.");
-            }
+            }*/
 
-            sale.setCart(cart);
+
+
+            HashMap<String, Object> cartMap = new HashMap<>();
+            cartMap.put("cartStatus","CLOSED");
+            cartMap.put("id",Parser.convertObjectToLong(c.get("cartId")));
+            UpdateCart cartUpdateCommand = new UpdateCart(cartMap);
+            CommandRegister.getInstance().process(cartUpdateCommand);
+            Cart updatedCart = (Cart) cartUpdateCommand.getObject();
+
+            sale.setCart(updatedCart);
+
+            updatedCart.getItems().stream().forEach(cItem -> {
+
+
+                Product product = cItem.getProductPrice().getProduct();
+
+
+                if (product.getProductType() == Flags.ProductType.BOTH) {
+                    HashMap map = new HashMap();
+                    map.put("id", product.getId());
+                    map.put("quantity", cItem.getQuantity());
+                    map.put("stock","decrease");
+
+                    UpdateProduct command = new UpdateProduct(map);
+                    try {
+                        CommandRegister.getInstance().process(command);
+                    } catch (ValidationException e) {
+                        e.printStackTrace();
+                    } catch (CommandException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    Product updatedProduct = (Product) command.getObject();
+
+                }
+
+
+            });
+
         }
 
         if (c.has("txnDate")) {

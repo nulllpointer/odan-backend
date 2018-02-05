@@ -15,14 +15,11 @@ public class User extends AbstractEntity{
 	@Column(name="first_name")
 	private String firstName;
 
-	@Column(name="user_name")
-	private String userName;
+	@Column(name="username")
+	private String username;
 
-	@Column(name="user_password")
-	private String userPassword;
-
-	@Column(name="hero")
-	private String hero;
+	@Column(name="password")
+	private String password;
 
 	@Column(name="last_name")
 	private String lastName;
@@ -50,10 +47,6 @@ public class User extends AbstractEntity{
 
 	@Column(name="postal_code")
 	private String postalCode;
-	
-
-	@Column(name="password")
-	private String password;
 
 	@Column(name="type")
 	private UserKind type;
@@ -146,28 +139,12 @@ public class User extends AbstractEntity{
 		this.postalCode = postalCode;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getUserPassword() {
-		return userPassword;
-	}
-
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
-
-	public String getHero() {
-		return hero;
-	}
-
-	public void setHero(String hero) {
-		this.hero = hero;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 
 	public String getPassword() {

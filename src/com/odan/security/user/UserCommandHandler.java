@@ -6,13 +6,11 @@ import com.odan.security.user.command.DeleteUser;
 import com.odan.security.user.command.LoginUser;
 import com.odan.security.user.command.UpdateUser;
 import com.odan.security.user.model.User;
-import com.odan.common.application.Authentication;
 import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.cqrs.ICommandHandler;
 import com.odan.common.database.HibernateUtils;
-import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.EntityStatus;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
@@ -165,11 +163,11 @@ public class UserCommandHandler implements ICommandHandler {
 
 		if (c.has("userPassword")) {
 
-			cust.setUserPassword((String) c.get("userPassword"));
+			cust.setPassword((String) c.get("userPassword"));
 		}
 		if (c.has("userName")) {
 
-			cust.setUserName((String) c.get("userName"));
+			cust.setUsername((String) c.get("userName"));
 		}
 
 

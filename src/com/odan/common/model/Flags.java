@@ -36,7 +36,9 @@ public abstract class Flags {
         ADMIN, STAFF
     }
 
-
+    public enum CartStatus {
+        OPEN, CLOSED
+    }
 
 
     public enum Uom {

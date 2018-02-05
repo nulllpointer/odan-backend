@@ -6,6 +6,7 @@ import com.odan.common.cqrs.CommandRegister;
 import com.odan.common.cqrs.ICommand;
 import com.odan.common.cqrs.ICommandHandler;
 import com.odan.common.database.HibernateUtils;
+import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.EntityStatus;
 import com.odan.common.utils.APILogType;
 import com.odan.common.utils.APILogger;
@@ -110,10 +111,14 @@ public class CartCommandHandler implements ICommandHandler {
         }
 
 
-
         if (c.has("status")) {
 
             cart.setStatus(EntityStatus.ACTIVE);
+        }
+
+        if (c.has("cartStatus")) {
+
+            cart.setCartStatus(Flags.CartStatus.OPEN);
         }
 
         if (isNew) {

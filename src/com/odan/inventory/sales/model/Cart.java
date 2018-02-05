@@ -6,6 +6,7 @@ import com.odan.common.application.CommandException;
 import com.odan.common.cqrs.*;
 import com.odan.common.cqrs.Query;
 import com.odan.common.database.HibernateUtils;
+import com.odan.common.model.Flags;
 import com.odan.common.shared.model.AbstractEntity;
 import com.odan.inventory.sales.CartItemQueryHandler;
 
@@ -25,6 +26,18 @@ public class Cart extends AbstractEntity {
 
     @Column(name = "txn_date")
     private Timestamp txnDate;
+
+    @Column(name = "cart_status")
+    private Flags.CartStatus cartStatus;
+
+
+    public Flags.CartStatus getCartStatus() {
+        return cartStatus;
+    }
+
+    public void setCartStatus(Flags.CartStatus cartStatus) {
+        this.cartStatus = cartStatus;
+    }
 
     public String getTxnDate() {
         return txnDate.toString();

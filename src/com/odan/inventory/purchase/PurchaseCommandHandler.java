@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.odan.billing.contact.ContactQueryHandler;
 import com.odan.billing.contact.model.Contact;
 import com.odan.billing.menu.product.ProductQueryHandler;
+import com.odan.billing.menu.product.command.UpdateProduct;
 import com.odan.billing.menu.product.model.Product;
 import com.odan.common.application.CommandException;
 import com.odan.common.application.ValidationException;
@@ -21,6 +22,7 @@ import com.odan.inventory.purchase.model.Purchase;
 import org.hibernate.Transaction;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class PurchaseCommandHandler implements ICommandHandler {
@@ -110,6 +112,9 @@ public class PurchaseCommandHandler implements ICommandHandler {
 
             purchase.setContact(contact);
         }
+        if (c.has("quantity")) {
+            purchase.setQuantity(Parser.convertObjectToInteger(c.get("quantity")));
+        }
 
         if (c.has("productId")) {
 
@@ -119,15 +124,37 @@ public class PurchaseCommandHandler implements ICommandHandler {
                 throw new ValidationException("Product id should be defined.");
             }
             purchase.setProduct(product);
+
+
+            if(product.getProductType()== Flags.ProductType.BOTH){
+                HashMap map = new HashMap();
+                map.put("id", product.getId());
+                map.put("quantity",purchase.getQuantity());
+                map.put("stock","increase");
+
+                UpdateProduct command = new UpdateProduct(map);
+                try {
+                    CommandRegister.getInstance().process(command);
+                } catch (ValidationException e) {
+                    e.printStackTrace();
+                } catch (CommandException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
         }
 
         if (c.has("price")) {
             purchase.setPrice(Parser.convertObjectToDouble(c.get("price")));
         }
 
-        if (c.has("quantity")) {
-            purchase.setQuantity(Parser.convertObjectToInteger(c.get("quantity")));
-        }
+
 
         if (c.has("uom")) {
             Flags.Uom uom = Flags.Uom.valueOf((String) c.get("uom").toString().toUpperCase());

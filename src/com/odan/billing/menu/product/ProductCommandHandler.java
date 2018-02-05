@@ -128,8 +128,22 @@ public class ProductCommandHandler implements ICommandHandler {
             prod.setTitle((String) c.get("title"));
         }
 
+        if (c.has("quantity") && c.has("stock")) {
+
+            int value = (int) c.get("quantity");
+            int qty = prod.getQuantity();
+
+            if (c.get("stock").toString().equals("increase")) {
+                prod.setQuantity(value + qty);
+            } else if (c.get("stock").toString().equals("decrease")) {
+                prod.setQuantity(qty - value);
+            }
+
+        }
+
+
         if (c.has("productType")) {
-            Flags.ProductType pType= Flags.ProductType.valueOf(c.get("productType").toString().toUpperCase());
+            Flags.ProductType pType = Flags.ProductType.valueOf(c.get("productType").toString().toUpperCase());
             prod.setProductType(pType);
         }
 
@@ -137,21 +151,20 @@ public class ProductCommandHandler implements ICommandHandler {
             Category category = (Category) new CategoryQueryHandler().getById(Parser.convertObjectToLong(c.get("categoryId")));
             prod.setCategory(category);
         }
-            if (isNew) {
-                prod.setCreatedAt(DateTime.getCurrentTimestamp());
+        if (isNew) {
+            prod.setCreatedAt(DateTime.getCurrentTimestamp());
 
-            } else {
-                prod.setUpdatedAt(DateTime.getCurrentTimestamp());
-            }
-
-            prod = (Product) HibernateUtils.save(prod, c.getTransaction());
-
-            return prod;
+        } else {
+            prod.setUpdatedAt(DateTime.getCurrentTimestamp());
         }
 
+        prod = (Product) HibernateUtils.save(prod, c.getTransaction());
+
+        return prod;
+    }
 
 
-        public void handle(DeleteProduct c) throws CommandException {
+    public void handle(DeleteProduct c) throws CommandException {
         // HibernateUtils.openSession();
         Transaction trx = c.getTransaction();
 

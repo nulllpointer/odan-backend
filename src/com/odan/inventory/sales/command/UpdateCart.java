@@ -9,6 +9,6 @@ public class UpdateCart extends Command implements ICommand {
 	public UpdateCart(HashMap<String, Object> data) {
 		super(data);
 		this.validationSchema = "billing/sales/create";
-		this.validate();
+		//this.validate();
 	}
 }

@@ -27,6 +27,16 @@ public class Product extends AbstractEntity {
     @Column(name = "product_type")
     private ProductType productType;
 
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
     public String getTitle() {
         return title;
