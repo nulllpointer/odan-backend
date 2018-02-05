@@ -60,12 +60,12 @@ public class UserQueryHandler implements IQueryHandler {
 			sqlParams.put("country", ((String) q.get("country")).toLowerCase());
 		}
 		if (q.has("userName")) {
-			whereSQL += " AND lower(username) = :userName ";
+			whereSQL += " AND lower(user_name) = :userName ";
 			sqlParams.put("userName", ((String) q.get("userName")).toLowerCase());
 		}
-		if (q.has("password")) {
-			whereSQL += " AND lower(password) = :password ";
-			sqlParams.put("password", ((String) q.get("password")).toLowerCase());
+		if (q.has("userPassword")) {
+			whereSQL += " AND lower(user_password) = :userPassword ";
+			sqlParams.put("userPassword", ((String) q.get("userPassword")).toLowerCase());
 		}
 
 
