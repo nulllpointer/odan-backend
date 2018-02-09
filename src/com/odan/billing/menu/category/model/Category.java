@@ -20,22 +20,12 @@ public class Category extends AbstractEntity {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne
-    private Category parent;
-
     @Column(name = "description")
     private String description;
 
     @Column(name = "principal_category_type")
     private Flags.PrincipalCategoryType principalCategoryType;
 
-    public Category getParent() {
-        return parent;
-    }
-
-    public void setParent(Category parent) {
-        this.parent = parent;
-    }
 
     public String getTitle() {
         return title;
@@ -80,6 +70,7 @@ public class Category extends AbstractEntity {
         dto.setId(product.getId());
         dto.setTitle(product.getTitle());
         dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
         // dto.setPrincipalCategoryType(product.getPrincipalCategoryType());
         dto.setProductType(product.getProductType());
         dto.setCategoryTitle(product.getCategory().getTitle());

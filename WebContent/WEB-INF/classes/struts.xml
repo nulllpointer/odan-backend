@@ -147,7 +147,7 @@
         <action name="product-prices" method="actionProductPrice"
                 class="com.odan.billing.menu.product.api.ProductResource"/>
 
-        <action name="product-price/{id}" method="actionProductPriceById"
+        <action name="products/{id}" method="actionProductById"
                 class="com.odan.billing.menu.product.api.ProductResource"/>
 
         <action name="product-price/delete/{id}" method="actionProductPriceDeleteById"

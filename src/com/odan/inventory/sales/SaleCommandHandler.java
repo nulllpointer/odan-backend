@@ -148,7 +148,7 @@ public class SaleCommandHandler implements ICommandHandler {
             updatedCart.getItems().stream().forEach(cItem -> {
 
 
-                Product product = cItem.getProductPrice().getProduct();
+                Product product = cItem.getProduct();
 
 
                 if (product.getProductType() == Flags.ProductType.BOTH) {

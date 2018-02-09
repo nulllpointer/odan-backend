@@ -3,12 +3,19 @@ package com.odan.billing.menu.product.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odan.billing.menu.category.CategoryQueryHandler;
 import com.odan.billing.menu.category.model.Category;
+import com.odan.billing.menu.product.ProductPriceQueryHandler;
 import com.odan.common.application.CommandException;
+import com.odan.common.database.HibernateUtils;
 import com.odan.common.model.Flags;
 import com.odan.common.model.Flags.ProductType;
 import com.odan.common.shared.model.AbstractEntity;
+import com.odan.common.utils.DateTime;
+import com.odan.common.utils.Parser;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -29,6 +36,32 @@ public class Product extends AbstractEntity {
 
     @Column(name = "quantity")
     private Integer quantity;
+
+
+    @Column(name = "price")
+    private Double price;
+
+    @Transient
+    private Double productPriceRefId;
+
+    public Double getProductPriceRefId() throws ParseException {
+
+
+
+        return productPriceRefId;
+    }
+
+    public void setProductPriceRefId(Double productPriceRefId) {
+        this.productPriceRefId = productPriceRefId;
+    }
+
+    public Double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
     public Integer getQuantity() {
         return quantity;

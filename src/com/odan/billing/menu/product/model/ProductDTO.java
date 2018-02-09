@@ -22,8 +22,15 @@ public class ProductDTO {
 
     private  Long categoryId;
 
+    private Double price;
 
+    public Double getPrice() {
+        return price;
+    }
 
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
     public String getTitle() {
         return title;

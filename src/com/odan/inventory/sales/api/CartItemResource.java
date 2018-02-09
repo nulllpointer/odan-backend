@@ -68,7 +68,8 @@ public class CartItemResource extends RestAction {
             List<CartItem> items = cart.getItems();
 
             for (CartItem cartItem : items) {
-                if (cartItem.getProductPrice().getId().equals(Parser.convertObjectToLong(requestData.get("productPriceId")))) {
+
+                if (cartItem.getProduct().getId().equals(Parser.convertObjectToLong(requestData.get("productId")))) {
                     requestData.put("id", cartItem.getId());
                     requestData.put("increaseQty", true);
                     break;

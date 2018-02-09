@@ -61,7 +61,7 @@ public class Cart extends AbstractEntity {
             items = (List<CartItem>) HibernateUtils.select("FROM CartItem WHERE cart_id = "+this.getId());
         }
 
-        return items;
+            return items;
     }
 
 

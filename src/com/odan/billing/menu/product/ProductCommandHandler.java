@@ -127,6 +127,9 @@ public class ProductCommandHandler implements ICommandHandler {
         if (c.has("title")) {
             prod.setTitle((String) c.get("title"));
         }
+        if (c.has("price")) {
+            prod.setPrice((Double) c.get("price"));
+        }
 
         if (c.has("quantity") && c.has("stock")) {
 

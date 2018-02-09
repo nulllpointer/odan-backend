@@ -2,6 +2,7 @@ package com.odan.inventory.sales.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.odan.billing.menu.product.model.Product;
 import com.odan.billing.menu.product.model.ProductPrice;
 import com.odan.common.shared.model.AbstractEntity;
 
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 public class CartItem extends AbstractEntity {
 
     @ManyToOne
-    private ProductPrice productPrice;
+    private Product product;
 
     @ManyToOne
     @JsonIgnore
@@ -23,14 +24,6 @@ public class CartItem extends AbstractEntity {
    private Integer quantity;
 
     private Double price;
-
-    public ProductPrice getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductPrice(ProductPrice productPrice) {
-        this.productPrice = productPrice;
-    }
 
     public Cart getCart() {
         return cart;
@@ -55,5 +48,13 @@ public class CartItem extends AbstractEntity {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
