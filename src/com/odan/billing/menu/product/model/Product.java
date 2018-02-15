@@ -41,19 +41,7 @@ public class Product extends AbstractEntity {
     @Column(name = "price")
     private Double price;
 
-    @Transient
-    private Double productPriceRefId;
 
-    public Double getProductPriceRefId() throws ParseException {
-
-
-
-        return productPriceRefId;
-    }
-
-    public void setProductPriceRefId(Double productPriceRefId) {
-        this.productPriceRefId = productPriceRefId;
-    }
 
     public Double getPrice() {
         return this.price;
@@ -63,7 +51,7 @@ public class Product extends AbstractEntity {
         this.price = price;
     }
 
-    public Integer getQuantity() {
+    public Integer  getQuantity() {
         return quantity;
     }
 

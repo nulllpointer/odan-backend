@@ -128,18 +128,26 @@ public class ProductCommandHandler implements ICommandHandler {
             prod.setTitle((String) c.get("title"));
         }
         if (c.has("price")) {
-            prod.setPrice((Double) c.get("price"));
+            prod.setPrice(Parser.convertObjectToDouble(c.get("price")));
+        }
+        if (c.has("description")) {
+            prod.setDescription((String) c.get("description"));
         }
 
-        if (c.has("quantity") && c.has("stock")) {
+        if (c.has("quantity")){
+
 
             int value = (int) c.get("quantity");
-            int qty = prod.getQuantity();
-
-            if (c.get("stock").toString().equals("increase")) {
-                prod.setQuantity(value + qty);
-            } else if (c.get("stock").toString().equals("decrease")) {
-                prod.setQuantity(qty - value);
+            if(c.has("stock")) {
+                int qty = prod.getQuantity();
+                if (c.get("stock").toString().equals("increase")) {
+                    prod.setQuantity(value + qty);
+                } else if (c.get("stock").toString().equals("decrease")) {
+                    prod.setQuantity(qty - value);
+                }
+            }
+            else{
+                prod.setQuantity(value);
             }
 
         }
